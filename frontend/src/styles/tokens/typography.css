@@ -1,0 +1,35 @@
+/* typography.css - CSS Custom Properties for global styles */
+
+:root {
+  /* === Font Families === */
+  --ff-base: Arial, sans-serif;
+  --ff-heading: Arial, sans-serif;
+
+  /* === Font Sizes (Scaled Naming) === */
+  --fs-50: 0.75rem; /* XS */
+  --fs-100: 0.875rem; /* SM */
+  --fs-200: 1rem; /* Base, h6 */
+  --fs-300: 1.2rem; /* h5 */
+  --fs-400: 1.44rem; /* h4 */
+  --fs-500: 1.728rem; /* h3 */
+  --fs-600: 2.074rem; /* h2 */
+  --fs-700: 2.488rem; /* h1 */
+  --fs-800: 3.157rem;
+  --fs-900: 4.209rem; /* 3XL */
+}
+
+/* === Responsive Typography Scale for Larger Screens === */
+@media screen and (min-width: 800px) {
+  :root {
+    --fs-50: 0.844rem; /* XS */
+    --fs-100: 0.953rem; /* SM */
+    --fs-200: 1.125rem; /* Base, h6 */
+    --fs-300: 1.406rem; /* h5 */
+    --fs-400: 1.758rem; /* h4 */
+    --fs-500: 2.197rem; /* h3 */
+    --fs-600: 2.746rem; /* h2 */
+    --fs-700: 3.433rem; /* h1 */
+    --fs-800: 4.291rem;
+    --fs-900: 5.364rem; /* 3XL */
+  }
+}
