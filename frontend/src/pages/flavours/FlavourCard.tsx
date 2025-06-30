@@ -1,7 +1,7 @@
 import React from "react";
 
-const Flavour = () => {
+const FlavourCard = () => {
   return <div>Flavour</div>;
 };
 
-export default Flavour;
+export default FlavourCard;
