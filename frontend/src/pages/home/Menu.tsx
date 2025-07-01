@@ -1,4 +1,14 @@
 import React from "react";
+import MenuItem from "./MenuItem";
+import type { MenuItemProps } from "../../types/types";
+
+const items: MenuItemProps[] = [
+  { quantity: 10, price: 20 },
+  { quantity: 20, price: 40 },
+  { quantity: 30, price: 60 },
+  { quantity: 40, price: 70 },
+  { quantity: 60, price: 90 },
+];
 
 export const Menu = () => {
   return (
@@ -10,28 +20,9 @@ export const Menu = () => {
         </p>
       </div>
       <div>
-        <table>
-          <tr>
-            <td>10 Macarons</td>
-            <td>$20</td>
-          </tr>
-          <tr>
-            <td>20 Macarons</td>
-            <td>$40</td>
-          </tr>
-          <tr>
-            <td>30 Macarons</td>
-            <td>$60</td>
-          </tr>
-          <tr>
-            <td>40 Macarons</td>
-            <td>$70</td>
-          </tr>
-          <tr>
-            <td>60 Macarons</td>
-            <td>$90</td>
-          </tr>
-        </table>
+        {items.map((item) => (
+          <MenuItem key={item.quantity} {...item} />
+        ))}
       </div>
       <div>
         <h2>Dietary Restrictions</h2>
