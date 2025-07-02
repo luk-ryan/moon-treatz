@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const path = useLocation();
   return (
-    <nav className="navbar">
+    <nav>
       <ul>
         <li>
           <Link to="/" className={path.pathname === "/" ? "active" : ""}>

@@ -1,7 +1,6 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import Navbar from "./layouts/Navbar";
 import Home from "./pages/home/Home";
 import Flavours from "./pages/flavours/Flavours";
 import Header from "./layouts/Header";
@@ -13,7 +12,6 @@ function App() {
     <Router>
       <Header />
       <ScrollToTop />
-      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/flavours" element={<Flavours />} />
