@@ -1,0 +1,18 @@
+.wrapper {
+  max-width: 1080px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.wide-wrapper {
+  max-width: 1620px;
+  margin: auto;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}

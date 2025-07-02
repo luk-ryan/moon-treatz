@@ -1,0 +1,91 @@
+/* base.css - Base global styles */
+
+/* Body and html base styles */
+html {
+  font-size: 100%; /* Ensures 1rem = 16px */
+  scroll-behavior: smooth;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+}
+
+body {
+  margin: 0;
+  font-size: var(--fs-200);
+  line-height: 1.6;
+  background-color: var(--color-main);
+  color: var(--color-text);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--ff-heading);
+  font-weight: bold;
+  color: var(--color-text);
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: var(--fs-700);
+}
+h2 {
+  font-size: var(--fs-600);
+}
+h3 {
+  font-size: var(--fs-500);
+}
+h4 {
+  font-size: var(--fs-400);
+}
+h5 {
+  font-size: var(--fs-300);
+}
+h6 {
+  font-size: var(--fs-200);
+}
+
+/* Paragraphs and text */
+p {
+  font-size: var(--fs-200);
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+/* Links a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+button {
+  padding: 0.5em 1em;
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: 4px;
+  font-size: var(--font-size-300);
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--color-accent-hover);
+} */

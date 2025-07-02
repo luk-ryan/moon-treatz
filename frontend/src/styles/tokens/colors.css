@@ -1,0 +1,40 @@
+:root {
+  /* === Color Scale === */
+  --clr-gold-300: #caae5f;
+  --clr-gold-400: #dab44d; /* main */
+  --clr-gold-500: #bf9d41;
+  --clr-gold-600: #ad8e39;
+
+  --clr-blue-300: #b3ecfe;
+  --clr-blue-400: #5bbad6; /* main */
+  --clr-blue-500: #219ebc;
+  --clr-blue-600: #2076ab;
+
+  --clr-black: #000000;
+  --clr-white: #ffffff;
+
+  /* === Semantic Colors === */
+  --clr-primary: var(--clr-gold-400);
+  --clr-primary-hover: var(--clr-gold-500);
+  --clr-accent: var(--clr-blue-400);
+  --clr-accent-hover: var(--clr-blue-500);
+
+  --clr-bg: var(--clr-black);
+
+  --clr-text: var(--clr-primary);
+  --clr-text-hover: var(--clr-accent-hover);
+  --clr-text-inverse: var(--clr-black);
+
+  /* --color-primary: var(--color-red-500);
+  --color-primary-hover: var(--color-red-600);
+  --color-accent: var(--color-red-800);
+  --color-accent-hover: var(--color-red-700);
+  --color-background: var(--color-gray-400);
+  --color-navbar: var(--color-red-900);
+  --color-navbar-hover: var(--color-red-1000);
+  --color-footer-bg: var(--color-gray-800);
+  --color-text: var(--color-black);
+  --color-text-inverse: var(--color-white);
+  --color-text-muted: var(--color-gray-300);
+  --color-hover-muted: var(--color-gray-200); */
+}
