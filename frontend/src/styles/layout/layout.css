@@ -1,5 +1,41 @@
 /* header Styles */
+header {
+  margin-block: 4rem;
+}
+
+header h1 {
+  margin-bottom: 4rem;
+}
 
 /* Navbar Styles */
+.primary-navigation {
+  display: flex;
+  border-top: solid 1px var(--clr-primary);
+  border-bottom: solid 1px var(--clr-primary);
+  font-size: var(--fs-400);
+}
+
+.primary-navigation ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.primary-navigation ul li a {
+  transition: border-bottom 0.3s ease-in;
+}
+
+.primary-navigation li a.active {
+  color: var(--clr-accent);
+  border-bottom: solid 4px var(--clr-accent);
+}
 
 /* Footer Styles */
+footer {
+  margin-top: 4rem;
+  padding: 2rem;
+  border-top: solid 1px var(--clr-accent);
+}

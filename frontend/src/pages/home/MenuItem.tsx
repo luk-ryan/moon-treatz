@@ -3,8 +3,10 @@ import type { MenuItemProps } from "../../types/types";
 const MenuItem = ({ quantity, price }: MenuItemProps) => {
   return (
     <div>
-      <span>{quantity} Macarons</span>
-      <span>${price}</span>
+      <p>
+        <span>{quantity} Macarons</span>
+        <span>${price}</span>
+      </p>
     </div>
   );
 };

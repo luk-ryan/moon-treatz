@@ -66,7 +66,7 @@ const Flavours = () => {
       : flavours.filter((f) => f.id === selectedFlavourId);
 
   return (
-    <div>
+    <div className="wrapper">
       <div>
         <button onClick={() => setSelectedFlavourId(null)}>Show All</button>
         {flavours.map((flavour) => (

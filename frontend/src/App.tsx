@@ -10,13 +10,17 @@ import "./styles/index.css";
 function App() {
   return (
     <Router>
-      <Header />
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/flavours" element={<Flavours />} />
-      </Routes>
-      <Footer />
+      <div className="app">
+        <Header />
+        <ScrollToTop />
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/flavours" element={<Flavours />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
     </Router>
   );
 }

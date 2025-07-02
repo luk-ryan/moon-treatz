@@ -2,13 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer
-      style={{
-        padding: "2rem",
-        textAlign: "center",
-        borderTop: "1px solid #ddd",
-      }}
-    >
+    <footer className="text-center">
       <div>
         <a
           href="https://instagram.com/moontreatzcatering"

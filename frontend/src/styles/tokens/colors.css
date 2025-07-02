@@ -22,7 +22,7 @@
   --clr-bg: var(--clr-black);
 
   --clr-text: var(--clr-primary);
-  --clr-text-hover: var(--clr-accent-hover);
+  --clr-text-hover: var(--clr-accent);
   --clr-text-inverse: var(--clr-black);
 
   /* --color-primary: var(--color-red-500);

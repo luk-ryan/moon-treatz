@@ -4,16 +4,16 @@
 html {
   font-size: 100%; /* Ensures 1rem = 16px */
   scroll-behavior: smooth;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  font-family: var(--font-family-base);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-family: var(--ff-base);
 }
 
 body {
   margin: 0;
   font-size: var(--fs-200);
   line-height: 1.6;
-  background-color: var(--color-main);
+  background-color: var(--clr-bg);
   color: var(--color-text);
 }
 
@@ -36,7 +36,7 @@ h5,
 h6 {
   font-family: var(--ff-heading);
   font-weight: bold;
-  color: var(--color-text);
+  color: var(--clr-text);
   margin-bottom: 0.5em;
 }
 
@@ -63,20 +63,21 @@ h6 {
 p {
   font-size: var(--fs-200);
   margin-bottom: 1rem;
-  color: var(--color-text);
+  color: var(--clr-text);
 }
 
-/* Links a {
-  color: var(--color-accent);
+/* Links  */
+a {
+  color: var(--clr-text);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: var(--color-accent-hover);
+  color: var(--clr-text-hover);
 }
 
-button {
+/* button {
   padding: 0.5em 1em;
   background-color: var(--color-accent);
   color: var(--color-text-inverse);

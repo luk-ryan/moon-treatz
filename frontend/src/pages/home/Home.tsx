@@ -4,7 +4,7 @@ import Contact from "./Contact";
 
 const Home = () => {
   return (
-    <div>
+    <div className="wrapper text-center">
       <h1>Description</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia
