@@ -58,18 +58,6 @@ const Flavours = () => {
   const [selectedFlavourId, setSelectedFlavourId] = useState<number | null>(
     null
   );
-  const [displayedFlavourId, setDisplayedFlavourId] = useState<number | null>(
-    null
-  );
-
-  // Handle when selectedFlavourId becomes non-null
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDisplayedFlavourId(selectedFlavourId);
-    }, 700); // match the exit transition duration
-
-    return () => clearTimeout(timeout);
-  }, [selectedFlavourId]);
 
   const flavoursToShow =
     selectedFlavourId === null
@@ -96,23 +84,22 @@ const Flavours = () => {
         ))}
       </div>
 
-      <div className={displayedFlavourId === null ? "wide-wrapper" : "wrapper"}>
-        <div className="flavour-card-list">
-          <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={selectedFlavourId ?? "all"}
+          initial={{ opacity: 0, y: 70 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          transition={{ duration: 0.5 }}
+          className={selectedFlavourId === null ? "wide-wrapper" : "wrapper"}
+        >
+          <div className="flavour-card-list">
             {flavoursToShow.map((flavour) => (
-              <motion.div
-                key={flavour.id}
-                initial={{ opacity: 0, y: 70 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.7 }}
-              >
-                <FlavourCard {...flavour} />
-              </motion.div>
+              <FlavourCard {...flavour} />
             ))}
-          </AnimatePresence>
-        </div>
-      </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </>
   );
 };
