@@ -28,7 +28,7 @@ export const Menu = () => {
           </div>
           <div className="restriction-label">
             <img className="icon" src="/labels/dairy-free.png" />
-            <span className="text-color-green">dairy free</span>
+            <span className="text-color-green">dairy-free</span>
           </div>
         </div>
       </div>

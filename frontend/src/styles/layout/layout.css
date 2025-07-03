@@ -36,6 +36,11 @@ header h1 {
 /* Footer Styles */
 footer {
   margin-top: 4rem;
-  padding: 2rem;
+  padding-block: 4rem;
+  padding-inline: 2rem;
   border-top: solid 1px var(--clr-primary);
+}
+
+footer a {
+  text-decoration: underline;
 }
