@@ -5,3 +5,5 @@
 @import "./utils/utils.css";
 
 @import "./layout/layout.css";
+@import "./pages/home.css";
+@import "./pages/flavours.css";

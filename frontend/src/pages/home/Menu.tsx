@@ -14,20 +14,23 @@ export const Menu = () => {
   return (
     <div>
       <h1>Menu</h1>
-      <div>
-        <p>
-          Choose 1 flavour for every 10 macarons, up to 3 flavours per order
-        </p>
-      </div>
-      <div>
-        {items.map((item) => (
-          <MenuItem key={item.quantity} {...item} />
-        ))}
-      </div>
-      <div>
-        <h2>Dietary Restrictions</h2>
-        <p>contains almonds</p>
-        <p>dairy free</p>
+      <p>Choose 1 flavour for every 10 macarons, up to 3 flavours per order</p>
+      <div className="narrow-wrapper">
+        <div className="menu-list">
+          {items.map((item) => (
+            <MenuItem key={item.quantity} {...item} />
+          ))}
+        </div>
+        <div className="dietary-restrictions">
+          <div className="restriction-label">
+            <img className="icon" src="/labels/almond.png" />
+            <span>contains almonds</span>
+          </div>
+          <div className="restriction-label">
+            <img className="icon" src="/labels/dairy-free.png" />
+            <span>dairy free</span>
+          </div>
+        </div>
       </div>
     </div>
   );
