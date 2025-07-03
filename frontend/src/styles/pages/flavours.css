@@ -1,0 +1,46 @@
+.flavour-selection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: auto;
+  margin-bottom: 4rem;
+  gap: 1rem 3rem;
+}
+
+.flavour-selection button {
+  background: none;
+  width: 100%;
+  border: none;
+  color: var(--clr-text);
+  font-size: var(--fs-300);
+  text-align: start;
+}
+
+.flavour-selection button:hover {
+  color: var(--clr-text-hover);
+}
+
+.flavour-selection button.active {
+  color: var(--clr-text-hover);
+  text-decoration: underline;
+}
+
+.flavour-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  width: 100%;
+  margin: auto;
+  gap: 2rem;
+}
+
+.flavour-card {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px white;
+  align-items: center;
+}
+
+.flavour-card img {
+  width: 200px;
+  height: auto;
+  border-radius: 50%;
+}

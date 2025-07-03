@@ -24,11 +24,11 @@ export const Menu = () => {
         <div className="dietary-restrictions">
           <div className="restriction-label">
             <img className="icon" src="/labels/almond.png" />
-            <span>contains almonds</span>
+            <span className="text-color-red">contains almonds</span>
           </div>
           <div className="restriction-label">
             <img className="icon" src="/labels/dairy-free.png" />
-            <span>dairy free</span>
+            <span className="text-color-green">dairy free</span>
           </div>
         </div>
       </div>

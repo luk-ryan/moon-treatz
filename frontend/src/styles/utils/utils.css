@@ -1,17 +1,19 @@
 .wrapper {
   max-width: 1080px;
   margin: auto;
-  padding: 2rem;
+  padding-inline: 2rem;
 }
 
 .wide-wrapper {
   max-width: 1620px;
   margin: auto;
+  padding-inline: 2rem;
 }
 
 .narrow-wrapper {
   max-width: 720px;
   margin: auto;
+  padding-inline: 2rem;
 }
 
 .hidden {
@@ -30,4 +32,12 @@
   display: inline;
   width: 2rem;
   height: 2rem;
+}
+
+.text-color-green {
+  color: var(--clr-green);
+}
+
+.text-color-red {
+  color: var(--clr-red);
 }
