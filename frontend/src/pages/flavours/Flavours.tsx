@@ -25,13 +25,13 @@ const flavours: FlavourCardProps[] = [
   {
     id: 4,
     name: "Matcha",
-    src: "/flavours/unavailable.jpg",
+    src: "/flavours/matcha.jpg",
     description: "Matcha Flavour description",
   },
   {
     id: 5,
     name: "Cookies and Cream",
-    src: "/flavours/unavailable.jpg",
+    src: "/flavours/cookies_and_cream.jpg",
     description: "Cookies and Cream Flavour description",
   },
   {
