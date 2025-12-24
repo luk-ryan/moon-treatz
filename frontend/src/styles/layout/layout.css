@@ -13,15 +13,18 @@ header h1 {
   border-top: solid 1px var(--clr-primary);
   border-bottom: solid 1px var(--clr-primary);
   font-size: var(--fs-400);
+  padding-top: 5rem;
+  padding-bottom: 1rem;
 }
 
 .primary-navigation ul {
   display: flex;
   list-style-type: none;
   padding: 0;
-  margin: 1rem;
+  margin: 0;
   width: 100%;
   justify-content: space-around;
+  align-items: flex-start;
 }
 
 .primary-navigation ul li a {

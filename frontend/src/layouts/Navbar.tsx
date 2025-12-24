@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import Logo from "./Logo";
 
 const Navbar = () => {
   const path = useLocation();
@@ -11,7 +12,7 @@ const Navbar = () => {
               Home
             </Link>
           </li>
-          <li>LOGO</li>
+          <li><Logo /></li>
           <li>
             <Link
               to="/flavours"

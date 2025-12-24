@@ -1,0 +1,52 @@
+/* Logo wrapper styles */
+.logo {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.logo-container {
+  position: relative;
+  width: 11rem;
+}
+
+.logo-cloud {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-moon {
+  position: absolute;
+  height: 120%;
+  width: auto;
+  top: -50%;
+  left: 50%;
+  z-index: 0;
+}
+
+.logo-eye {
+  position: absolute;
+  height: 28%;
+  width: auto;
+  top: 28%;
+  z-index: 2;
+}
+
+.logo-eye-left {
+  left: 30%;
+}
+
+.logo-eye-right {
+  right: 26%;
+}
+
+.logo-mouth {
+  position: absolute;
+  width: 15%;
+  bottom: 37%;
+  left: 52%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
