@@ -77,6 +77,16 @@ a:hover {
   color: var(--clr-text-hover);
 }
 
+/* Clickable text link style */
+.text-link {
+  color: var(--clr-gold-500);
+  text-decoration: underline;
+}
+
+.text-link:hover {
+  color: #5dade2;
+}
+
 /* button {
   padding: 0.5em 1em;
   background-color: var(--color-accent);

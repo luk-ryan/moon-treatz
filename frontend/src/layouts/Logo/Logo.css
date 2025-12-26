@@ -50,3 +50,10 @@
   transform: translateX(-50%);
   z-index: 2;
 }
+
+@media (max-width: 480px) {
+  .logo-container {
+    width: 6rem;
+    left: -20%;
+  }
+}

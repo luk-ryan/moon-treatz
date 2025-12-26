@@ -12,9 +12,36 @@
   width: 100%;
   justify-self: center;
   justify-content: space-between;
+  align-items: center;
   color: var(--clr-accent);
   font-size: var(--fs-300);
   border-bottom: dotted 4px var(--clr-primary);
+}
+
+.menu-item-info {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.menu-item-flavours::before {
+  content: '(';
+}
+
+.menu-item-flavours::after {
+  content: ')';
+}
+
+@media (max-width: 480px) {
+  .menu-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .menu-item-flavours::before,
+  .menu-item-flavours::after {
+    content: none;
+  }
 }
 
 .dietary-restrictions {
@@ -28,4 +55,145 @@
   gap: 0.5rem;
   align-items: center;
   font-size: var(--fs-100);
+}
+
+/* Weekly Special Styles */
+.weekly-special-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  border: double 1rem var(--clr-gold-600);
+  align-items: center;
+}
+
+.weekly-special-image {
+  position: relative;
+  display: inline-block;
+}
+
+.weekly-special-image img {
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--clr-gold-500);
+}
+
+.price-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--clr-gold-500);
+  color: var(--clr-bg);
+  padding: 0.5rem 1rem;
+  font-family: var(--ff-heading);
+  font-size: var(--fs-400);
+  font-weight: bold;
+}
+
+.weekly-special-flavours h3 {
+  color: var(--clr-gold-500);
+  margin-bottom: 1rem;
+  font-size: var(--fs-400);
+}
+
+.weekly-special-flavours ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.weekly-special-flavours li {
+  color: var(--clr-accent);
+  font-size: var(--fs-300);
+  padding: 0.5rem 0;
+  border-bottom: dotted 2px var(--clr-primary);
+}
+
+.weekly-special-flavours li::before {
+  content: '✦';
+  color: var(--clr-gold-500);
+  margin-right: 0.75rem;
+}
+
+.weekly-special-flavours li:last-child {
+  border-bottom: none;
+}
+
+/* Order Instructions */
+.order-instructions {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-top: 1px solid var(--clr-primary);
+  text-align: left;
+}
+
+.order-instructions h3 {
+  color: var(--clr-gold-500);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.order-instructions p {
+  font-size: var(--fs-200);
+  margin-bottom: 0.75rem;
+}
+
+.order-instructions ul {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.order-instructions li {
+  font-size: var(--fs-200);
+  margin-bottom: 0.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .menu-list {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .menu-list-row {
+    font-size: var(--fs-200);
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .weekly-special-content {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    border-width: 0.5rem;
+    gap: 1.5rem;
+  }
+
+  .weekly-special-flavours h3 {
+    font-size: var(--fs-300);
+  }
+
+  .weekly-special-flavours li {
+    font-size: var(--fs-200);
+  }
+
+  .price-tag {
+    font-size: var(--fs-200);
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .dietary-restrictions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .order-instructions {
+    padding: 1rem;
+  }
+
+  .order-instructions p {
+    font-size: var(--fs-100);
+  }
 }

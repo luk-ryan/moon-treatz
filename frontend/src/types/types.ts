@@ -1,6 +1,7 @@
 export type MenuItemProps = {
   quantity: number;
   price: number;
+  flavours: number;
 };
 
 export type FlavourCardProps = {
