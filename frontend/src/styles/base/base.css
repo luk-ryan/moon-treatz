@@ -7,24 +7,36 @@ html {
   background-color: var(--clr-bg);
   color: var(--clr-text);
   font-family: var(--ff-base);
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   font-size: var(--fs-200);
-  line-height: 1.6;
-  background-color: var(--clr-bg);
+  line-height: 1.75;
+  background: 
+    linear-gradient(to right, var(--bg-gold-subtle) 0%, transparent 8%), /* subtle gold tint on left */
+    linear-gradient(to left, var(--bg-gold-subtle) 0%, transparent 8%), /* subtle gold tint on right */
+    linear-gradient(to bottom, var(--clr-bg-warm) 0%, var(--clr-black) 10%);
   color: var(--color-text);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  position: relative;
+  overflow-x: hidden;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
 
 .app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 .main-content {
   flex-grow: 1;
+  position: relative;
 }
 
 /* Headings */
@@ -48,6 +60,7 @@ h2 {
 }
 h3 {
   font-size: var(--fs-500);
+  letter-spacing: 0.04em;
 }
 h4 {
   font-size: var(--fs-400);
@@ -61,9 +74,19 @@ h6 {
 
 /* Paragraphs and text */
 p {
-  font-size: var(--fs-200);
-  margin-bottom: 1rem;
+  font-size: var(--fs-300);
+  margin-bottom: 1.25rem;
   color: var(--clr-text);
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  text-shadow: 
+    0 0 0.5rem rgba(0, 0, 0, 1),
+    0 0 1rem rgba(0, 0, 0, 1),
+    0 0 2rem rgba(0, 0, 0, 1),
+    0 0 3rem rgba(0, 0, 0, 0.9),
+    0 0 4rem rgba(0, 0, 0, 0.8),
+    0 2px 8px rgba(0, 0, 0, 1),
+    0 4px 16px rgba(0, 0, 0, 1);
 }
 
 /* Links  */
@@ -77,26 +100,3 @@ a:hover {
   color: var(--clr-text-hover);
 }
 
-/* Clickable text link style */
-.text-link {
-  color: var(--clr-gold-500);
-  text-decoration: underline;
-}
-
-.text-link:hover {
-  color: #5dade2;
-}
-
-/* button {
-  padding: 0.5em 1em;
-  background-color: var(--color-accent);
-  color: var(--color-text-inverse);
-  border: none;
-  border-radius: 4px;
-  font-size: var(--font-size-300);
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: var(--color-accent-hover);
-} */
