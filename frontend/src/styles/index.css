@@ -3,7 +3,13 @@
 @import "./tokens/typography.css";
 @import "./base/base.css";
 @import "./utils/utils.css";
+@import "./background/background.css";
+@import "./animations/animations.css";
 
 @import "./layout/layout.css";
 @import "./pages/home.css";
 @import "./pages/flavours.css";
+
+/* Mobile responsive styles */
+@import "./mobile/mobile.css";
+

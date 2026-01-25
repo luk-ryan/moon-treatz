@@ -1,19 +1,36 @@
 :root {
   /* === Color Scale === */
+  --clr-gold-100: #f7e39b; /* very light gold - gradient highlights */
+  --clr-gold-200: #f5d77a; /* light gold - gradient midtones */
   --clr-gold-300: #caae5f;
   --clr-gold-400: #dab44d; /* main */
   --clr-gold-500: #bf9d41;
   --clr-gold-600: #ad8e39;
+  --clr-gold-700: #96752e; /* medium-dark gold - rosette borders */
+  --clr-gold-800: #7a5d24; /* very dark gold - rosette shadow */
+  --clr-gold-bright: #ffd700; /* bright gold - price tag */
+  --clr-gold-dark: #b8860b; /* dark gold - price tag shadow */
+  --clr-gold-warm: #e8c84a; /* warm gold - gradient midtones */
+  --clr-gold-base: #c9a227; /* base gold RGB(201, 162, 39) */
 
   --clr-blue-300: #b3ecfe;
   --clr-blue-400: #5bbad6; /* main */
+  --clr-blue-alt: #5dade2; /* alternate blue shade */
   --clr-blue-500: #219ebc;
   --clr-blue-600: #2076ab;
+  --clr-blue-cloud: rgba(100, 150, 200, 0.3); /* cloud tint */
+
+  --clr-gray-100: rgba(42, 42, 42, 0.95); /* light gray - ribbon edges */
+  --clr-gray-200: rgba(26, 26, 26, 0.98); /* medium gray - ribbon */
+  --clr-gray-300: rgba(10, 10, 10, 1); /* dark gray - ribbon center */
+  --clr-bg-warm: #1a1510; /* warm dark brown - background gradient */
 
   --clr-red: #ff0000;
   --clr-green: #00ff00;
   --clr-black: #000000;
   --clr-white: #ffffff;
+  --clr-cream: #f5f5dc;
+  --clr-gold-yellow: #ffd700; /* pure gold yellow */
 
   /* === Semantic Colors === */
   --clr-primary: var(--clr-gold-400);
@@ -26,17 +43,62 @@
   --clr-text: var(--clr-primary);
   --clr-text-hover: var(--clr-accent);
   --clr-text-inverse: var(--clr-black);
+  --clr-text-body: var(--clr-cream);
 
-  /* --color-primary: var(--color-red-500);
-  --color-primary-hover: var(--color-red-600);
-  --color-accent: var(--color-red-800);
-  --color-accent-hover: var(--color-red-700);
-  --color-background: var(--color-gray-400);
-  --color-navbar: var(--color-red-900);
-  --color-navbar-hover: var(--color-red-1000);
-  --color-footer-bg: var(--color-gray-800);
-  --color-text: var(--color-black);
-  --color-text-inverse: var(--color-white);
-  --color-text-muted: var(--color-gray-300);
-  --color-hover-muted: var(--color-gray-200); */
+  /* === Common RGBA values for consistency === */
+  /* Gold shadows and glows */
+  --shadow-gold-light: rgba(201, 162, 39, 0.1);
+  --shadow-gold-lighter: rgba(201, 162, 39, 0.15);
+  --shadow-gold-subtle: rgba(201, 162, 39, 0.2);
+  --shadow-gold-medium: rgba(201, 162, 39, 0.3);
+  --shadow-gold: rgba(201, 162, 39, 0.4);
+  --shadow-gold-strong: rgba(201, 162, 39, 0.5);
+  --shadow-gold-stronger: rgba(201, 162, 39, 0.6);
+  --shadow-gold-intense: rgba(201, 162, 39, 0.7);
+  --shadow-gold-very-intense: rgba(201, 162, 39, 0.8);
+  --shadow-gold-max: rgba(201, 162, 39, 0.9);
+  --shadow-gold-full: rgba(201, 162, 39, 1);
+
+  /* Gold-200 (245, 215, 122) shadows */
+  --glow-gold-light: rgba(245, 215, 122, 0.3);
+  --glow-gold-medium: rgba(245, 215, 122, 0.4);
+  --glow-gold-strong: rgba(245, 215, 122, 0.5);
+  --glow-gold-stronger: rgba(245, 215, 122, 0.6);
+  --glow-gold-intense: rgba(245, 215, 122, 0.7);
+  --glow-gold-very-intense: rgba(245, 215, 122, 0.8);
+
+  /* Gold-400 (218, 180, 77) alpha values */
+  --bg-gold-subtle: rgba(218, 180, 77, 0.06);
+  --bg-gold-light: rgba(218, 180, 77, 0.08);
+  --bg-gold-medium: rgba(218, 180, 77, 0.15);
+  --bg-gold: rgba(218, 180, 77, 0.25);
+  --bg-gold-strong: rgba(218, 180, 77, 0.3);
+
+  /* Dark shadows */
+  --shadow-dark-subtle: rgba(0, 0, 0, 0.2);
+  --shadow-dark-light: rgba(0, 0, 0, 0.3);
+  --shadow-dark: rgba(0, 0, 0, 0.4);
+  --shadow-dark-medium: rgba(0, 0, 0, 0.5);
+  --shadow-dark-strong: rgba(0, 0, 0, 0.6);
+  --shadow-dark-stronger: rgba(0, 0, 0, 0.7);
+  --shadow-dark-intense: rgba(0, 0, 0, 0.8);
+
+  /* Accent blue glows */
+  --glow-accent-subtle: rgba(91, 186, 214, 0.2);
+  --glow-accent-light: rgba(91, 186, 214, 0.3);
+  --glow-accent: rgba(91, 186, 214, 0.4);
+  --glow-accent-medium: rgba(91, 186, 214, 0.5);
+  --glow-accent-strong: rgba(91, 186, 214, 0.6);
+  --glow-accent-intense: rgba(91, 186, 214, 0.9);
+  --glow-accent-full: rgba(91, 186, 214, 1);
+
+  /* White highlights */
+  --highlight-white-subtle: rgba(255, 255, 255, 0.1);
+  --highlight-white-light: rgba(255, 255, 255, 0.15);
+  --highlight-white-medium: rgba(255, 255, 255, 0.3);
+  --highlight-white: rgba(255, 255, 255, 0.4);
+  --highlight-white-strong: rgba(255, 255, 255, 0.6);
+
+  /* Gold-yellow highlights */
+  --highlight-gold-yellow: rgba(255, 215, 0, 0.5);
 }

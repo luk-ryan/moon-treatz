@@ -1,17 +1,69 @@
 .wrapper {
-  max-width: 1080px;
+  max-width: 67.5rem;
   margin: auto;
   padding-inline: 2rem;
+  padding-top: 3rem;
+  position: relative;
+}
+
+.wrapper h1 {
+  font-family: var(--ff-accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 3.5rem;
+  margin-top: 5rem;
+  text-shadow: 0 0.1875rem 0.75rem var(--shadow-gold-light),
+               0 0 1.875rem var(--shadow-gold-very-subtle);
+  padding-bottom: 1rem;
+  border-bottom: none;
+  position: relative;
+}
+
+.wrapper h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 0.125rem;
+  background: linear-gradient(90deg, transparent, var(--clr-gold-500), transparent);
+}
+
+.wrapper h2 {
+  font-family: var(--ff-accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0.125rem 0.625rem var(--shadow-gold-very-light);
+  padding-bottom: 0.75rem;
+  border-bottom: none;
+  position: relative;
+}
+
+.wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 0.0625rem;
+  background: linear-gradient(90deg, transparent, var(--clr-gold-600), transparent);
 }
 
 .wide-wrapper {
-  max-width: 1620px;
+  max-width: 101.25rem;
   margin: auto;
   padding-inline: 2rem;
+  position: relative;
 }
 
 .narrow-wrapper {
-  max-width: 720px;
+  max-width: 45rem;
   margin: auto;
   padding-inline: 2rem;
 }
@@ -22,6 +74,16 @@
 
 .text-center {
   text-align: center;
+}
+
+/* Clickable text link utility */
+.text-link {
+  color: var(--clr-gold-500);
+  text-decoration: underline;
+}
+
+.text-link:hover {
+  color: var(--clr-blue-alt);
 }
 
 .bold {
