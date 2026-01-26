@@ -68,7 +68,7 @@ export const weeklySpecials: WeeklyFlavour[] = [
   },
   {
     id: 5,
-    flavours: ["Oreo Cookies & Cream", "Pistachio", "Chocolate Salted Caramel"],
+    flavours: ["Oreo Cookies & Cream", "Chocolate Salted Caramel", "Pistachio"],
     displayImage: "/flavours/weekly_specials/transparent/weekly_special_5.png",
     images: [
       "/flavours/weekly_specials/weekly_special_5(box-view).png",
