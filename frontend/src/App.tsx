@@ -22,6 +22,9 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 // ANIMATION LIBRARY
 import { motion } from "framer-motion";
 
+// HOOKS
+import { useIsMobile } from "./hooks/useIsMobile";
+
 // COMPONENTS
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -59,6 +62,9 @@ function AppContent() {
   // Get current route location from React Router
   const location = useLocation();
   
+  // Check if viewport is mobile (600px or below)
+  const isMobile = useIsMobile();
+  
   // Determine if we're on the home page to conditionally render decorations
   const isHomePage = location.pathname === "/";
 
@@ -74,38 +80,56 @@ function AppContent() {
         <>
           {/* LEFT BUTTERFLY TRAIL */}
           {leftButterflies.map((butterfly: ButterflyDecor, index: number) => (
-            <motion.span
-              key={`left-${index}`}
-              className={`butterfly ${butterfly.className}`}
-              {...butterflyEntrance}
-              animate={{
-                x: butterfly.xValues,
-                y: butterflyYValues,
-                scaleX: butterflyScaleX,
-                rotate: butterflyRotate,
-                transition: butterflyTransition(butterfly.delay)
-              }}
-            >
-              🦋
-            </motion.span>
+            isMobile ? (
+              <span
+                key={`left-${index}`}
+                className={`butterfly ${butterfly.className}`}
+              >
+                🦋
+              </span>
+            ) : (
+              <motion.span
+                key={`left-${index}`}
+                className={`butterfly ${butterfly.className}`}
+                {...butterflyEntrance}
+                animate={{
+                  x: butterfly.xValues,
+                  y: butterflyYValues,
+                  scaleX: butterflyScaleX,
+                  rotate: butterflyRotate,
+                  transition: butterflyTransition(butterfly.delay)
+                }}
+              >
+                🦋
+              </motion.span>
+            )
           ))}
           
           {/* RIGHT BUTTERFLY TRAIL */}
           {rightButterflies.map((butterfly: ButterflyDecor, index: number) => (
-            <motion.span
-              key={`right-${index}`}
-              className={`butterfly ${butterfly.className}`}
-              {...butterflyEntrance}
-              animate={{
-                x: butterfly.xValues,
-                y: butterflyYValues,
-                scaleX: butterflyScaleX,
-                rotate: butterflyRotate,
-                transition: butterflyTransition(butterfly.delay)
-              }}
-            >
-              🦋
-            </motion.span>
+            isMobile ? (
+              <span
+                key={`right-${index}`}
+                className={`butterfly ${butterfly.className}`}
+              >
+                🦋
+              </span>
+            ) : (
+              <motion.span
+                key={`right-${index}`}
+                className={`butterfly ${butterfly.className}`}
+                {...butterflyEntrance}
+                animate={{
+                  x: butterfly.xValues,
+                  y: butterflyYValues,
+                  scaleX: butterflyScaleX,
+                  rotate: butterflyRotate,
+                  transition: butterflyTransition(butterfly.delay)
+                }}
+              >
+                🦋
+              </motion.span>
+            )
           ))}
 
           {/* FLOATING CLOUDS */}
@@ -114,8 +138,8 @@ function AppContent() {
               key={index}
               src={cloud.src}
               className={cloud.className}
-              animate={cloud.animate}
-              transition={cloud.transition}
+              animate={isMobile ? {} : cloud.animate}
+              transition={isMobile ? {} : cloud.transition}
             />
           ))}
 
@@ -124,8 +148,8 @@ function AppContent() {
             <motion.span 
               key={index}
               className={sparkle.className}
-              animate={sparkle.animate}
-              transition={sparkle.transition}
+              animate={isMobile ? {} : sparkle.animate}
+              transition={isMobile ? {} : sparkle.transition}
             >
               {sparkle.character}
             </motion.span>

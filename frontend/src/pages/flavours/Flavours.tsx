@@ -18,6 +18,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import FlavourCard from "./FlavourCard";
 import WeeklyGallery from "./WeeklyGallery";
 import type { FlavourCardProps } from "../../types/types";
@@ -122,6 +123,9 @@ const Flavours = () => {
   // Get current location from React Router for hash detection
   const location = useLocation();
   
+  // Check if viewport is mobile (600px or below)
+  const isMobile = useIsMobile();
+  
   // State for controlling which view mode is active (weekly gallery or all flavours)
   const [viewMode, setViewMode] = useState<"weekly" | "all">("weekly");
   
@@ -156,8 +160,8 @@ const Flavours = () => {
           key={index}
           src={macaron.src}
           className={macaron.className}
-          animate={macaron.animate}
-          transition={macaron.transition}
+          animate={isMobile ? {} : macaron.animate}
+          transition={isMobile ? {} : macaron.transition}
           loading="lazy"
         />
       ))}

@@ -8,11 +8,21 @@
  * - max-width: 600px - Mobile devices
  */
 
-/* =============================================
-   LAYOUT - Header, Navbar, Footer
-   ============================================= */
-
 @media (max-width: 600px) {
+  /* =============================================
+     PERFORMANCE - Disable Animations
+     ============================================= */
+  
+  /* Disable all animations on mobile for performance */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* =============================================
+     LAYOUT - Header, Navbar, Footer
+     ============================================= */
+
   /* Hide title ornaments on mobile */
   .ornament-side {
     display: none;
@@ -42,7 +52,6 @@
     right: 0rem;
     margin-top: 2rem;
   }
-
 
   /* Reduce title size on mobile */
   header h1 {
@@ -135,23 +144,19 @@
     width: 6rem;
     height: 6rem;
   }
-}
 
-/* =============================================
-   LOGO - Mobile Sizing
-   ============================================= */
+  /* =============================================
+     LOGO - Mobile Sizing
+     ============================================= */
 
-@media (max-width: 600px) {
   .logo-container {
     width: 6.5rem;
   }
-}
 
-/* =============================================
-   HOME PAGE - Menu, Contact, Weekly Special
-   ============================================= */
+  /* =============================================
+     HOME PAGE - Menu, Contact, Weekly Special
+     ============================================= */
 
-@media (max-width: 600px) {
   /* Wrappers - increase width on mobile for less cramped content */
   .wrapper,
   .narrow-wrapper {
@@ -350,13 +355,11 @@
     font-size: var(--fs-200);
     padding: 0.5rem 1.5rem;
   }
-}
 
-/* =============================================
-   FLAVOURS PAGE - View Selector, Gallery
-   ============================================= */
+  /* =============================================
+     FLAVOURS PAGE - View Selector, Gallery
+     ============================================= */
 
-@media (max-width: 600px) {
   /* View mode selector */
   .view-mode-selector {
     flex-direction: column;
@@ -460,6 +463,10 @@
     font-size: var(--fs-100);
   }
 
+  /* =============================================
+     BACKGROUND DECORATIONS - Clouds, Butterflies, Macarons
+     ============================================= */
+
   .cloud-left-1 { top: 15%; left: -15%; width: 18rem; height: auto; }
   .cloud-left-2 { bottom: 10%; left: -18%; width: 16rem; height: auto; transform: scaleX(-1); }
   .cloud-left-3 { top: 50%; left: -12%; width: 15rem; height: auto; opacity: 0.65; }
@@ -495,5 +502,4 @@
   .macaron-left-single-2 { left: -22% !important; top: 45% !important; }
   .macaron-left-single-3 { left: -24% !important; top: 55% !important; }
   .macaron-left-single-4 { left: -22% !important; top: 68% !important; }
-  
 }
