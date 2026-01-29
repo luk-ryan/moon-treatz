@@ -109,6 +109,12 @@ const WeeklyGallery = () => {
 
         {/* GALLERY IMAGE DISPLAY */}
         <div className="gallery-image-wrapper">
+          {/* Corner decorations */}
+          <div className="gallery-corner-tl"></div>
+          <div className="gallery-corner-tr"></div>
+          <div className="gallery-corner-bl"></div>
+          <div className="gallery-corner-br"></div>
+          
           {/* AnimatePresence enables exit animations when content changes */}
           <AnimatePresence mode="wait"> {/* Wait for exit animation before entering new content */}
             {/* Outer motion div: Animates weekly box transitions */}

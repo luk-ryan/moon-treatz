@@ -72,47 +72,126 @@
   width: 100%;
   max-width: 37.5rem;
   aspect-ratio: 4/3;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  background: var(--clr-bg);
+  overflow: visible;
+  border-radius: 0;
+  background: linear-gradient(135deg, 
+    rgba(15, 12, 8, 0.7) 0%, 
+    rgba(5, 4, 3, 0.9) 50%, 
+    rgba(15, 12, 8, 0.7) 100%
+  );
+  padding: 1.25rem;
   
-  /* Art Deco double border effect with rounded corners */
+  /* Outer border */
   border: 0.25rem solid var(--clr-gold-500);
-  box-shadow: 
-    /* Inner gold glow */
-    inset 0 0 0 0.125rem var(--shadow-gold-light),
-    inset 0 0 1.5rem var(--shadow-gold-subtle),
-    /* Outer gold glow */
-    0 0 2rem var(--shadow-gold),
-    0 0 3rem var(--shadow-gold-subtle),
-    /* Depth shadow */
-    0 0.5rem 2rem var(--shadow-dark-intense);
 }
 
-/* Corner decorations */
-.gallery-image-wrapper::before,
-.gallery-image-wrapper::after {
-  content: '';
-  position: absolute;
-  width: 2rem;
-  height: 2rem;
-  border: 0.125rem solid var(--clr-gold-500);
-  z-index: 10;
-  opacity: 0.8;
-}
-
+/* Top decorative line with center diamond */
 .gallery-image-wrapper::before {
-  top: 0.75rem;
-  left: 0.75rem;
-  border-right: none;
-  border-bottom: none;
+  content: '◆';
+  position: absolute;
+  top: 0.2rem;
+  left: 0;
+  right: 0;
+  font-size: 1rem;
+  color: var(--clr-gold-500);
+  text-shadow: 0 0 0.75rem var(--shadow-gold);
+  z-index: 20;
+  background: linear-gradient(90deg, /* Decorative line gradient */
+    transparent 0%, 
+    var(--clr-gold-600) 20%, 
+    transparent 48%,
+    transparent 52%,
+    var(--clr-gold-600) 80%, 
+    transparent 100%
+  );
+  background-size: 100% 0.0625rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-align: center;
+  line-height: 1;
 }
 
+/* Bottom decorative line with year */
 .gallery-image-wrapper::after {
-  bottom: 0.75rem;
-  right: 0.75rem;
-  border-left: none;
-  border-top: none;
+  content: '2026';
+  position: absolute;
+  bottom: 0.2rem;
+  left: 0;
+  right: 0;
+  font-size: 0.875rem;
+  color: var(--clr-gold-500);
+  text-shadow: 0 0 0.75rem var(--shadow-gold);
+  z-index: 20;
+  background: linear-gradient(90deg, /* Decorative line gradient */ 
+    transparent 0%, 
+    var(--clr-gold-600) 20%, 
+    transparent 48%,
+    transparent 52%,
+    var(--clr-gold-600) 80%, 
+    transparent 100%
+  );
+  background-size: 100% 0.0625rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Corner decorations - gradient L-shaped brackets */
+.gallery-corner-tl,
+.gallery-corner-tr,
+.gallery-corner-bl,
+.gallery-corner-br {
+  position: absolute;
+  width: 3.5rem;
+  height: 3.5rem;
+  z-index: 15;
+  background: linear-gradient(135deg, var(--clr-gold-100) 0%, var(--clr-gold-400) 50%, var(--clr-gold-700) 100%);
+  filter: brightness(1.1);
+}
+
+.gallery-corner-tl {
+  top: -0.5rem;
+  left: -0.5rem;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) top left/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) top left/0.8rem 100% no-repeat;
+  mask: 
+    linear-gradient(#fff 0 0) top left/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) top left/0.8rem 100% no-repeat;
+}
+
+.gallery-corner-tr {
+  top: -0.5rem;
+  right: -0.5rem;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) top right/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) top right/0.8rem 100% no-repeat;
+  mask: 
+    linear-gradient(#fff 0 0) top right/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) top right/0.8rem 100% no-repeat;
+}
+
+.gallery-corner-bl {
+  bottom: -0.5rem;
+  left: -0.5rem;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) bottom left/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) bottom left/0.8rem 100% no-repeat;
+  mask: 
+    linear-gradient(#fff 0 0) bottom left/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) bottom left/0.8rem 100% no-repeat;
+}
+
+.gallery-corner-br {
+  bottom: -0.5rem;
+  right: -0.5rem;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) bottom right/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) bottom right/0.8rem 100% no-repeat;
+  mask: 
+    linear-gradient(#fff 0 0) bottom right/100% 0.8rem no-repeat,
+    linear-gradient(#fff 0 0) bottom right/0.8rem 100% no-repeat;
 }
 
 .gallery-image-content {
@@ -120,6 +199,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  border: 0.0625rem solid var(--clr-gold-600);
 }
 
 .gallery-image {
