@@ -45,7 +45,7 @@ const flavours: FlavourCardProps[] = [
     id: 1,
     name: "Vanilla",
     src: "/flavours/vanilla.jpg",
-    description: "Blue macaron shells filled with a smooth vanilla French meringue buttercream.",
+    description: "Blue macaron shells filled with a smooth vanilla French buttercream.",
   },
   {
     id: 2,
