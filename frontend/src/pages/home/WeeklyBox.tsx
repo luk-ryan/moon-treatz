@@ -81,6 +81,8 @@ const WeeklyBox = () => {
           </div>
         </div>
       </div>
+      {/* Refrigeration reminder note */}
+      <p className="order-note">* Keep macaron box orders refrigerated.*</p>
     </div>
   );
 };

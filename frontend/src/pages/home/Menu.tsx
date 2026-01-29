@@ -24,6 +24,8 @@
 
 import MenuItem from "./MenuItem";
 import type { MenuItemProps } from "../../types/types";
+import { useState } from "react";
+import { preOrderFormLink, isPreOrderFormAvailable } from "../../config/preOrderForm";
 
 /**
  * Menu Items Configuration
@@ -43,6 +45,9 @@ const items: MenuItemProps[] = [
  * =============================
  */
 export const Menu = () => {
+  const [showLocations, setShowLocations] = useState(false);
+  const [showTimeslots, setShowTimeslots] = useState(false);
+
   return (
     <div className="menu-section">
       {/* Main menu heading */}
@@ -81,42 +86,130 @@ export const Menu = () => {
         <div className="order-instructions">
           {/* Section heading */}
           <h3>Order Instructions</h3>
-          {/* Refrigeration reminder note */}
-          <p className="order-note"><em>* Keep macaron box orders refrigerated.*</em></p>
           
-          {/* How to Contact Section */}
+          {/* Schedule Information Section */}
           <div className="order-section">
+            {/* Availability schedule with expandable timeslots */}
             <p className="order-intro">
-              If you would like to place an order, message us on{" "}
-              {/* Instagram link - opens in new tab */}
-              <a href="https://www.instagram.com/moon.treatz/" target="_blank" rel="noopener noreferrer" className="order-link">
-                Instagram
-              </a>{" "}
-              or send us an{" "}
-              {/* Email link - opens Gmail compose in new tab */}
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=moontreatzcatering@gmail.com" target="_blank" rel="noopener noreferrer" className="order-link">
-                email
-              </a>
-              , and we will get back to you as soon as we can.
+              With our current schedule, macarons will be made available for pickup/delivery with 2 timeslots every Thursday, Friday, and Saturday of the week.
+              {/* Show "See more" button when timeslots are hidden */}
+              {!showTimeslots && (
+                <button 
+                  className="see-more-button" 
+                  onClick={() => setShowTimeslots(true)}
+                >
+                  See more
+                </button>
+              )}
+              {/* Show "See less" button when timeslots are visible */}
+              {showTimeslots && (
+                <button 
+                  className="see-more-button" 
+                  onClick={() => setShowTimeslots(false)}
+                >
+                  See less
+                </button>
+              )}
+            </p>
+            {/* Expandable list of available timeslots - displayed in grid layout */}
+            {showTimeslots && (
+              <ul className="timeslots-list">
+                <li>Thursday (2:00pm - 3:00pm)</li>
+                <li>Thursday (6:30pm - 7:30pm)</li>
+                <li>Friday (2:00pm - 3:00pm)</li>
+                <li>Friday (6:30pm - 7:30pm)</li>
+                <li>Saturday (12:00pm - 1:00pm)</li>
+                <li>Saturday (4:00pm - 5:00pm)</li>
+              </ul>
+            )}
+            {/* Pre-order form */}
+            <p className="order-intro">
+              While there is a chance that you may be able to purchase a weekly special box after it has been made, we highly recommend that you fill out our weekly pre-order form that will be released every Friday evening and close Sunday night the week prior to pickup/delivery dates so that you can guarantee an order for the week.
             </p>
           </div>
 
-          {/* Pickup & Delivery Options Section */}
+          {/* Pre-Order Form Button Section */}
+          <div className="order-section" style={{ textAlign: 'center', margin: '2rem 0' }}>
+            {/* Notice about when pre-order forms open */}
+            <p className="pre-order-notice">Pre-order forms open on weekends (Friday evening - Sunday night)</p>
+            {/* Pre-order button - enabled only during Friday 6PM - Sunday 11:59PM when link is provided */}
+            {isPreOrderFormAvailable() ? (
+              <a 
+                href={preOrderFormLink} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="pre-order-button"
+              >
+                Pre-Order Form
+              </a>
+            ) : (
+              <button className="pre-order-button pre-order-button-disabled" disabled>
+                Pre-Order Form
+              </button>
+            )}
+          </div>
+
+          {/* Pickup & Delivery Details Section */}
           <div className="order-section">
-            {/* Pickup/Delivery availability statement with color highlights */}
-            <p className="order-options-title">Both <span className="highlight-pickup">Pickup</span> and <span className="highlight-delivery">Delivery</span> options are available:</p>
-            {/* Details list for pickup and delivery */}
+            {/* Section title for pickup and delivery information */}
+            <p className="order-options-title"><strong>Pickup and Delivery Details:</strong></p>
+            {/* Details list for pickup and delivery options */}
             <ul className="order-list">
               <li>
                 {/* Diamond bullet point */}
                 <span className="order-icon">◆</span>
-                {/* Pickup location details - full address provided after order */}
-                <strong>Pickup</strong> will be at our location listed below (exact address will be given out upon ordering).
+                {/* Pickup locations with expandable list - shows 2 location options with Google Maps links */}
+                <strong>2 available pickup locations</strong> (exact address will be given out upon ordering)
+                {/* Show "See more" button when locations are hidden */}
+                {!showLocations && (
+                  <button 
+                    className="see-more-button" 
+                    onClick={() => setShowLocations(true)}
+                  >
+                    See more
+                  </button>
+                )}
+                {/* Show "See less" button and location list when expanded */}
+                {showLocations && (
+                  <>
+                    <button 
+                      className="see-more-button" 
+                      onClick={() => setShowLocations(false)}
+                    >
+                      See less
+                    </button>
+                    {/* Nested list of pickup locations - each linked to Google Maps */}
+                    <ul className="locations-list">
+                      <li>
+                        {/* Thornhill Woods Area location - opens Google Maps in new tab */}
+                        <a 
+                          href="https://maps.app.goo.gl/KTnUcLfH7dKELAEb7" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="order-link"
+                        >
+                          <span>Thornhill Woods Area</span>
+                        </a>
+                      </li>
+                      <li>
+                        {/* York University location - opens Google Maps in new tab */}
+                        <a 
+                          href="https://www.google.com/maps/place/York+University/@43.7734573,-79.5044433,17z/data=!3m1!4b1!4m6!3m5!1s0x89d4cd330b767bfb:0xdbb899cc9da76d19!8m2!3d43.7734535!4d-79.5018684!16zL20vMDg4NW4?entry=ttu&g_ep=EgoyMDI2MDEyNi4wIKXMDSoASAFQAw%3D%3D" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="order-link"
+                        >
+                          <span>York University</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </>
+                )}
               </li>
               <li>
                 {/* Diamond bullet point */}
                 <span className="order-icon">◆</span>
-                {/* Delivery fee range information */}
+                {/* Delivery fee range - varies based on distance */}
                 <strong>Delivery fee</strong> of $2 - $5
               </li>
             </ul>
@@ -126,6 +219,7 @@ export const Menu = () => {
           <div className="order-section payment-section">
             {/* Payment methods title */}
             <p className="payment-title">Available Payment Options:</p>
+            {/* Payment method badges displayed in a row */}
             <div className="payment-options">
               {/* Cash payment badge */}
               <span className="payment-badge">Cash</span>

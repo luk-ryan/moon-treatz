@@ -20,9 +20,24 @@
 const Contact = () => {
   return (
     <div className="contact-section">
+      {/* Location section */}
+      <h2 className="location-heading">Location</h2>
+      <p>
+        We are located in the{" "}
+        {/* Google Maps link to business location - opens in new tab */}
+        <a
+          href="https://maps.app.goo.gl/KTnUcLfH7dKELAEb7"
+          target="_blank" // Open in new tab
+          rel="noopener noreferrer" // Security: prevent access to window.opener
+          className="text-link"
+        >
+          Thornhill Woods Area
+        </a>
+        .
+      </p>
+
       {/* Section heading */}
-      <h1 className="contact-heading">Order Here</h1>
-      
+      <h1 className="contact-heading">Contact Us</h1>
       {/* Email contact with icon */}
       <p>
         {/* Email icon */}
@@ -38,7 +53,6 @@ const Contact = () => {
           moontreatzcatering@gmail.com
         </a>
       </p>
-
       {/* Phone contact with icon */}
       <p>
         {/* Phone icon */}
@@ -49,7 +63,6 @@ const Contact = () => {
           (647)-268-5408
         </a>
       </p>
-
       {/* Instagram contact with icon */}
       <p className="instagram-line">
         {/* Instagram icon */}
@@ -64,22 +77,6 @@ const Contact = () => {
         >
           @moontreatzcatering
         </a>
-      </p>
-
-      {/* Location section */}
-      <h2 className="location-heading">Location</h2>
-      <p>
-        We are located in the{" "}
-        {/* Google Maps link to business location - opens in new tab */}
-        <a
-          href="https://maps.app.goo.gl/KTnUcLfH7dKELAEb7"
-          target="_blank" // Open in new tab
-          rel="noopener noreferrer" // Security: prevent access to window.opener
-          className="text-link"
-        >
-          Thornhill Woods Area
-        </a>
-        .
       </p>
     </div>
   );

@@ -10,13 +10,26 @@
 
 @media (max-width: 600px) {
   /* =============================================
-     PERFORMANCE - Disable Animations
+     PERFORMANCE - Disable Animations & Heavy Elements
      ============================================= */
   
   /* Disable all animations on mobile for performance */
   *, *::before, *::after {
     animation: none !important;
     transition: none !important;
+  }
+
+  /* Reduce expensive CSS effects on mobile */
+  * {
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep only essential shadows */
+  .menu-list,
+  .weekly-special-content,
+  .order-instructions {
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5) !important;
   }
 
   /* =============================================
@@ -221,13 +234,12 @@
 
   /* Contact section */
   .contact-heading {
-    margin-bottom: 0.75rem;
-    font-size: var(--fs-600);
+    font-size: var(--fs-500);
   }
 
   .location-heading {
     margin-bottom: 0.75rem;
-    margin-top: 1.5rem;
+    margin-top: 0.75rem;
     font-size: var(--fs-500);
   }
 
@@ -352,8 +364,29 @@
   }
 
   .payment-badge {
+    font-size: var(--fs-100);
+    padding: 0.5rem 1rem;
+  }
+
+  .payment-options {
+    gap: 0.75rem;
+  }
+
+  /* Pre-order button mobile sizing */
+  .pre-order-button {
+    padding: 0.75rem 2rem;
     font-size: var(--fs-200);
-    padding: 0.5rem 1.5rem;
+    width: 100%;
+    max-width: 20rem;
+  }
+
+  .pre-order-notice {
+    font-size: var(--fs-100);
+  }
+
+  /* Pickup locations list - reduce indentation on mobile */
+  .order-list ul {
+    margin-left: 0 !important;
   }
 
   /* =============================================
@@ -482,6 +515,7 @@
   .cloud-bottom-1 { bottom: 5%; left: 40%; width: 13rem; height: auto; opacity: 0.45; }
 
   .butterfly { position: absolute; font-size: 4rem; opacity: 0.6 !important; pointer-events: none; z-index: 0; }
+  .butterfly-left-5,
   .butterfly-left-6,
   .butterfly-left-7,
   .butterfly-left-8 { display: none; }
