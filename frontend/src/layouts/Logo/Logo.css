@@ -13,6 +13,18 @@
   padding: 0.5rem;
 }
 
+.logo-face-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.logo-face-wrapper:active {
+  cursor: grabbing;
+}
+
 .logo-cloud {
   height: 100%;
   width: 100%;
@@ -32,25 +44,81 @@
 
 .logo-eye {
   position: absolute;
-  height: 28%;
+  height: 32%;
   width: auto;
-  top: 28%;
+  top: 23%;
   z-index: 3;
 }
 
 .logo-eye-left {
-  left: 30%;
+  left: 28%;
 }
 
 .logo-eye-right {
-  right: 26%;
+  right: 24%;
+}
+
+.logo-wink {
+  position: absolute;
+  height: 60%;
+  width: auto;
+  top: 28%;
+  left: 28%;
+  z-index: 3;
+}
+
+.wink-eye {
+  position: absolute;
+  height: auto;
+  width: 25%;
+  top: 34%;
+  z-index: 3;
+}
+
+.wink-eye-left {
+  left: 25%;
+  transform: scaleX(-1);
+}
+
+.wink-eye-right {
+  right: 20%;
 }
 
 .logo-mouth {
   position: absolute;
   width: 15%;
   bottom: 37%;
-  left: 52%;
+  left: 45%;
   transform: translateX(-50%);
   z-index: 3;
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 1.5rem;
+  pointer-events: none;
+  z-index: 10;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 600px) {
+  .logo-mouth {
+    left: 52%;
+  }
+
+  .logo-eye {
+    height: 28%;
+    width: 16%;
+    top: 27%;
+  }
+
+  .logo-eye-left {
+    left: 30%;
+  }
+
+  .logo-eye-right {
+    right: 26%;
+  }
 }
