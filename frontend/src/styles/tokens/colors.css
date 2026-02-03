@@ -82,6 +82,10 @@
   --shadow-dark-strong: rgba(0, 0, 0, 0.6);
   --shadow-dark-stronger: rgba(0, 0, 0, 0.7);
   --shadow-dark-intense: rgba(0, 0, 0, 0.8);
+  --shadow-dark-very-intense: rgba(0, 0, 0, 0.85);
+  --shadow-dark-almost-full: rgba(0, 0, 0, 0.9);
+  --shadow-dark-very-very-intense: rgba(0, 0, 0, 0.95);
+  --shadow-dark-full: rgba(0, 0, 0, 1);
 
   /* Accent blue glows */
   --glow-accent-subtle: rgba(91, 186, 214, 0.2);

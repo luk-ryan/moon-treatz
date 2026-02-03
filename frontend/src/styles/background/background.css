@@ -81,21 +81,21 @@
 /* =========================
    GIANT MACARON DECORATIONS
    ========================= */
-.macaron-decor { position: absolute; pointer-events: none; opacity: 1; z-index: 0; filter: drop-shadow(0 0 0.75rem var(--shadow-gold-light)); }
-.macaron-top-right-1 { width: 26rem; top: 25%; right: -11.5%; z-index: 3; transition: right 0.8s ease, top 0.8s ease; }
-.macaron-top-right-2 { width: 26.625rem; top: 27%; right: -12.5%; z-index: 2; transition: right 0.8s ease, top 0.8s ease; }
-.macaron-top-right-3 { width: 26.3125rem; top: 29%; right: -11%; z-index: 1; transition: right 0.8s ease, top 0.8s ease; }
-.macaron-bottom-left-stack-1 { width: 23rem; top: 72%; left: -10.5%; z-index: 4; transition: left 0.8s ease, top 0.8s ease; }
-.macaron-bottom-left-stack-2 { width: 22.5rem; top: 76%; left: -9.5%; z-index: 2; transition: left 0.8s ease, top 0.8s ease; }
-.macaron-bottom-left-stack-3 { width: 22.75rem; top: 78%; left: -10.5%; z-index: 1; transition: left 0.8s ease, top 0.8s ease; }
-.macaron-right-single-1 { width: 18.5rem; top: 53%; right: -8%; z-index: 2; transition: right 0.8s ease, top 0.8s ease; }
-.macaron-right-single-2 { width: 18rem; top: 30%; right: -8%; z-index: 2; transition: right 0.8s ease, top 0.8s ease; }
-.macaron-right-single-3 { width: 19.5rem; top: 64%; right: -7.5%; z-index: 1; transition: right 0.8s ease, top 0.8s ease; }
-.macaron-right-single-4 { width: 19rem; top: 82%; right: -7%; z-index: 2; transition: right 0.8s ease, top 0.8s ease; }
-.macaron-left-single-1 { width: 16.5rem; top: 24%; left: -6.3%; z-index: 3; transition: left 0.8s ease, top 0.8s ease; }
-.macaron-left-single-2 { width: 17rem; top: 37%; left: -6.5%; z-index: 2; transition: left 0.8s ease, top 0.8s ease; }
-.macaron-left-single-3 { width: 17.5rem; top: 50%; left: -6.8%; z-index: 2; transition: left 0.8s ease, top 0.8s ease; }
-.macaron-left-single-4 { width: 16rem; top: 64%; left: -7%; z-index: 1; transition: left 0.8s ease, top 0.8s ease; }
+.macaron-decor { position: absolute; pointer-events: none; opacity: 1; z-index: -5; filter: drop-shadow(0 0 0.75rem var(--shadow-gold-light)); }
+.macaron-top-right-1 { width: 18vw; top: 25%; right: -11.5%; transition: right 0.8s ease, top 0.8s ease; }
+.macaron-top-right-2 { width: 18.5vw; top: 27%; right: -12.5%; transition: right 0.8s ease, top 0.8s ease; }
+.macaron-top-right-3 { width: 18.25vw; top: 29%; right: -11%; transition: right 0.8s ease, top 0.8s ease; }
+.macaron-bottom-left-stack-1 { width: 16vw; top: 72%; left: -10.5%; transition: left 0.8s ease, top 0.8s ease; }
+.macaron-bottom-left-stack-2 { width: 15.5vw; top: 76%; left: -9.5%; transition: left 0.8s ease, top 0.8s ease; }
+.macaron-bottom-left-stack-3 { width: 15.75vw; top: 78%; left: -10.5%; transition: left 0.8s ease, top 0.8s ease; }
+.macaron-right-single-1 { width: 13vw; top: 53%; right: -8%; transition: right 0.8s ease, top 0.8s ease; }
+.macaron-right-single-2 { width: 12.5vw; top: 30%; right: -8%; transition: right 0.8s ease, top 0.8s ease; }
+.macaron-right-single-3 { width: 13.5vw; top: 64%; right: -7.5%; transition: right 0.8s ease, top 0.8s ease; }
+.macaron-right-single-4 { width: 13.25vw; top: 82%; right: -7%; transition: right 0.8s ease, top 0.8s ease; }
+.macaron-left-single-1 { width: 11.5vw; top: 24%; left: -6.3%; transition: left 0.8s ease, top 0.8s ease; }
+.macaron-left-single-2 { width: 12vw; top: 37%; left: -6.5%; transition: left 0.8s ease, top 0.8s ease; }
+.macaron-left-single-3 { width: 12.25vw; top: 50%; left: -6.8%; transition: left 0.8s ease, top 0.8s ease; }
+.macaron-left-single-4 { width: 11.25vw; top: 64%; left: -7%; transition: left 0.8s ease, top 0.8s ease; }
 
 /* Macaron repositioning for flavours page views */
 .weekly-view-active .macaron-top-right-1, .flavour-selected-active .macaron-top-right-1 { right: 3%; top: 15%; }
