@@ -88,6 +88,15 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_6(top-view).png",
     ],
   },
+  {
+    id: 7,
+    flavours: ["Strawberry Matcha", "Dubai Chocolate", "Earl Grey"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_7.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_7(box-view).png",
+      "/flavours/weekly_specials/weekly_special_7(top-view).png",
+    ],
+  },
 ];
 
 /**
@@ -95,7 +104,7 @@ export const weeklySpecials: WeeklyFlavour[] = [
  */
 export const getLatestSpecial = () => {
   return weeklySpecials.reduce((latest, current) =>
-    current.id > latest.id ? current : latest
+    current.id > latest.id ? current : latest,
   );
 };
 

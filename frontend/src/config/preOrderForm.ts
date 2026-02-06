@@ -2,15 +2,15 @@
  * Pre-Order Form Configuration
  * ============================
  * Stores the current pre-order form link and manages availability based on schedule.
- * 
+ *
  * Pre-order forms are automatically available:
  * - Opens: Friday
  * - Closes: Sunday at 11:59 PM
- * 
+ *
  * To update the form link:
  * 1. Update the `preOrderFormLink` with the new Google Form URL
  * 2. The button will automatically show/hide based on the current day/time
- * 
+ *
  * To manually disable (override schedule):
  * 1. Set `preOrderFormLink` to an empty string ""
  * 2. The button will be disabled regardless of the schedule
@@ -20,7 +20,7 @@
  * Current Pre-Order Form Link
  * ===========================
  */
-export const preOrderFormLink: string = "https://docs.google.com/forms/d/e/1FAIpQLSe9-dG-LKltdoRjbrYhECexWs-SvhBLHCm4FIh28sEJw2JfYw/viewform?usp=publish-editor";
+export const preOrderFormLink: string = "https://forms.gle/at4NVGwtX87RE9UX6";
 
 /**
  * Force Enable Override
@@ -37,22 +37,22 @@ const forceEnable: boolean = true;
 const isWithinPreOrderWindow = (): boolean => {
   const now = new Date();
   const dayOfWeek = now.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
-  
+
   // All day Friday
   if (dayOfWeek === 5) {
     return true;
   }
-  
+
   // All day Saturday
   if (dayOfWeek === 6) {
     return true;
   }
-  
+
   // All day Sunday
   if (dayOfWeek === 0) {
     return true;
   }
-  
+
   return false;
 };
 
@@ -64,5 +64,8 @@ const isWithinPreOrderWindow = (): boolean => {
  * - (A form link is provided AND current time is within Friday 6PM - Sunday 11:59PM)
  */
 export const isPreOrderFormAvailable = (): boolean => {
-  return forceEnable || (preOrderFormLink.trim().length > 0 && isWithinPreOrderWindow());
+  return (
+    forceEnable ||
+    (preOrderFormLink.trim().length > 0 && isWithinPreOrderWindow())
+  );
 };
