@@ -97,6 +97,15 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_7(top-view).png",
     ],
   },
+  {
+    id: 8,
+    flavours: ["Red Velvet", "Chocolate", "White Chocolate Raspberry"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_8.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_8(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_8(top-view).png",
+    ],
+  },
 ];
 
 /**
