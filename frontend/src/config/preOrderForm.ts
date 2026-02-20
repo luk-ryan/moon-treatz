@@ -20,7 +20,7 @@
  * Current Pre-Order Form Link
  * ===========================
  */
-export const preOrderFormLink: string = "https://forms.gle/AfX54sGLPFunhVFz7";
+export const preOrderFormLink: string = "https://forms.gle/uKmMGiT498rhAY9B9";
 
 /**
  * Force Enable Override

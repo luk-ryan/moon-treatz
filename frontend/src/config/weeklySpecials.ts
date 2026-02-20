@@ -84,8 +84,10 @@ export const weeklySpecials: WeeklyFlavour[] = [
     ],
     displayImage: "/flavours/weekly_specials/transparent/weekly_special_6.png",
     images: [
-      "/flavours/weekly_specials/weekly_special_6(box-view).png",
+      "/flavours/weekly_specials/weekly_special_6(box-view).jpg",
       "/flavours/weekly_specials/weekly_special_6(top-view).png",
+      "/flavours/weekly_specials/weekly_special_6(side-view).jpg",
+      "/flavours/weekly_specials/weekly_special_6(side-view2).jpg",
     ],
   },
   {
@@ -94,7 +96,9 @@ export const weeklySpecials: WeeklyFlavour[] = [
     displayImage: "/flavours/weekly_specials/transparent/weekly_special_7.png",
     images: [
       "/flavours/weekly_specials/weekly_special_7(box-view).png",
-      "/flavours/weekly_specials/weekly_special_7(top-view).png",
+      "/flavours/weekly_specials/weekly_special_7(top-view).jpg",
+      "/flavours/weekly_specials/weekly_special_7(side-view).jpg",
+      "/flavours/weekly_specials/weekly_special_7(side-view2).jpg",
     ],
   },
   {
@@ -104,6 +108,15 @@ export const weeklySpecials: WeeklyFlavour[] = [
     images: [
       "/flavours/weekly_specials/weekly_special_8(box-view).jpg",
       "/flavours/weekly_specials/weekly_special_8(top-view).png",
+    ],
+  },
+  {
+    id: 9,
+    flavours: ["Salted Caramel", "Chocolate Vanilla Swirl", "Coffee"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_9.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_9(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_9(top-view).jpg",
     ],
   },
 ];
