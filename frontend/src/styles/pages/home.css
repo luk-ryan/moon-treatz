@@ -186,6 +186,24 @@ div > h1:first-child {
   pointer-events: none;
 }
 
+/* NKS student pre-order button - two-line layout */
+.pre-order-button-nks-student {
+  font-size: var(--fs-400);
+  padding: 0.75rem 3rem;
+  line-height: 1.3;
+  margin-top: 1rem;
+}
+
+/* Delayed shimmer animation for NKS student button */
+.pre-order-button-nks-student::before {
+  animation-delay: 0.2s;
+}
+
+/* Two-line text layout for NKS student button */
+.pre-order-button-nks-student span {
+  display: block;
+}
+
 /* Pre-order notice text */
 .pre-order-notice {
   color: var(--clr-accent);

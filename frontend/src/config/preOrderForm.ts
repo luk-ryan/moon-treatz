@@ -23,6 +23,13 @@
 export const preOrderFormLink: string = "https://forms.gle/uKmMGiT498rhAY9B9";
 
 /**
+ * NKS Student Pre-Order Form Link
+ * ================================
+ * Special pre-order form for NKS students
+ */
+export const studentPreOrderFormLink: string = "https://forms.gle/8rvdBrSgcBCVtAVU9";
+
+/**
  * Force Enable Override
  * =====================
  * For Debugging purposes, set to true to always enable the pre-order form button.
@@ -68,4 +75,13 @@ export const isPreOrderFormAvailable = (): boolean => {
     forceEnable ||
     (preOrderFormLink.trim().length > 0 && isWithinPreOrderWindow())
   );
+};
+
+/**
+ * Helper function to check if student pre-order form is available
+ * ===============================================================
+ * Student form is always available when a link is provided
+ */
+export const isStudentPreOrderFormAvailable = (): boolean => {
+  return studentPreOrderFormLink.trim().length > 0;
 };

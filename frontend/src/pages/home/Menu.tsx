@@ -28,6 +28,8 @@ import { useState } from "react";
 import {
   preOrderFormLink,
   isPreOrderFormAvailable,
+  studentPreOrderFormLink,
+  isStudentPreOrderFormAvailable,
 } from "../../config/preOrderForm";
 
 /**
@@ -166,6 +168,27 @@ export const Menu = () => {
                 disabled
               >
                 Pre-Order Form
+              </button>
+            )}
+
+            {/* Student Pre-Order Form Button - Always available for NKS students */}
+            {isStudentPreOrderFormAvailable() ? (
+              <a
+                href={studentPreOrderFormLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pre-order-button pre-order-button-nks-student"
+              >
+                <span>NKS STUDENT</span>
+                <span>PRE-ORDER FORM</span>
+              </a>
+            ) : (
+              <button
+                className="pre-order-button pre-order-button-nks-student pre-order-button-disabled"
+                disabled
+              >
+                <span>NKS STUDENT</span>
+                <span>PRE-ORDER FORM</span>
               </button>
             )}
           </div>
