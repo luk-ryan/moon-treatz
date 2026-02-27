@@ -107,7 +107,8 @@ export const weeklySpecials: WeeklyFlavour[] = [
     displayImage: "/flavours/weekly_specials/transparent/weekly_special_8.png",
     images: [
       "/flavours/weekly_specials/weekly_special_8(box-view).jpg",
-      "/flavours/weekly_specials/weekly_special_8(top-view).png",
+      "/flavours/weekly_specials/weekly_special_8(top-view).jpg",
+      "/flavours/weekly_specials/weekly_special_8(side-view).jpg",
     ],
   },
   {
@@ -117,6 +118,15 @@ export const weeklySpecials: WeeklyFlavour[] = [
     images: [
       "/flavours/weekly_specials/weekly_special_9(box-view).jpg",
       "/flavours/weekly_specials/weekly_special_9(top-view).jpg",
+    ],
+  },
+  {
+    id: 10,
+    flavours: ["Lemon", "Biscoff", "Peanut Butter Chocolate"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_10.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_10(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_10(top-view).jpg",
     ],
   },
 ];
