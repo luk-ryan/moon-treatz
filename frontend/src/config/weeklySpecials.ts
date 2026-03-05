@@ -129,6 +129,15 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_10(top-view).jpg",
     ],
   },
+  {
+    id: 11,
+    flavours: ["Vanilla", "Cookies and Cream", "Pistachio"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_11.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_11(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_11(top-view).jpg",
+    ],
+  },
 ];
 
 /**

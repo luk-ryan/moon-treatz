@@ -20,49 +20,48 @@
  * Current Pre-Order Form Link
  * ===========================
  */
-export const preOrderFormLink: string = "https://forms.gle/dke24EhPYnFXBaLL8";
+export const preOrderFormLink: string = "";
 
 /**
  * NKS Student Pre-Order Form Link
  * ================================
  * Special pre-order form for NKS students
  */
-export const studentPreOrderFormLink: string =
-  "https://forms.gle/8rvdBrSgcBCVtAVU9";
+export const studentPreOrderFormLink: string = "";
 
 /**
  * Force Enable Override
  * =====================
  * For Debugging purposes, set to true to always enable the pre-order form button.
  */
-const forceEnable: boolean = true;
+const forceEnable: boolean = false;
 
 /**
  * Check if current time is within pre-order window
  * =================================================
  * Pre-order window: Friday 6:00 PM - Sunday 11:59 PM
  */
-const isWithinPreOrderWindow = (): boolean => {
-  const now = new Date();
-  const dayOfWeek = now.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
+// const isWithinPreOrderWindow = (): boolean => {
+//   const now = new Date();
+//   const dayOfWeek = now.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
 
-  // All day Friday
-  if (dayOfWeek === 5) {
-    return true;
-  }
+//   // All day Friday
+//   if (dayOfWeek === 5) {
+//     return true;
+//   }
 
-  // All day Saturday
-  if (dayOfWeek === 6) {
-    return true;
-  }
+//   // All day Saturday
+//   if (dayOfWeek === 6) {
+//     return true;
+//   }
 
-  // All day Sunday
-  if (dayOfWeek === 0) {
-    return true;
-  }
+//   // All day Sunday
+//   if (dayOfWeek === 0) {
+//     return true;
+//   }
 
-  return false;
-};
+//   return false;
+// };
 
 /**
  * Helper function to check if pre-order form is available
@@ -72,10 +71,7 @@ const isWithinPreOrderWindow = (): boolean => {
  * - (A form link is provided AND current time is within Friday 6PM - Sunday 11:59PM)
  */
 export const isPreOrderFormAvailable = (): boolean => {
-  return (
-    forceEnable ||
-    (preOrderFormLink.trim().length > 0 && isWithinPreOrderWindow())
-  );
+  return forceEnable || preOrderFormLink.trim().length > 0;
 };
 
 /**
@@ -84,5 +80,5 @@ export const isPreOrderFormAvailable = (): boolean => {
  * Student form is always available when a link is provided
  */
 export const isStudentPreOrderFormAvailable = (): boolean => {
-  return studentPreOrderFormLink.trim().length > 0;
+  return forceEnable || studentPreOrderFormLink.trim().length > 0;
 };

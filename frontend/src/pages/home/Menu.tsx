@@ -61,8 +61,11 @@ export const Menu = () => {
       {/* Introductory text explaining ordering requirements */}
       <p>
         Here are our options for catering, where you will get to choose up to 3
-        flavours per order! Please order at least one week in advanced so that
-        we have enough time to prepare large orders.
+        flavours per order! Unlike our weekly boxes, you can place an order and
+        have it ready at any time. Contact us via email to place an order, and
+        we will get back to you as soon as we can. We do ask that you order at
+        least one week in advanced so that we have enough time to prepare larger
+        orders.
       </p>
 
       {/* Narrow wrapper */}
@@ -93,15 +96,15 @@ export const Menu = () => {
         {/* Order Instructions Section - How to place an order, pickup/delivery options, payment methods */}
         <div className="order-instructions">
           {/* Section heading */}
-          <h3>Order Instructions</h3>
+          <h3>Pre-Order Instructions</h3>
 
           {/* Schedule Information Section */}
           <div className="order-section">
             {/* Availability schedule with expandable timeslots */}
             <p className="order-intro">
-              With our current schedule, macarons will be made available for
-              pickup/delivery with 2 timeslots every Thursday, Friday, and
-              Saturday of the week.
+              With our current schedule, weekly boxes of macarons will be made
+              available for pickup/delivery with 2 timeslots every other
+              Thursday, Friday, and Saturday of the week.
               {/* Show "See more" button when timeslots are hidden */}
               {!showTimeslots && (
                 <button
@@ -136,10 +139,9 @@ export const Menu = () => {
             <p className="order-intro">
               While there is a chance that you may be able to purchase a weekly
               special box after it has been made, we highly recommend that you
-              fill out our weekly pre-order form that will be released every
-              Friday evening and close Sunday night the week prior to
-              pickup/delivery dates so that you can guarantee an order for the
-              week.
+              fill out our pre-order form, which will be released the week prior
+              to pickup/delivery dates so that you can guarantee an order for
+              the week.
             </p>
           </div>
 
@@ -150,7 +152,7 @@ export const Menu = () => {
           >
             {/* Notice about when pre-order forms open */}
             <p className="pre-order-notice">
-              Pre-order forms open on weekends (Friday evening - Sunday night)
+              Weekly special box pre-order forms open on weekends (Fri - Sun)
             </p>
             {/* Pre-order button - enabled only during Friday 6PM - Sunday 11:59PM when link is provided */}
             {isPreOrderFormAvailable() ? (

@@ -3,7 +3,7 @@
  * ===================
  * Showcases the current week's special macaron box offering.
  * Automatically displays the latest weekly special from the shared config.
- * 
+ *
  * Product Details:
  * - Box contains 7 assorted macarons
  * - Three different flavours per box
@@ -27,17 +27,17 @@ const latestSpecial = getLatestSpecial();
  * 4. List of current flavours (linked to Flavours page)
  */
 const WeeklyBox = () => {
-
   return (
     <div className="weekly-special">
       {/* Main section title */}
       <h1>Weekly Special</h1>
-      
+
       {/* Description explaining the weekly box offering */}
       <p>
-        Here is our weekly special box of macarons, where we make a box of 7 assorted macarons
-            with three different flavours of our choice every week, which will be updated both
-            here and on our Instagram page.
+        Here is our weekly special box of macarons, where we make a box of 7
+        assorted macarons with three different flavours of our choice once every
+        2 weeks. Pre-Orders will be made available here, and on our Instagram
+        Page the week before, so be sure to check if interested.
       </p>
 
       <div className="narrow-wrapper">

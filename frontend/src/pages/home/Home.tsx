@@ -3,7 +3,7 @@
  * ===================
  * The main landing page for Moon Treatz, introducing the business and displaying
  * key information about services, weekly specials, catering menu, and contact details.
- * 
+ *
  * Page Structure:
  * 1. Introduction section - Business story and overview
  * 2. Weekly Special Box - Current week's macaron flavours
@@ -35,18 +35,23 @@ const Home = () => {
         <div className="intro-section">
           {/* First paragraph - introduces Rachel and Ryan */}
           <p className="intro-para">
-            Hello! I'm Rachel, the baker behind MoonTreatz. Along with my older brother, Ryan (co-owner),
-            we are dedicated to creating treatz catered toward you!
+            Hello! I'm Rachel, the baker behind MoonTreatz. Along with my older
+            brother, Ryan (co-owner), we are dedicated to creating treatz
+            catered toward you!
           </p>
           <p className="intro-para">
-            We are based in the Vaughan area and currently offer two options: our weekly boxes, perfect for family/friend
-            consumption and bulk macaron orders, great for large events (details are listed below). If you have a flavour
-            idea for a macaron or would like to request a flavour for our weekly boxes, we would love to hear it and will do
+            We are based in the Vaughan area and currently offer two options:
+            our weekly boxes, perfect for family/friend consumption and bulk
+            macaron orders, great for large events (details are listed below).
+            If you have a flavour idea for a macaron or would like to request a
+            flavour for our weekly boxes, we would love to hear it and will do
             our best to accommodate your request.
           </p>
           <p className="intro-para">
-            As a small business, we are always growing and learning, and we truly appreciate your support. Please let us
-            know of any preferences, and feel free to DM us on Instagram @moontreatzcatering with flavour requests or questions!
+            As a small business, we are always growing and learning, and we
+            truly appreciate your support. Please let us know of any
+            preferences, and feel free to email or DM us on Instagram if you
+            have any questions or input!
           </p>
         </div>
         <WeeklyBox />
