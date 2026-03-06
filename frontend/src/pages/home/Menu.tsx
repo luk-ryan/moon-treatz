@@ -25,12 +25,7 @@
 import MenuItem from "./MenuItem";
 import type { MenuItemProps } from "../../types/types";
 import { useState } from "react";
-import {
-  preOrderFormLink,
-  isPreOrderFormAvailable,
-  studentPreOrderFormLink,
-  isStudentPreOrderFormAvailable,
-} from "../../config/preOrderForm";
+import OrderButton from "../../components/OrderButton";
 
 /**
  * Menu Items Configuration
@@ -51,7 +46,6 @@ const items: MenuItemProps[] = [
  */
 export const Menu = () => {
   const [showLocations, setShowLocations] = useState(false);
-  const [showTimeslots, setShowTimeslots] = useState(false);
 
   return (
     <div className="menu-section">
@@ -62,11 +56,16 @@ export const Menu = () => {
       <p>
         Here are our options for catering, where you will get to choose up to 3
         flavours per order! Unlike our weekly boxes, you can place an order and
-        have it ready at any time. Contact us via email to place an order, and
-        we will get back to you as soon as we can. We do ask that you order at
+        have it ready at any time. Fill out our catering order form, and
+        we will get back to you as soon as we can. We ask that you order at
         least one week in advanced so that we have enough time to prepare larger
         orders.
       </p>
+
+      {/* Order Now button */}
+      <div style={{ display: "flex", justifyContent: "center", margin: "2rem 0" }}>
+        <OrderButton href="https://forms.gle/RW8MFNAEVEbrfEg5A">Order Now</OrderButton>
+      </div>
 
       {/* Narrow wrapper */}
       <div className="narrow-wrapper">
@@ -96,104 +95,7 @@ export const Menu = () => {
         {/* Order Instructions Section - How to place an order, pickup/delivery options, payment methods */}
         <div className="order-instructions">
           {/* Section heading */}
-          <h3>Pre-Order Instructions</h3>
-
-          {/* Schedule Information Section */}
-          <div className="order-section">
-            {/* Availability schedule with expandable timeslots */}
-            <p className="order-intro">
-              With our current schedule, weekly boxes of macarons will be made
-              available for pickup/delivery with 2 timeslots every other
-              Thursday, Friday, and Saturday of the week.
-              {/* Show "See more" button when timeslots are hidden */}
-              {!showTimeslots && (
-                <button
-                  className="see-more-button"
-                  onClick={() => setShowTimeslots(true)}
-                >
-                  See more
-                </button>
-              )}
-              {/* Show "See less" button when timeslots are visible */}
-              {showTimeslots && (
-                <button
-                  className="see-more-button"
-                  onClick={() => setShowTimeslots(false)}
-                >
-                  See less
-                </button>
-              )}
-            </p>
-            {/* Expandable list of available timeslots - displayed in grid layout */}
-            {showTimeslots && (
-              <ul className="timeslots-list">
-                <li>Thursday (2:00pm - 3:00pm)</li>
-                <li>Thursday (6:30pm - 7:30pm)</li>
-                <li>Friday (2:00pm - 3:00pm)</li>
-                <li>Friday (6:30pm - 7:30pm)</li>
-                <li>Saturday (12:00pm - 1:00pm)</li>
-                <li>Saturday (4:00pm - 5:00pm)</li>
-              </ul>
-            )}
-            {/* Pre-order form */}
-            <p className="order-intro">
-              While there is a chance that you may be able to purchase a weekly
-              special box after it has been made, we highly recommend that you
-              fill out our pre-order form, which will be released the week prior
-              to pickup/delivery dates so that you can guarantee an order for
-              the week.
-            </p>
-          </div>
-
-          {/* Pre-Order Form Button Section */}
-          <div
-            className="order-section"
-            style={{ textAlign: "center", margin: "2rem 0" }}
-          >
-            {/* Notice about when pre-order forms open */}
-            <p className="pre-order-notice">
-              Weekly special box pre-order forms open on weekends (Fri - Sun)
-            </p>
-            {/* Pre-order button - enabled only during Friday 6PM - Sunday 11:59PM when link is provided */}
-            {isPreOrderFormAvailable() ? (
-              <a
-                href={preOrderFormLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pre-order-button"
-              >
-                Pre-Order Form
-              </a>
-            ) : (
-              <button
-                className="pre-order-button pre-order-button-disabled"
-                disabled
-              >
-                Pre-Order Form
-              </button>
-            )}
-
-            {/* Student Pre-Order Form Button - Always available for NKS students */}
-            {isStudentPreOrderFormAvailable() ? (
-              <a
-                href={studentPreOrderFormLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pre-order-button pre-order-button-nks-student"
-              >
-                <span>NKS STUDENT</span>
-                <span>PRE-ORDER FORM</span>
-              </a>
-            ) : (
-              <button
-                className="pre-order-button pre-order-button-nks-student pre-order-button-disabled"
-                disabled
-              >
-                <span>NKS STUDENT</span>
-                <span>PRE-ORDER FORM</span>
-              </button>
-            )}
-          </div>
+          <h3>Order Information</h3>
 
           {/* Pickup & Delivery Details Section */}
           <div className="order-section">
@@ -207,7 +109,7 @@ export const Menu = () => {
                 {/* Diamond bullet point */}
                 <span className="order-icon">◆</span>
                 {/* Pickup locations with expandable list - shows 2 location options with Google Maps links */}
-                <strong>2 available pickup locations</strong> (exact address
+                <strong>3 available pickup locations</strong> (exact address
                 will be given out upon ordering)
                 {/* Show "See more" button when locations are hidden */}
                 {!showLocations && (
@@ -249,6 +151,17 @@ export const Menu = () => {
                           className="order-link"
                         >
                           <span>York University</span>
+                        </a>
+                      </li>
+                      <li>
+                        {/* Dufferin & Steeles location - opens Google Maps in new tab */}
+                        <a
+                          href="https://maps.app.goo.gl/4fU1dhJHFtmEDiea9"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="order-link"
+                        >
+                          <span>Dufferin &amp; Steeles Area</span>
                         </a>
                       </li>
                     </ul>
