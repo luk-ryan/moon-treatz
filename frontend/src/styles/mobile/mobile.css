@@ -288,6 +288,31 @@
     margin-bottom: 1.5rem;
   }
 
+  .weekly-info {
+    margin: 0 0 1rem;
+  }
+
+  .weekly-info .order-intro {
+    font-size: var(--fs-200);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .weekly-order-buttons {
+    gap: 0.75rem;
+    margin: 0.75rem 0 1.5rem;
+  }
+
+  .timeslots-list {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .timeslots-list li {
+    padding: 0.5rem 1rem;
+    white-space: normal;
+  }
+
   /* Weekly special mobile layout */
   .weekly-special-content {
     grid-template-columns: 1fr;
@@ -487,17 +512,17 @@
     width: 2rem;
     height: 2rem;
     font-size: 1.5rem;
-    bottom: -20%;
+    bottom: -35%;
     top: auto;
   }
 
   .gallery-arrow-left {
-    left: 15%;
+    left: 35%;
     transform: none;
   }
 
   .gallery-arrow-right {
-    right: 15%;
+    right: 35%;
     transform: none;
   }
 
