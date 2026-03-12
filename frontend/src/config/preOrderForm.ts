@@ -20,14 +20,15 @@
  * Current Pre-Order Form Link
  * ===========================
  */
-export const preOrderFormLink: string = "";
+export const preOrderFormLink: string = "https://forms.gle/dCND7XRjPyyCJyg97";
 
 /**
  * NKS Student Pre-Order Form Link
  * ================================
  * Special pre-order form for NKS students
  */
-export const studentPreOrderFormLink: string = "";
+export const studentPreOrderFormLink: string =
+  "https://forms.gle/2s1Zb8EQiXrzdJkq5";
 
 /**
  * Force Enable Override

@@ -48,12 +48,24 @@ const WeeklyBox = () => {
         page the week before — forms open on weekends (Fri - Sun).
       </p>
 
+      {/* Pre-Order Form Button Section */}
+      <div className="weekly-order-buttons">
+        <OrderButton href={preOrderFormLink}>Pre-Order Form</OrderButton>
+        <OrderButton
+          href={studentPreOrderFormLink}
+          className="pre-order-button-nks-student"
+        >
+          <span>NKS STUDENT</span>
+          <span>PRE-ORDER FORM</span>
+        </OrderButton>
+      </div>
+
       {/* Schedule + pre-order info above buttons */}
       <div className="weekly-info">
         <p className="order-intro">
           With our current schedule, weekly boxes of macarons will be made
-          available for pickup/delivery with 2 timeslots every other
-          Thursday, Friday, and Saturday of the week.
+          available for pickup/delivery with 2 timeslots every other Thursday,
+          Friday, and Saturday of the week.
           {!showTimeslots && (
             <button
               className="see-more-button"
@@ -81,25 +93,13 @@ const WeeklyBox = () => {
             <li>Saturday (4:00pm - 5:00pm)</li>
           </ul>
         )}
+
         <p className="order-intro">
           While there is a chance that you may be able to purchase a weekly
-          special box after it has been made, we highly recommend that you
-          fill out our pre-order form, which will be released the week prior
-          to pickup/delivery dates so that you can guarantee an order for
-          the week.
+          special box after it has been made, we highly recommend that you fill
+          out our pre-order form, which will be released the week prior to
+          pickup/delivery dates so that you can guarantee an order for the week.
         </p>
-      </div>
-
-      {/* Pre-Order Form Button Section */}
-      <div className="weekly-order-buttons">
-        <OrderButton href={preOrderFormLink}>Pre-Order Form</OrderButton>
-        <OrderButton
-          href={studentPreOrderFormLink}
-          className="pre-order-button-nks-student"
-        >
-          <span>NKS STUDENT</span>
-          <span>PRE-ORDER FORM</span>
-        </OrderButton>
       </div>
 
       <div className="narrow-wrapper">
@@ -124,9 +124,11 @@ const WeeklyBox = () => {
           <div className="weekly-special-flavours">
             {/* "THIS WEEK'S FLAVOURS" heading with line break */}
             <h3>
-              <span className="flavour-title-main">THIS WEEK'S</span>
+              <span className="flavour-title-main">LAST WEEK'S</span>
               <br />
               <span className="flavour-title-main">FLAVOURS</span>
+              <br />
+              <span className="order-note">[Mar 5-7]</span>
             </h3>
             {/* Decorative divider line */}
             <div className="flavour-divider"></div>
@@ -142,9 +144,9 @@ const WeeklyBox = () => {
             </ul>
           </div>
         </div>
+        {/* Refrigeration reminder note */}
+        <p className="order-note">* Keep macaron box orders refrigerated.*</p>
       </div>
-      {/* Refrigeration reminder note */}
-      <p className="order-note">* Keep macaron box orders refrigerated.*</p>
     </div>
   );
 };

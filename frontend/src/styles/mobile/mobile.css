@@ -12,9 +12,11 @@
   /* =============================================
      PERFORMANCE - Disable Animations & Heavy Elements
      ============================================= */
-  
+
   /* Disable all animations on mobile for performance */
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation: none !important;
     transition: none !important;
   }
@@ -128,7 +130,9 @@
     font-size: var(--fs-200);
     letter-spacing: 0;
     color: var(--clr-gold-200);
-    text-shadow: 0 0 1rem var(--shadow-gold-medium), 0 0.125rem 0.25rem var(--shadow-dark-medium);
+    text-shadow:
+      0 0 1rem var(--shadow-gold-medium),
+      0 0.125rem 0.25rem var(--shadow-dark-medium);
   }
 
   .ribbon-right a::before {
@@ -214,11 +218,11 @@
   }
 
   .menu-item-flavours::before {
-    content: '(';
+    content: "(";
   }
 
   .menu-item-flavours::after {
-    content: ')';
+    content: ")";
   }
 
   .menu-list {
@@ -501,10 +505,22 @@
     height: 2rem;
   }
 
-  .gallery-corner-tl { top: -0.3rem; left: -0.3rem; }
-  .gallery-corner-tr { top: -0.3rem; right: -0.3rem; }
-  .gallery-corner-bl { bottom: -0.3rem; left: -0.3rem; }
-  .gallery-corner-br { bottom: -0.3rem; right: -0.3rem; }
+  .gallery-corner-tl {
+    top: -0.3rem;
+    left: -0.3rem;
+  }
+  .gallery-corner-tr {
+    top: -0.3rem;
+    right: -0.3rem;
+  }
+  .gallery-corner-bl {
+    bottom: -0.3rem;
+    left: -0.3rem;
+  }
+  .gallery-corner-br {
+    bottom: -0.3rem;
+    right: -0.3rem;
+  }
 
   .gallery-arrow {
     position: absolute;
@@ -565,40 +581,167 @@
      BACKGROUND DECORATIONS - Clouds, Butterflies, Macarons
      ============================================= */
 
-  .cloud-left-1 { top: 15%; left: -15%; width: 18rem; height: auto; }
-  .cloud-left-2 { bottom: 10%; left: -18%; width: 16rem; height: auto; transform: scaleX(-1); }
-  .cloud-left-3 { top: 50%; left: -12%; width: 15rem; height: auto; opacity: 0.65; }
-  .cloud-left-4 { top: 75%; left: -10%; width: 13rem; height: auto; opacity: 0.55; }
-  .cloud-right-1 { top: 20%; right: -15%; width: 18rem; height: auto; }
-  .cloud-right-2 { bottom: 15%; right: -18%; width: 17rem; height: auto; }
-  .cloud-right-3 { top: 60%; right: -12%; width: 14rem; height: auto; opacity: 0.65; }
-  .cloud-center-1 { top: 30%; left: 5%; width: 12rem; height: auto; opacity: 0.4; }
-  .cloud-center-2 { top: 65%; right: 8%; width: 13rem; height: auto; opacity: 0.4; }
-  .cloud-lower-left { bottom: 35%; left: -8%; width: 14rem; height: auto; opacity: 0.5; }
-  .cloud-lower-center { bottom: 40%; left: 48%; width: 13rem; height: auto; opacity: 0.45; }
-  .cloud-lower-right { bottom: 38%; right: -8%; width: 14rem; height: auto; opacity: 0.5; }
-  .cloud-bottom-1 { bottom: 5%; left: 40%; width: 13rem; height: auto; opacity: 0.45; }
+  .cloud-left-1 {
+    top: 15%;
+    left: -15%;
+    width: 18rem;
+    height: auto;
+  }
+  .cloud-left-2 {
+    bottom: 10%;
+    left: -18%;
+    width: 16rem;
+    height: auto;
+    transform: scaleX(-1);
+  }
+  .cloud-left-3 {
+    top: 50%;
+    left: -12%;
+    width: 15rem;
+    height: auto;
+    opacity: 0.65;
+  }
+  .cloud-left-4 {
+    top: 75%;
+    left: -10%;
+    width: 13rem;
+    height: auto;
+    opacity: 0.55;
+  }
+  .cloud-right-1 {
+    top: 20%;
+    right: -15%;
+    width: 18rem;
+    height: auto;
+  }
+  .cloud-right-2 {
+    bottom: 15%;
+    right: -18%;
+    width: 17rem;
+    height: auto;
+  }
+  .cloud-right-3 {
+    top: 60%;
+    right: -12%;
+    width: 14rem;
+    height: auto;
+    opacity: 0.65;
+  }
+  .cloud-center-1 {
+    top: 30%;
+    left: 5%;
+    width: 12rem;
+    height: auto;
+    opacity: 0.4;
+  }
+  .cloud-center-2 {
+    top: 65%;
+    right: 8%;
+    width: 13rem;
+    height: auto;
+    opacity: 0.4;
+  }
+  .cloud-lower-left {
+    bottom: 35%;
+    left: -8%;
+    width: 14rem;
+    height: auto;
+    opacity: 0.5;
+  }
+  .cloud-lower-center {
+    bottom: 40%;
+    left: 48%;
+    width: 13rem;
+    height: auto;
+    opacity: 0.45;
+  }
+  .cloud-lower-right {
+    bottom: 38%;
+    right: -8%;
+    width: 14rem;
+    height: auto;
+    opacity: 0.5;
+  }
+  .cloud-bottom-1 {
+    bottom: 5%;
+    left: 40%;
+    width: 13rem;
+    height: auto;
+    opacity: 0.45;
+  }
 
-  .butterfly { position: absolute; font-size: 4rem; opacity: 0.6 !important; pointer-events: none; z-index: 0; }
+  .butterfly {
+    position: absolute;
+    font-size: 4rem;
+    opacity: 0.6 !important;
+    pointer-events: none;
+    z-index: 0;
+  }
   .butterfly-left-5,
   .butterfly-left-6,
   .butterfly-left-7,
-  .butterfly-left-8 { display: none; }
+  .butterfly-left-8 {
+    display: none;
+  }
 
   /* Macaron decorations - smaller, pushed to sides, start lower but end at original positions */
-  .macaron-decor { width: 8rem !important; }
-  .macaron-top-right-1 { right: -25% !important; top: 35% !important; }
-  .macaron-top-right-2 { right: -28% !important; top: 37% !important; }
-  .macaron-top-right-3 { right: -26% !important; top: 39% !important; }
-  .macaron-bottom-left-stack-1 { left: -25% !important; top: 72% !important; }
-  .macaron-bottom-left-stack-2 { left: -23% !important; top: 76% !important; }
-  .macaron-bottom-left-stack-3 { left: -26% !important; top: 78% !important; }
-  .macaron-right-single-1 { right: -22% !important; top: 53% !important; }
-  .macaron-right-single-2 { right: -22% !important; top: 40% !important; }
-  .macaron-right-single-3 { right: -20% !important; top: 64% !important; }
-  .macaron-right-single-4 { right: -18% !important; top: 82% !important; }
-  .macaron-left-single-1 { left: -20% !important; top: 35% !important; }
-  .macaron-left-single-2 { left: -22% !important; top: 45% !important; }
-  .macaron-left-single-3 { left: -24% !important; top: 55% !important; }
-  .macaron-left-single-4 { left: -22% !important; top: 68% !important; }
+  .macaron-decor {
+    width: 8rem !important;
+  }
+  .macaron-top-right-1 {
+    right: -25% !important;
+    top: 35% !important;
+  }
+  .macaron-top-right-2 {
+    right: -28% !important;
+    top: 37% !important;
+  }
+  .macaron-top-right-3 {
+    right: -26% !important;
+    top: 39% !important;
+  }
+  .macaron-bottom-left-stack-1 {
+    left: -25% !important;
+    top: 72% !important;
+  }
+  .macaron-bottom-left-stack-2 {
+    left: -23% !important;
+    top: 76% !important;
+  }
+  .macaron-bottom-left-stack-3 {
+    left: -26% !important;
+    top: 78% !important;
+  }
+  .macaron-right-single-1 {
+    right: -22% !important;
+    top: 53% !important;
+  }
+  .macaron-right-single-2 {
+    right: -22% !important;
+    top: 40% !important;
+  }
+  .macaron-right-single-3 {
+    right: -20% !important;
+    top: 64% !important;
+  }
+  .macaron-right-single-4 {
+    right: -18% !important;
+    top: 82% !important;
+  }
+  .macaron-left-single-1 {
+    left: -20% !important;
+    top: 35% !important;
+  }
+  .macaron-left-single-2 {
+    left: -22% !important;
+    top: 45% !important;
+  }
+  .macaron-left-single-3 {
+    left: -24% !important;
+    top: 55% !important;
+  }
+  .macaron-left-single-4 {
+    left: -22% !important;
+    top: 68% !important;
+  }
 }
