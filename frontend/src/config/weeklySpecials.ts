@@ -138,6 +138,15 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_11(top-view).jpg",
     ],
   },
+  {
+    id: 12,
+    flavours: ["Red Velvet", "Chocolate", "Jasmine Tea"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_12.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_12(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_12(top-view).jpg",
+    ],
+  },
 ];
 
 /**
