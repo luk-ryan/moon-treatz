@@ -147,6 +147,17 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_12(top-view).jpg",
     ],
   },
+  {
+    id: 13,
+    flavours: ["Coconut", "Cookies and Cream", "Salted Caramel"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_13.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_13(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_13(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_13(top-view).jpg",
+      "/flavours/weekly_specials/weekly_special_13(side-view).jpg",
+    ],
+  },
 ];
 
 /**
