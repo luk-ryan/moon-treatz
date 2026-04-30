@@ -128,7 +128,7 @@ const WeeklyBox = () => {
               <br />
               <span className="flavour-title-main">FLAVOURS</span>
               <br />
-              <span className="order-note">[Apr 2-4]</span>
+              <span className="order-note">[Apr 23-25]</span>
             </h3>
             {/* Decorative divider line */}
             <div className="flavour-divider"></div>

@@ -158,6 +158,17 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_13(side-view).jpg",
     ],
   },
+  {
+    id: 14,
+    flavours: ["Mint Chocolate", "Pistachio", "Matcha"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_14.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_14(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_14(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_14(top-view).jpg",
+      "/flavours/weekly_specials/weekly_special_14(side-view).jpg",
+    ],
+  },
 ];
 
 /**
