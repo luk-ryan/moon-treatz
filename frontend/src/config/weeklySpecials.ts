@@ -179,6 +179,16 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_15(side-view).jpg",
     ],
   },
+  {
+    id: 16,
+    flavours: ["Strawberry Cheesecake", "Chocolate", "Mint Chocolate"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_16.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_16(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_16(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_16(side-view).jpg",
+    ],
+  },
 ];
 
 /**
