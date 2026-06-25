@@ -684,6 +684,50 @@ div > h1:first-child {
   pointer-events: none;
 }
 
+/* ---- Countdown segments inside disabled button ---- */
+.countdown-segments {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.countdown-seg {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  width: 2.8ch;
+}
+
+.countdown-val {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-500);
+  font-weight: 700;
+  color: #999;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.countdown-lbl {
+  font-family: var(--ff-base);
+  font-size: var(--fs-200);
+  color: #555;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+.countdown-colon {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-500);
+  color: #444;
+  align-self: flex-start;
+  padding-top: 0.05em;
+  letter-spacing: 0;
+}
+
 /* NKS student pre-order button - two-line layout */
 .pre-order-button-nks-student {
   font-size: var(--fs-400);

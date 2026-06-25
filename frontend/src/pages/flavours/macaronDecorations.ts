@@ -4,7 +4,7 @@
  * Configuration for floating macaron decorations in the flavours page.
  */
 
-import type { MacaronDecor } from "../types/types";
+import type { MacaronDecor } from "../../types/types";
 
 // Re-export the type (vs-code error workaround)
 export type { MacaronDecor };

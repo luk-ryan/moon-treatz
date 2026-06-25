@@ -4,6 +4,7 @@
 header {
   margin-block: 2rem;
   position: relative;
+  text-align: center;
 }
 .title-container {
   position: relative;

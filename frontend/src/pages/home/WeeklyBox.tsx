@@ -14,11 +14,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getLatestSpecial } from "../../config/weeklySpecials";
-import OrderButton from "../../components/OrderButton";
-import {
-  preOrderFormLink,
-  studentPreOrderFormLink,
-} from "../../config/preOrderForm";
+import WeeklyOrderButtons from "../../components/home/WeeklyOrderButtons";
 
 // Get the latest weekly special (auto-updates when new specials are added)
 const latestSpecial = getLatestSpecial();
@@ -49,16 +45,7 @@ const WeeklyBox = () => {
       </p>
 
       {/* Pre-Order Form Button Section */}
-      <div className="weekly-order-buttons">
-        <OrderButton href={preOrderFormLink}>Pre-Order Form</OrderButton>
-        <OrderButton
-          href={studentPreOrderFormLink}
-          className="pre-order-button-nks-student"
-        >
-          <span>NKS STUDENT</span>
-          <span>PRE-ORDER FORM</span>
-        </OrderButton>
-      </div>
+      <WeeklyOrderButtons />
 
       {/* Schedule + pre-order info above buttons */}
       <div className="weekly-info">

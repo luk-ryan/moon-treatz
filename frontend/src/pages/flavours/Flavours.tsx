@@ -23,7 +23,7 @@ import FlavourCard from "./FlavourCard";
 import WeeklyGallery from "./WeeklyGallery";
 import type { FlavourCardProps } from "../../types/types";
 import { pageTransition, viewModeTransition } from "../../config/animations";
-import { macaronDecorations } from "../../config/macaronDecorations";
+import { macaronDecorations } from "./macaronDecorations";
 
 /**
  * Flavours Data Configuration

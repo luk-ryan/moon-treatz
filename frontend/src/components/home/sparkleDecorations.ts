@@ -4,7 +4,7 @@
  * Configuration for sparkle decorations displayed across all pages.
  */
 
-import type { SparkleDecor } from "../types/types";
+import type { SparkleDecor } from "../../types/types";
 
 // Re-export the type (vs-code error workaround)
 export type { SparkleDecor };
@@ -13,13 +13,6 @@ export type { SparkleDecor };
  * Sparkle Decorations Array
  * =========================
  * Contains all sparkle decoration configurations organized by position.
- * Total: 31 sparkles across the page.
- * 
- * Organization:
- * - Left side: 11 sparkles
- * - Right side: 12 sparkles
- * - Center top: 4 sparkles
- * - Bottom: 4 sparkles
  */
 export const sparkleDecorations: SparkleDecor[] = [
   // Left side sparkles (11 total)

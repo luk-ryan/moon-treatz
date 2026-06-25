@@ -25,7 +25,7 @@
 import MenuItem from "./MenuItem";
 import type { MenuItemProps } from "../../types/types";
 import { useState } from "react";
-import OrderButton from "../../components/OrderButton";
+import OrderButton from "../../components/home/OrderButton";
 
 /**
  * Menu Items Configuration
@@ -64,7 +64,7 @@ export const Menu = () => {
 
       {/* Order Now button */}
       <div style={{ display: "flex", justifyContent: "center", margin: "2rem 0" }}>
-        <OrderButton href="https://forms.gle/RW8MFNAEVEbrfEg5A">Order Now</OrderButton>
+        <OrderButton href="/pre-order">Order Now</OrderButton>
       </div>
 
       {/* Narrow wrapper */}
@@ -139,7 +139,7 @@ export const Menu = () => {
                           rel="noopener noreferrer"
                           className="order-link"
                         >
-                          <span>Thornhill Woods Area</span>
+                          <span>Thornhill Woods</span>
                         </a>
                       </li>
                       <li>

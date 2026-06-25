@@ -31,7 +31,7 @@ const Contact = () => {
           rel="noopener noreferrer" // Security: prevent access to window.opener
           className="text-link"
         >
-          Thornhill Woods Area
+          Thornhill Woods
         </a>
         .
       </p>

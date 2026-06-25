@@ -9,6 +9,7 @@
 @import "./layout/layout.css";
 @import "./pages/home.css";
 @import "./pages/flavours.css";
+@import "./pages/preorder.css";
 
 /* Mobile responsive styles */
 @import "./mobile/mobile.css";

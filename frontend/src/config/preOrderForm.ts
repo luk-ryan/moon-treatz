@@ -1,85 +1,69 @@
 /**
  * Pre-Order Form Configuration
  * ============================
- * Stores the current pre-order form link and manages availability based on schedule.
+ * Controls when the pre-order form is open.
  *
- * Pre-order forms are automatically available:
- * - Opens: Friday
- * - Closes: Sunday at 11:59 PM
- *
- * To update the form link:
- * 1. Update the `preOrderFormLink` with the new Google Form URL
- * 2. The button will automatically show/hide based on the current day/time
- *
- * To manually disable (override schedule):
- * 1. Set `preOrderFormLink` to an empty string ""
- * 2. The button will be disabled regardless of the schedule
+ * HOW IT WORKS
+ * ------------
+ * 1. Set `preOrderOpenDate` to the date the form should automatically open.
+ *    A countdown timer will show on the site until that date arrives.
+ * 2. Once the date passes the form opens automatically and stays open.
+ * 3. To manually close the form at any time, set `preOrderClosed` to true.
+ * 4. To re-open, set `preOrderClosed` back to false (and update `preOrderOpenDate`
+ *    to the next opening date if you want a new countdown).
  */
 
 /**
- * Current Pre-Order Form Link
- * ===========================
+ * Pre-Order Open Date
+ * ===================
+ * The date the form automatically opens. Used for the countdown timer.
+ * Format: "YYYY-MM-DD"
  */
-export const preOrderFormLink: string = "https://forms.gle/dCND7XRjPyyCJyg97";
+export const preOrderOpenDate: string = "2026-06-03";
 
 /**
- * NKS Student Pre-Order Form Link
- * ================================
- * Special pre-order form for NKS students
- */
-export const studentPreOrderFormLink: string =
-  "https://forms.gle/2s1Zb8EQiXrzdJkq5";
-
-/**
- * Force Enable Override
+ * Manual Close Override
  * =====================
- * For Debugging purposes, set to true to always enable the pre-order form button.
+ * Set to true to close the form immediately regardless of the open date.
  */
-const forceEnable: boolean = false;
+export const preOrderClosed: boolean = false;
 
 /**
- * Check if current time is within pre-order window
- * =================================================
- * Pre-order window: Friday 6:00 PM - Sunday 11:59 PM
+ * Returns time remaining until preOrderOpenDate as { days, hours, minutes, seconds, total }.
+ * `total` is milliseconds remaining (0 when the date has passed / form is open).
  */
-// const isWithinPreOrderWindow = (): boolean => {
-//   const now = new Date();
-//   const dayOfWeek = now.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
-
-//   // All day Friday
-//   if (dayOfWeek === 5) {
-//     return true;
-//   }
-
-//   // All day Saturday
-//   if (dayOfWeek === 6) {
-//     return true;
-//   }
-
-//   // All day Sunday
-//   if (dayOfWeek === 0) {
-//     return true;
-//   }
-
-//   return false;
-// };
+export const getTimeUntilNextRelease = () => {
+  const release = new Date(preOrderOpenDate);
+  release.setHours(0, 0, 0, 0);
+  const total = Math.max(0, release.getTime() - Date.now());
+  const s = Math.floor(total / 1000);
+  return {
+    days: Math.floor(s / 86400),
+    hours: Math.floor((s % 86400) / 3600),
+    minutes: Math.floor((s % 3600) / 60),
+    seconds: s % 60,
+    total,
+  };
+};
 
 /**
- * Helper function to check if pre-order form is available
- * ========================================================
- * Form is available when:
- * - forceEnable is true (always enabled for debugging, OR
- * - (A form link is provided AND current time is within Friday 6PM - Sunday 11:59PM)
+ * Returns true when the pre-order form should be accessible:
+ * - not manually closed, AND
+ * - the open date has been reached
  */
 export const isPreOrderFormAvailable = (): boolean => {
-  return forceEnable || preOrderFormLink.trim().length > 0;
+  if (preOrderClosed) return false;
+  return Date.now() >= new Date(preOrderOpenDate).getTime();
 };
 
 /**
- * Helper function to check if student pre-order form is available
- * ===============================================================
- * Student form is always available when a link is provided
+ * Catering Blocked Dates
+ * ======================
+ * Dates that are NOT available for catering orders.
+ * Format: "YYYY-MM-DD"
+ * Past dates are automatically disabled — only add future unavailable dates here.
+ * Prob won't be used for a bit.
  */
-export const isStudentPreOrderFormAvailable = (): boolean => {
-  return forceEnable || studentPreOrderFormLink.trim().length > 0;
-};
+export const cateringBlockedDates: string[] = [
+  // e.g. "2026-04-18",
+];

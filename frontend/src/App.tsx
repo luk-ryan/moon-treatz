@@ -19,37 +19,18 @@
 // ROUTING & NAVIGATION
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
-// ANIMATION LIBRARY
-import { motion } from "framer-motion";
-
-// HOOKS
-import { useIsMobile } from "./hooks/useIsMobile";
-
 // COMPONENTS
 import ScrollToTop from "./components/ScrollToTop";
+import HomeDecorations from "./components/home/HomeDecorations";
 
 // PAGES
 import Home from "./pages/home/Home";
 import Flavours from "./pages/flavours/Flavours";
+import PreOrder from "./pages/preorder/PreOrder";
 
 // LAYOUTS
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
-
-// ANIMATION CONFIGURATIONS
-import { butterflyEntrance, butterflyTransition } from "./config/animations";
-
-// DECORATION CONFIGURATIONS
-import { 
-  leftButterflies, 
-  rightButterflies, 
-  butterflyYValues, 
-  butterflyScaleX, 
-  butterflyRotate,
-  type ButterflyDecor 
-} from "./config/butterflyDecorations";
-import { cloudDecorations, type CloudDecor } from "./config/cloudDecorations";
-import { sparkleDecorations, type SparkleDecor } from "./config/sparkleDecorations";
 
 // GLOBAL STYLES
 import "./styles/index.css";
@@ -61,10 +42,7 @@ import "./styles/index.css";
 function AppContent() {
   // Get current route location from React Router
   const location = useLocation();
-  
-  // Check if viewport is mobile (600px or below)
-  const isMobile = useIsMobile();
-  
+
   // Determine if we're on the home page to conditionally render decorations
   const isHomePage = location.pathname === "/";
 
@@ -76,86 +54,7 @@ function AppContent() {
         Butterflies, clouds, and sparkles only appear on the home page.
         Macarons are rendered separately in the Flavours page component.
       */}
-      {isHomePage && (
-        <>
-          {/* LEFT BUTTERFLY TRAIL */}
-          {leftButterflies.map((butterfly: ButterflyDecor, index: number) => (
-            isMobile ? (
-              <span
-                key={`left-${index}`}
-                className={`butterfly ${butterfly.className}`}
-              >
-                🦋
-              </span>
-            ) : (
-              <motion.span
-                key={`left-${index}`}
-                className={`butterfly ${butterfly.className}`}
-                {...butterflyEntrance}
-                animate={{
-                  x: butterfly.xValues,
-                  y: butterflyYValues,
-                  scaleX: butterflyScaleX,
-                  rotate: butterflyRotate,
-                  transition: butterflyTransition(butterfly.delay)
-                }}
-              >
-                🦋
-              </motion.span>
-            )
-          ))}
-          
-          {/* RIGHT BUTTERFLY TRAIL */}
-          {rightButterflies.map((butterfly: ButterflyDecor, index: number) => (
-            isMobile ? (
-              <span
-                key={`right-${index}`}
-                className={`butterfly ${butterfly.className}`}
-              >
-                🦋
-              </span>
-            ) : (
-              <motion.span
-                key={`right-${index}`}
-                className={`butterfly ${butterfly.className}`}
-                {...butterflyEntrance}
-                animate={{
-                  x: butterfly.xValues,
-                  y: butterflyYValues,
-                  scaleX: butterflyScaleX,
-                  rotate: butterflyRotate,
-                  transition: butterflyTransition(butterfly.delay)
-                }}
-              >
-                🦋
-              </motion.span>
-            )
-          ))}
-
-          {/* FLOATING CLOUDS */}
-          {cloudDecorations.map((cloud: CloudDecor, index: number) => (
-            <motion.img 
-              key={index}
-              src={cloud.src}
-              className={cloud.className}
-              animate={isMobile ? {} : cloud.animate}
-              transition={isMobile ? {} : cloud.transition}
-            />
-          ))}
-
-          {/* CELESTIAL SPARKLES */}
-          {sparkleDecorations.map((sparkle: SparkleDecor, index: number) => (
-            <motion.span 
-              key={index}
-              className={sparkle.className}
-              animate={isMobile ? {} : sparkle.animate}
-              transition={isMobile ? {} : sparkle.transition}
-            >
-              {sparkle.character}
-            </motion.span>
-          ))}
-        </>
-      )}
+      {isHomePage && <HomeDecorations />}
         
 
       {/* MAIN APPLICATION STRUCTURE */}
@@ -178,6 +77,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/flavours" element={<Flavours />} />
+            <Route path="/pre-order" element={<PreOrder />} />
           </Routes>
         </div>
         
