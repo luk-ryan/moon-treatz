@@ -189,6 +189,16 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_16(side-view).jpg",
     ],
   },
+  {
+    id: 17,
+    flavours: ["Salted Caramel", "Coffee", "Coconut"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_17.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_17(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_17(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_17(side-view).jpg",
+    ],
+  },
 ];
 
 /**
