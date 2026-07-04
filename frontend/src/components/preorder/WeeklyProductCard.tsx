@@ -3,14 +3,14 @@
  * =================
  * Product card for the Weekly Special Box on the cart step.
  *
- * Available state:  shows the quantity Stepper.
- * Unavailable state: shows a "Closed" badge + live countdown (or static label
- *                    if no release date is configured).
+ * Available state:  shows the LIMITED TIME badge + quantity Stepper.
+ * Unavailable state: shows a CLOSED badge + live countdown (or static label if no release date is set).
  */
 
 import CountdownTimer from "../CountdownTimer";
 import Stepper from "./primitives/Stepper";
 import { getTimeUntilNextRelease } from "../../config/preOrderForm";
+import { motion } from "framer-motion";
 
 interface WeeklyProductCardProps {
   isAvailable: boolean;
@@ -26,6 +26,18 @@ const WeeklyProductCard = ({ isAvailable, qty, onChange, flavours }: WeeklyProdu
   if (isAvailable) {
     return (
       <div className={`preorder-product-card${qty > 0 ? " preorder-card-active" : ""}`}>
+        <motion.div
+          className="limited-time-badge-wrap"
+          aria-label="Limited time offer"
+          initial={{ scale: 0, rotate: -20 }}
+          animate={{ scale: 1, rotate: 8 }}
+          transition={{ type: "spring", stiffness: 260, damping: 14, delay: 0.2 }}
+        >
+          <div className="limited-time-badge">
+            <span>LIMITED</span>
+            <span>TIME</span>
+          </div>
+        </motion.div>
         <div className="preorder-product-img-wrap">
           <img src="/form/WeeklyBox2.jpg" alt="Weekly Special Box" className="preorder-product-img" />
         </div>

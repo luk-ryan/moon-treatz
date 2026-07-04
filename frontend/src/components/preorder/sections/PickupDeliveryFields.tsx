@@ -49,7 +49,7 @@ const PickupDeliveryFields = ({
         onChange={onPickupMethodChange}
         options={[
           { value: "pickup",   label: "Pickup"},
-          { value: "delivery", label: "Delivery", sublabel: "extra fee of $4–$10 based on location" },
+          { value: "delivery", label: "Delivery", sublabel: "$4 base fee + $0.50/km beyond 10 km" },
         ]}
       />
     </FormField>
@@ -72,7 +72,7 @@ const PickupDeliveryFields = ({
       <>
         <div className="preorder-delivery-notice">
           <p>Delivery is available within <strong>Vaughan, North York, or Richmond Hill</strong> only.</p>
-          <p>An extra fee of <strong>$4–$10</strong> applies based on location.</p>
+          <p>A <strong>$4 base fee</strong> applies, plus <strong>$0.50 per km</strong> beyond 10 km from our location.</p>
         </div>
         <FormField label="Delivery Address" htmlFor={`${idPrefix}-deliveryAddress`} required error={errors.deliveryAddress}>
           <Input

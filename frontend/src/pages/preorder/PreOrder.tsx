@@ -809,8 +809,14 @@ const PreOrder = () => {
                 html: `<tr style="border-bottom:1px solid #ede5d0;"><td style="padding:0.75rem 0;font-size:0.95rem;color:#1a1408;"><strong style="font-size:1rem;">${i.label} &times; ${i.qty}</strong>${flavoursHtml}</td><td style="padding:0.75rem 0;font-size:1rem;color:#c9a227;text-align:right;white-space:nowrap;font-weight:bold;">$${i.qty * i.unitPrice}</td></tr>`,
               };
             });
-            const orderSummary = orderItems.map(r => r.text).join("\n") + `\n\nSubtotal: $${cartEstimate}`;
-            const order_summary_html = `<table style="width:100%;border-collapse:collapse;">${orderItems.map(r => r.html).join("")}<tr><td colspan="2"><table style="width:100%;border-collapse:collapse;border-top:2px solid #c9a227;margin-top:0.5rem;"><tr><td style="padding:0.5rem 0 0 0;font-size:1.05rem;color:#c9a227;text-align:right;letter-spacing:0.02em;"><strong>Subtotal: $${cartEstimate}</strong></td></tr></table></td></tr></table>`;
+            const deliveryFeeRow = form.pickupMethod === "delivery"
+              ? `\nDelivery Fee: ~$4+ (based on distance)`
+              : "";
+            const deliveryFeeHtml = form.pickupMethod === "delivery"
+              ? `<tr style="border-bottom:1px solid #ede5d0;"><td style="padding:0.75rem 0;font-size:0.95rem;color:#1a1408;"><strong style="font-size:1rem;">Delivery Fee</strong><br/><span style="font-size:0.75rem;color:#888;font-style:italic;">$4 base + $0.50/km beyond 10 km</span></td><td style="padding:0.75rem 0;font-size:1rem;color:#c9a227;text-align:right;white-space:nowrap;font-weight:bold;">~$4+</td></tr>`
+              : "";
+            const orderSummary = orderItems.map(r => r.text).join("\n") + deliveryFeeRow + `\n\nSubtotal: $${cartEstimate} + Delivery fee`;
+            const order_summary_html = `<table style="width:100%;border-collapse:collapse;">${orderItems.map(r => r.html).join("")}${deliveryFeeHtml}<tr><td colspan="2"><table style="width:100%;border-collapse:collapse;border-top:2px solid #c9a227;margin-top:0.5rem;"><tr><td style="padding:0.5rem 0 0 0;font-size:1.05rem;color:#c9a227;text-align:right;letter-spacing:0.02em;"><strong>Subtotal: $${cartEstimate}${form.pickupMethod === "delivery" ? " + Delivery fee" : ""}</strong></td></tr></table></td></tr></table>`;
 
             /* Human-readable schedule line for the email body */
             let schedule = "Not specified";

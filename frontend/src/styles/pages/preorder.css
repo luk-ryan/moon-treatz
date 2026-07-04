@@ -1010,7 +1010,8 @@
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--clr-gold-700);
   border-radius: 0.5rem;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
   transition: border-color 0.2s, background 0.2s;
 }
 
@@ -1034,18 +1035,28 @@
 
 .preorder-unavailable-badge {
   position: absolute;
-  top: -0.6rem;
+  top: -1rem;
   right: 0.75rem;
-  background: rgba(30, 5, 5, 0.95);
-  border: 1px solid #8b1a1a;
-  color: #e74c3c;
+  background: linear-gradient(135deg, #1a0000, #3a0000);
+  border: 1.5px solid #c0392b;
+  color: #ff6b6b;
   font-family: var(--ff-accent);
-  font-size: var(--fs-000, 0.6rem);
-  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  padding: 0.2rem 0.6rem;
+  padding: 0.35rem 0.9rem;
   border-radius: 999px;
   z-index: 2;
+  box-shadow:
+    0 0 0.5rem rgba(192, 57, 43, 0.6),
+    0 0 1.25rem rgba(192, 57, 43, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: unavailablePulse 2.5s ease-in-out infinite;
+}
+@keyframes unavailablePulse {
+  0%, 100% { box-shadow: 0 0 0.5rem rgba(192, 57, 43, 0.6), 0 0 1.25rem rgba(192, 57, 43, 0.3), inset 0 1px 0 rgba(255,255,255,0.05); }
+  50%       { box-shadow: 0 0 0.8rem rgba(231, 76, 60, 0.9), 0 0 2rem rgba(192, 57, 43, 0.55), inset 0 1px 0 rgba(255,255,255,0.05); }
 }
 
 .preorder-product-card-unavailable .countdown-segments {
@@ -1088,7 +1099,76 @@
   width: 100%;
   display: block;
   overflow: hidden;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
+
+/* LIMITED TIME badge — wrapper handles position + glow, inner handles clip-path */
+.limited-time-badge-wrap {
+  position: absolute;
+  top: -1.6rem;
+  right: -1.6rem;
+  z-index: 12;
+  width: 8rem;
+  height: 8rem;
+  pointer-events: none;
+  user-select: none;
+  animation: ltBadge 3s ease-in-out infinite;
+  will-change: filter;
+}
+.limited-time-badge {
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 0deg,
+    #5a0000 0deg,   #c0392b 22deg,
+    #7a0000 45deg,  #e74c3c 67deg,
+    #5a0000 90deg,  #c0392b 112deg,
+    #7a0000 135deg, #e74c3c 157deg,
+    #5a0000 180deg, #c0392b 202deg,
+    #7a0000 225deg, #e74c3c 247deg,
+    #5a0000 270deg, #c0392b 292deg,
+    #7a0000 315deg, #e74c3c 337deg,
+    #5a0000 360deg
+  );
+  clip-path: polygon(
+    50%  0%,  65% 13%, 85% 15%, 87% 35%,
+    100% 50%, 87% 65%, 85% 85%, 65% 87%,
+    50% 100%, 35% 87%, 15% 85%, 13% 65%,
+    0%  50%,  13% 35%, 15% 15%, 35% 13%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.limited-time-badge span {
+  font-family: var(--ff-accent);
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+@keyframes ltBadge {
+  0%, 100% {
+    filter: drop-shadow(0 0 0.5rem rgba(192, 57, 43, 0.6)) drop-shadow(0 0 1.25rem rgba(192, 57, 43, 0.3));
+    scale: 1;
+    rotate: 8deg;
+  }
+  50% {
+    filter: drop-shadow(0 0 0.8rem rgba(231, 76, 60, 0.9)) drop-shadow(0 0 2rem rgba(192, 57, 43, 0.55));
+    scale: 1.07;
+    rotate: 12deg;
+  }
+}
+
 
 .preorder-product-img-wrap::after {
   content: '';
@@ -1109,6 +1189,23 @@
 
 .preorder-product-img-wrap--unavailable .preorder-product-img {
   filter: grayscale(100%) brightness(0.8);
+}
+
+/* ---- Badge mobile sizing ---- */
+@media screen and (max-width: 480px) {
+  .limited-time-badge-wrap {
+    width: 6rem;
+    height: 6rem;
+    top: -1.1rem;
+    right: -1.1rem;
+  }
+  .limited-time-badge span {
+    font-size: 0.65rem;
+  }
+  .preorder-unavailable-badge {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.65rem;
+  }
 }
 
 .preorder-product-card-unavailable .countdown-segments {
