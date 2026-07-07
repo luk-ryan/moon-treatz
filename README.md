@@ -6,7 +6,8 @@ Business website for Moon Treatz, a French macaron bakery based in Vaughan, ON o
 
 ## Tech Stack
 
-|------------|---------------------------------------|
+| | |
+|---|---|
 | Framework  | React 19 + TypeScript 5.8             |
 | Build      | Vite 7                                |
 | Routing    | React Router DOM 7                    |
