@@ -10,7 +10,7 @@
   position: absolute;
   font-size: 5rem;
   pointer-events: none;
-  z-index: 0;
+  z-index: 10;
 }
 .butterfly-left-1 {
   top: 16%;
@@ -348,7 +348,7 @@
 .cloud-image {
   position: absolute;
   pointer-events: none;
-  z-index: 0;
+  z-index: 10;
   opacity: 0.75;
   mix-blend-mode: screen;
   filter: blur(0.2rem) drop-shadow(0 0.5rem 1rem var(--shadow-dark))

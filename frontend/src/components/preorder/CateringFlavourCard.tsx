@@ -6,11 +6,7 @@
 
 import FormField from "./primitives/FormField";
 import CheckboxGroup from "./primitives/CheckboxGroup";
-
-const ALL_FLAVOURS = [
-  "Vanilla", "Chocolate", "Matcha", "Cookies and Cream",
-  "Salted Caramel", "Red Velvet", "Pistachio", "Coffee", "Lemon", "Strawberry",
-];
+import { ALL_FLAVOURS } from "../../config/flavours";
 
 interface PackageFlavourState {
   mode: "same" | "different";

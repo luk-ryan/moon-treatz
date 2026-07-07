@@ -1,15 +1,17 @@
 /**
  * PreOrder
  * ========
- *   1. Cart            always shown — select weekly box qty and/or catering packages
- *   2. Flavours        catering only — pick flavours per package (skipped for weekly-only)
- *   3. Contact         always shown — name, email, phone, instagram, NKS toggle
- *   4. Schedule        shown if anything is in the cart:
+ * ── Steps ─────────────────────────────────────────────────────────────────────
+
+ *   1. Cart            ALWAYS SHOWN — select weekly box qty and/or catering packages
+ *   2. Flavours        CATERING ONLY — pick flavours per package (skipped for weekly-only)
+ *   3. Contact         ALWAYS SHOWN — name, email, phone, instagram, NKS toggle
+ *   4. Schedule        SHOWN IF ANYTHING IS IN THE CART:
  *                        weekly cart  → "nks-schedule" step  (OrderCalendar mode="weekly")
  *                        catering only → "catering-date" step (OrderCalendar mode="catering")
- *   5. Payment         always shown — cash or e-transfer, notes
- *   6. Review/Submit   review modal overlays the payment step; on confirm, fires emailjs
- *   7. Confirmation    replaces the entire page after a successful send
+ *   5. Payment         ALWAYS SHOWN — cash or e-transfer, notes
+ *   6. Review/Submit   REVIEW MODAL OVERLAYS THE PAYMENT STEP; ON CONFIRM, FIRES EMAILJS
+ *   7. Confirmation    REPLACES THE ENTIRE PAGE AFTER A SUCCESSFUL SEND
  *
  * ── NKS mode ─────────────────────────────────────────────────────────────────
  *
@@ -46,37 +48,16 @@ import WeeklyProductCard from "../../components/preorder/WeeklyProductCard";
 import CartSummaryPanel from "../../components/preorder/CartSummaryPanel";
 import CateringFlavourCard from "../../components/preorder/CateringFlavourCard";
 import ReviewModal from "../../components/preorder/ReviewModal";
+import { useCart } from "../../context/CartContext";
+import { CATERING_SIZES, CATERING_IMAGES, PICKUP_LOCATIONS } from "../../config/catering";
 
 const latestSpecial = getLatestSpecial();
 const weeklyAvailable = isPreOrderFormAvailable();
 
-/* ── Catering package sizes ────────────────────── */
-const CATERING_SIZES = [
-  { key: "c20" as const, label: "20 Macarons", flavourCount: "2 flavours", price: "$35", unitPrice: 35, maxFlavours: 2 },
-  { key: "c30" as const, label: "30 Macarons", flavourCount: "3 flavours", price: "$50", unitPrice: 50, maxFlavours: 3 },
-  { key: "c60" as const, label: "60 Macarons", flavourCount: "3 flavours", price: "$95", unitPrice: 95, maxFlavours: 3 },
-  { key: "c90" as const, label: "90 Macarons", flavourCount: "3 flavours", price: "$135", unitPrice: 135, maxFlavours: 3 },
-];
+// CATERING_SIZES, CATERING_IMAGES, PICKUP_LOCATIONS — all imported from config/catering.ts above
 
-const CATERING_IMAGES: Partial<Record<string, string>> = {
-  c20: "/form/CateringBox_20.jpg",
-  c30: "/form/CateringBox_30.jpg",
-  c60: "/form/CateringBox_60.jpg",
-  c90: "/form/CateringBox_90.jpg"
-};
-
-
-/* ── Available pickup locations ─────────────────── */
-const PICKUP_LOCATIONS = [
-  { value: "thornhill-woods", label: "Thornhill Woods", sublabel: "exact location given later" },
-  // { value: "york-university",  label: "York University" },
-];
-
-/* ── Cart state ─────────────────────────────────── */
-type CartState = { weekly: number; c20: number; c30: number; c60: number; c90: number };
-const CART_INIT: CartState = { weekly: 0, c20: 0, c30: 0, c60: 0, c90: 0 };
-
-/* ── Per-package catering flavour selections ────── */
+/* Catering flavour selections
+   ═══════════════════════════ */
 // mode "same"      → boxes[0] applies to all boxes of that package type
 // mode "different" → boxes[i] applies to the i-th box (length = cart qty)
 type PackageFlavourState = { mode: "same" | "different"; boxes: string[][] };
@@ -86,7 +67,8 @@ const CATERING_FLAVOURS_INIT: CateringFlavours = {
   c20: makePkgFlavours(), c30: makePkgFlavours(), c60: makePkgFlavours(), c90: makePkgFlavours(),
 };
 
-/* ── Unified order form state ───────────────────── */
+/* Order form state
+   ════════════════ */
 type OrderForm = {
   // Weekly-specific
   orderType: string; pickupDate: string;
@@ -105,7 +87,8 @@ const FORM_INIT: OrderForm = {
   paymentMethod: "", etransferEmail: "", agreedToTerms: false,
 };
 
-/* ── Step breadcrumb / progress indicator ───────────────────────────────────
+/* Step Breadcrumb / Progress Indicator
+   ═════════════════════════════════════
    Rendered at the top of every step. Buttons are disabled until that step has been visited;
    Past steps stay permanently clickable for back-navigation. */
 const FormStepHeader = ({
@@ -140,7 +123,8 @@ const FormStepHeader = ({
   );
 };
 
-/* ── Shared step page template ─────────────────────────────────────────────── */
+/* Shared step page template
+   ════════════════════════ */
 const StepPage = ({ children }: { children: React.ReactNode }) => (
   <motion.div className="wrapper" {...pageTransition}>
     <div className="text-center preorder-page preorder-page-wide">
@@ -151,9 +135,10 @@ const StepPage = ({ children }: { children: React.ReactNode }) => (
 );
 
 const PreOrder = () => {
-  /* ── Component state ── */
+  /* Component state
+     ══════════════ */
   const [step, setStep] = useState<"cart" | "catering-details" | "form" | "nks-schedule" | "catering-date" | "payment">("cart"); // current wizard step
-  const [cart, setCart] = useState<CartState>(CART_INIT);                                    // item quantities
+  const { cart, setCart, clearCart } = useCart();                                             // global cart (persisted, shared with badge)
   const [cateringFlavours, setCateringFlavours] = useState<CateringFlavours>(CATERING_FLAVOURS_INIT); // per-package flavour picks
   const [flavourErrors, setFlavourErrors] = useState<Partial<Record<keyof CateringFlavours, string>>>({}); // catering flavour validation errors
   const [form, setForm] = useState<OrderForm>(FORM_INIT);                                    // contact / scheduling / payment fields
@@ -162,7 +147,8 @@ const PreOrder = () => {
   const [showReview, setShowReview] = useState(false);                                       // controls the review-and-confirm modal
   const [visitedSteps, setVisitedSteps] = useState<Set<string>>(new Set(["cart"]));          // every step the user has reached
 
-  /* ── Scroll to first error ───────────────────────────────────────────────
+  /* Scroll to first error
+     ═════════════════════
      Fires whenever errors or flavourErrors update.
      If any error is present, scrolls the first .preorder-error element into view. */
   useEffect(() => {
@@ -172,7 +158,18 @@ const PreOrder = () => {
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [errors, flavourErrors]);
 
-  /* ── Track visited steps ──────────────────────────────────────────────────
+  /* Scroll to catering section if navigated via #catering hash
+     ═══════════════════════════════════════════════════════════ */
+  useEffect(() => {
+    if (window.location.hash === "#catering") {
+      setTimeout(() => {
+        document.getElementById("catering")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, []);
+
+  /* Track visited steps
+     ═══════════════════
      Adds the current step to visitedSteps on every step change. */
   useEffect(() => {
     setVisitedSteps(s => new Set([...s, step]));
@@ -180,9 +177,10 @@ const PreOrder = () => {
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [step]);
 
-  /* ── Invalidate Flavours breadcrumb on catering cart change ───────────────
+  /* Invalidate Flavours breadcrumb on Catering Cart change
+     ════════════════════════════════════════════════════════
      If the user goes back and changes catering quantities,
-     prior flavour selections may no longer be valid (e.g. a package was removed).*/
+     prior flavour selections may no longer be valid (e.g. a package was removed). */
   useEffect(() => {
     setVisitedSteps(s => {
       if (!s.has("catering-details")) return s;
@@ -192,12 +190,16 @@ const PreOrder = () => {
     });
   }, [cart.c20, cart.c30, cart.c60, cart.c90]);
 
-  /* ── Cart-derived booleans ─────────────────────────────────────────────────
+  /* Cart-derived booleans
+     ═════════════════════
      Used throughout to gate steps, fields, and error messages. */
   const cartTotal = Object.values(cart).reduce((a, b) => a + b, 0);
   const hasWeekly   = cart.weekly > 0;
   const hasCatering = cart.c20 + cart.c30 + cart.c60 + cart.c90 > 0;
   const isNks = form.orderType === "nks-student";
+
+  /* Derived values
+     ═══════════════ */
 
   /* Breadcrumb steps — derived from cart so they stay accurate across the flow */
   const formSteps = [
@@ -212,17 +214,18 @@ const PreOrder = () => {
   /* Catering packages that are actually in the cart */
   const activeCateringPackages = CATERING_SIZES.filter(s => cart[s.key] > 0);
 
-  /* Flat list of cart line-items used for display and email summary */
+  /* List of cart line-items used for subtotal display and email summary */
   const cartLineItems = [
     ...(cart.weekly > 0 ? [{ label: "Weekly Special Box", qty: cart.weekly, unitPrice: 12 }] : []),
     ...CATERING_SIZES
       .filter(s => cart[s.key] > 0)
       .map(s => ({ label: s.label, qty: cart[s.key], unitPrice: s.unitPrice })),
   ];
-  /* Estimated dollar total — shown as a subtotal, not a final invoice */
+  /* Estimated dollar total — shown as a subtotal */
   const cartEstimate = cartLineItems.reduce((sum, item) => sum + item.qty * item.unitPrice, 0);
 
-  /* ── Form change handler ───────────────────────────────────────────────────
+  /* Form change handler
+     ═══════════════════
      Single handler for all text/select/textarea inputs.
      Clears the matching error as soon as the user starts correcting it. */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -231,7 +234,8 @@ const PreOrder = () => {
     setErrors(p => ({ ...p, [name]: undefined }));
   };
 
-  /* ── Flavour mode change ───────────────────────────────────────────────────
+  /* Flavour mode change
+     ═══════════════════
      Switching between "same" and "different" resets boxes. */
   const handleFlavourModeChange = (key: keyof CateringFlavours, mode: "same" | "different", qty: number) => {
     setCateringFlavours(p => ({
@@ -244,7 +248,8 @@ const PreOrder = () => {
     setFlavourErrors(p => ({ ...p, [key]: undefined }));
   };
 
-  /* ── handleFlavourChange ─────────────────────────────────────────────────── 
+  /* Flavour selection change
+     ════════════════════════
      Replaces only the element at boxIndex, leaving all other boxes intact. */
   const handleFlavourChange = (key: keyof CateringFlavours, boxIndex: number, selected: string[]) => {
     setCateringFlavours(p => {
@@ -255,7 +260,8 @@ const PreOrder = () => {
     setFlavourErrors(p => ({ ...p, [key]: undefined }));
   };
 
-  /* ── Pure validators ────────────────────────────────────────────────────── */
+  /* Pure validators
+     ════════════════ */
   const getContactErrors = () => {
     const e: Partial<Record<keyof OrderForm, string>> = {};
     if (!form.name.trim()) e.name = "Name is required.";
@@ -281,18 +287,19 @@ const PreOrder = () => {
   const getPaymentErrors = () => {
     const e: Partial<Record<keyof OrderForm, string>> = {};
     if (!form.paymentMethod) e.paymentMethod = "Please select a payment method.";
-    // if (form.paymentMethod === "etransfer" && !form.etransferEmail.trim()) e.etransferEmail = "E-transfer email is required."; // commented out
     return e;
   };
 
-  /* ── Step validators ── */
+  /* Step validators
+     ════════════════ */
   const validateCateringDetails = () => { const e = getCateringErrors(); setFlavourErrors(e); return Object.keys(e).length === 0; };
   const validateForm = () => { const e = getContactErrors(); setErrors(e); return Object.keys(e).length === 0; };
 
-  /* ── validateAllSteps ──────────────────────────────────────────────────────
+  /* validateAllSteps
+     ════════════════
      Final guard called from the review modal confirm button.
-     Re-runs every step's validation in order, and jumps back to the first call that fails.
-     Catches cases where the user navigated back and changed something without re-validating that step. */
+     Re-runs every step's validation in order, and jumps back to the first that fails.
+     Catches cases where the user navigated back and changed something without re-validating. */
   const validateAllSteps = (): boolean => {
     const contactErr = getContactErrors();
     if (Object.keys(contactErr).length > 0) { setErrors(contactErr); setStep("form"); return false; }
@@ -326,8 +333,9 @@ const PreOrder = () => {
     return true;
   };
 
-  /* ── Confirmation screen ──────────────────────────────────────────────────
-     Once submitted = true, swap the entire page. onReset wipes all state
+  /* Confirmation screen
+     ════════════════════
+     Once submitted = true, clear the entire page. onReset wipes all state
      back to initials so the form is clean for a second order. */
   if (submitted) {
     return (
@@ -335,7 +343,7 @@ const PreOrder = () => {
         name={form.name}
         email={form.email}
         onReset={() => {
-          setCart(CART_INIT);
+          clearCart();
           setCateringFlavours(CATERING_FLAVOURS_INIT);
           setFlavourErrors({});
           setForm(FORM_INIT);
@@ -373,7 +381,7 @@ const PreOrder = () => {
               </section>
 
               {/* Catering */}
-              <section className="preorder-product-section">
+              <section id="catering" className="preorder-product-section">
                 <h2 className="preorder-section-heading">Catering Order</h2>
                 <p className="preorder-notice-text">
                   Custom orders for events. Pick a package size and quantity — we'll follow up to confirm.
@@ -530,8 +538,8 @@ const PreOrder = () => {
             <div className="preorder-step-main">
               {/*
                 Routing after contact validation:
-                  weekly + non-NKS  →  nks-schedule  (WeeklyCalendar + fulfillment)
-                  catering-only     →  catering-date (CateringCalendar + fulfillment)
+                  has weekly        →  nks-schedule  (calendar differs by NKS flag; fulfillment shown for non-NKS)
+                  catering-only     →  catering-date (event date + optional fulfillment)
                   otherwise         →  payment        (no scheduling needed)
               */}
               <form
@@ -735,11 +743,8 @@ const PreOrder = () => {
               <PaymentSection
                 fieldId="order"
                 paymentMethod={form.paymentMethod}
-                // etransferEmail={form.etransferEmail}  // commented out
                 onMethodChange={(v) => { setForm(p => ({ ...p, paymentMethod: v })); setErrors(p => ({ ...p, paymentMethod: undefined })); }}
-                // onEmailChange={handleChange}  // commented out
                 methodError={errors.paymentMethod}
-                // emailError={errors.etransferEmail}  // commented out
                 context={hasCatering ? "catering" : "weekly"}
               />
 

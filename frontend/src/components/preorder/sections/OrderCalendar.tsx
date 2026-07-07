@@ -225,7 +225,7 @@ const OrderCalendar = (props: OrderCalendarProps) => {
   const showSlots = isWeekly ? !!activeDay : !!(props as CateringProps).dateValue;
 
   // Human-readable heading shown above the slot cards, e.g. "Thursday, July 10".
-  const slotHeading = (() => {
+  const getSlotHeading = (): string => {
     if (!showSlots) return "";
     if (isWeekly && activeDay) {
       const d = activeDay === "thursday" ? thursday : activeDay === "friday" ? friday : saturday;
@@ -235,7 +235,68 @@ const OrderCalendar = (props: OrderCalendarProps) => {
     return dv
       ? new Date(dv + "T00:00:00").toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric" })
       : "";
-  })();
+  };
+  const slotHeading = getSlotHeading();
+
+  // renderSlots: builds the slot card panel shown below the calendar grid.
+  // Two layouts depending on mode:
+  //   NKS mode (nksOnly=true + Thu/Fri selected) → full class timetable, single column
+  //   Standard mode                              → Morning / Afternoon / Evening cards
+  const renderSlots = () => {
+    if (nksOnly && slotDay && (slotDay === "thursday" || slotDay === "friday")) {
+      // NKS timetable: full class schedule in a single-column grid
+      return (
+        <div className="preorder-cal-slots" style={{ gridTemplateColumns: "1fr" }}>
+          <div className="preorder-cal-slots-heading">{slotHeading}</div>
+          {NKS_SCHEDULE[slotDay].map((cls) => (
+            <label
+              key={cls.value}
+              className={`preorder-nks-card preorder-cal-slot-card${currentSlotValue === cls.value ? " preorder-nks-card-selected" : ""}`}
+            >
+              <input
+                type="radio"
+                name={isWeekly ? "pickupDate" : "orderTime"}
+                value={cls.value}
+                checked={currentSlotValue === cls.value}
+                onChange={() => handleSlotChange(cls.value)}
+                className="preorder-nks-card-input"
+              />
+              <span className="preorder-nks-card-time">{cls.time}</span>
+              <span className="preorder-nks-card-label">{cls.label}</span>
+              <span className="preorder-nks-card-sub">{cls.sublabel}</span>
+            </label>
+          ))}
+        </div>
+      );
+    }
+
+    // Standard slots: Morning / Afternoon / Evening.
+    // Weekly uses WEEKLY_SLOTS (value includes day prefix, e.g. "thursday-morning").
+    // Catering uses CATERING_SLOTS (plain strings, e.g. "morning").
+    const slots = isWeekly && activeDay ? WEEKLY_SLOTS[activeDay] : CATERING_SLOTS;
+
+    return (
+      <div className="preorder-cal-slots">
+        <div className="preorder-cal-slots-heading">{slotHeading}</div>
+        {slots.map(({ value, label }) => (
+          <label
+            key={value}
+            className={`preorder-nks-card preorder-cal-slot-card${currentSlotValue === value ? " preorder-nks-card-selected" : ""}`}
+          >
+            <input
+              type="radio"
+              name={isWeekly ? "pickupDate" : "orderTime"}
+              value={value}
+              checked={currentSlotValue === value}
+              onChange={() => handleSlotChange(value)}
+              className="preorder-nks-card-input"
+            />
+            <span className="preorder-cal-slot-time">{label}</span>
+          </label>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="preorder-cal">
@@ -267,23 +328,28 @@ const OrderCalendar = (props: OrderCalendarProps) => {
           const key      = `${viewYear}-${pad(viewMonth + 1)}-${pad(day)}`; // "YYYY-MM-DD"
           const cellDate = new Date(viewYear, viewMonth, day);
 
-          let isDisabled: boolean;
-          let isSelected: boolean;
-          let dayKey: DayKey | undefined; // only set in weekly mode
-
-          if (isWeekly) {
-            // Weekly: only the three pickup days are enabled; everything else is greyed out.
-            isDisabled = !availableKeys.has(key);
-            dayKey     = availableKeyMap[key];
-            isSelected = activeDay === dayKey && !!dayKey;
-          } else {
+          // getCellState: returns the three flags needed to render this cell correctly.
+          const getCellState = (): { isDisabled: boolean; isSelected: boolean; dayKey: DayKey | undefined } => {
+            if (isWeekly) {
+              // Weekly: only the three pickup days are enabled; everything else is greyed out.
+              const dk = availableKeyMap[key];
+              return {
+                isDisabled: !availableKeys.has(key),
+                isSelected: activeDay === dk && !!dk,
+                dayKey:     dk,
+              };
+            }
             // Catering: three independent disable reasons checked separately.
             const isTooSoon = cellDate < minDate;  // before the minimum booking window
             const isBlocked = blockedSet.has(key); // manually blocked in config
             const isNksDay  = nksOnly && cellDate.getDay() !== 4 && cellDate.getDay() !== 5; // NKS → Thu/Fri only
-            isDisabled = isTooSoon || isBlocked || isNksDay;
-            isSelected = (props as CateringProps).dateValue === key;
-          }
+            return {
+              isDisabled: isTooSoon || isBlocked || isNksDay,
+              isSelected: (props as CateringProps).dateValue === key,
+              dayKey:     undefined,
+            };
+          };
+          const { isDisabled, isSelected, dayKey } = getCellState();
 
           return (
             <button
@@ -303,64 +369,10 @@ const OrderCalendar = (props: OrderCalendarProps) => {
         })}
       </div>
 
-      {/* NKS timetable Slots — revealed once a day cell is clicked. */}
-      {showSlots && (() => {
-        if (nksOnly && slotDay && (slotDay === "thursday" || slotDay === "friday")) {
-          // NKS timetable: full class schedule in a single-column grid.
-          return (
-            <div className="preorder-cal-slots" style={{ gridTemplateColumns: "1fr" }}>
-              <div className="preorder-cal-slots-heading">{slotHeading}</div>
-              {NKS_SCHEDULE[slotDay].map((cls) => (
-                <label
-                  key={cls.value}
-                  className={`preorder-nks-card preorder-cal-slot-card${currentSlotValue === cls.value ? " preorder-nks-card-selected" : ""}`}
-                >
-                  <input
-                    type="radio"
-                    name={isWeekly ? "pickupDate" : "orderTime"}
-                    value={cls.value}
-                    checked={currentSlotValue === cls.value}
-                    onChange={() => handleSlotChange(cls.value)}
-                    className="preorder-nks-card-input"
-                  />
-                  <span className="preorder-nks-card-time">{cls.time}</span>
-                  <span className="preorder-nks-card-label">{cls.label}</span>
-                  <span className="preorder-nks-card-sub">{cls.sublabel}</span>
-                </label>
-              ))}
-            </div>
-          );
-        }
-
-        // Standard slots: Morning / Afternoon / Evening.
-        // Weekly uses WEEKLY_SLOTS (value includes day prefix, e.g. "thursday-morning").
-        // Catering uses CATERING_SLOTS (plain strings, e.g. "morning").
-        const slots = isWeekly && activeDay
-          ? WEEKLY_SLOTS[activeDay]
-          : CATERING_SLOTS;
-
-        return (
-          <div className="preorder-cal-slots">
-            <div className="preorder-cal-slots-heading">{slotHeading}</div>
-            {slots.map(({ value, label }) => (
-              <label
-                key={value}
-                className={`preorder-nks-card preorder-cal-slot-card${currentSlotValue === value ? " preorder-nks-card-selected" : ""}`}
-              >
-                <input
-                  type="radio"
-                  name={isWeekly ? "pickupDate" : "orderTime"}
-                  value={value}
-                  checked={currentSlotValue === value}
-                  onChange={() => handleSlotChange(value)}
-                  className="preorder-nks-card-input"
-                />
-                <span className="preorder-cal-slot-time">{label}</span>
-              </label>
-            ))}
-          </div>
-        );
-      })()}
+      {/* Slot panel — revealed once a day cell is clicked.
+          renderSlots() picks between the NKS timetable layout and the standard
+          Morning/Afternoon/Evening grid based on nksOnly + which day is active. */}
+      {showSlots && renderSlots()}
 
     </div>
   );

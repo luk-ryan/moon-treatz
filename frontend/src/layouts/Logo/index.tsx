@@ -1,13 +1,16 @@
 /**
- * Logo Component
- * ==============
- * The animated Moon Treatz logo with interactive features.
- * 
- * Features:
- * 1. Eye tracking that follows mouse cursor upon hover
- * 2. Pet cloud animation on click+hold
- *    - Floating hearts when interacting
- *    - Excited wiggle animation during interaction
+ * Logo
+ * ====
+ * Animated Moon Treatz logo assembled from layered images.
+ * Interactive on desktop: eyes follow the cursor, click+hold shows floating hearts and a wiggle.
+ *
+ * Layers (bottom to top):
+ *   1. Moon     — crescent background, gentle float
+ *   2. Cloud    — character body, float + excited wiggle on hold
+ *   3. Left eye — tracks cursor; winks on hold
+ *   4. Right eye— tracks cursor; winks on hold
+ *   5. Mouth    — synced with cloud wiggle
+ *   6. Hearts   — particle burst on click+hold (desktop only)
  */
 
 // DEPENDENCIES
@@ -17,123 +20,60 @@ import { useState, useRef } from "react";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import "./Logo.css";
 
-/**
- * HEARTS ANIMATION CONFIGURATIONS
- * ===============================
- */
+// Three hearts that float up at different positions/timings when the user clicks+holds
 const HEART_CONFIGS = [
-  { left: '35%', y: -80, x: -30, duration: 1.5, delay: 0, emoji: '❤️' },
-  { left: '65%', y: -90, x: 30, duration: 1.8, delay: 0.3, emoji: '💕' },
-  { left: '50%', y: -100, x: 0, duration: 2, delay: 0.6, emoji: '❤️' },
+  { left: '35%', y: -80, x: -30, duration: 1.5, delay: 0,   emoji: '❤️' },
+  { left: '65%', y: -90, x: 30,  duration: 1.8, delay: 0.3, emoji: '💕' },
+  { left: '50%', y: -100, x: 0,  duration: 2,   delay: 0.6, emoji: '❤️' },
 ];
 
-/**
- * Logo Component Implementation
- * =============================
- * Assembles the logo from five separate image layers:
- * 1. Moon (crescent shape background) - subtle floating animation
- * 2. Cloud (body of the character) - floating + excited wiggle on click
- * 3. Left eye - follows cursor upon hover effect (with wink on click)
- * 4. Right eye - follows cursor upon hover effect (with wink on click)
- * 5. Mouth - synchronized with cloud wiggle animation
- * 6. Floating hearts particle effect on click
- * 
- * Interactive States:
- * 1. isHovered: Eyes follow mouse cursor position
- * 2. isHolding: Triggered on mouse down, shows wink + hearts + excited wiggle
- */
 const Logo = () => {
   const isMobile = useIsMobile();
-  
-  // ================
-  // STATE MANAGEMENT
-  // ================
-  
-  /** Tracks if mouse is hovering over logo (enables eye tracking) */
+
+  // isHovered — enables eye tracking while the cursor is over the logo
   const [isHovered, setIsHovered] = useState(false);
-  
-  /** Tracks if mouse button is held down (enables wink + hearts + wiggle) */
+  // isHolding — triggers the wink + heart burst + excited wiggle on mousedown
   const [isHolding, setIsHolding] = useState(false);
-  
-  /** Reference to logo container for calculating mouse position relative to center */
+  // containerRef — needed to compute the cursor offset relative to the logo center
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // ===================
-  // EYE TRACKING SYSTEM
-  // ===================
-  
-  /** Raw mouse X/Y position (set by mousemove handler) */
+  // Raw mouse position fed into spring animations for smooth eye lag
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  /** Smooth animated eye movement (left eye) */
-  const leftEyeX = useSpring(mouseX, { stiffness: 150, damping: 15 });
-  const leftEyeY = useSpring(mouseY, { stiffness: 150, damping: 15 });
-  
-  /** Smooth animated eye movement (right eye) */
+  const leftEyeX  = useSpring(mouseX, { stiffness: 150, damping: 15 });
+  const leftEyeY  = useSpring(mouseY, { stiffness: 150, damping: 15 });
   const rightEyeX = useSpring(mouseX, { stiffness: 150, damping: 15 });
   const rightEyeY = useSpring(mouseY, { stiffness: 150, damping: 15 });
 
-  /**
-   * HOVER EFFECT TRANSFORMS
-   * =======================
-   * - Left eye moves MORE when cursor is on the right (1.5x)
-   * - Left eye moves LESS when cursor is on the left (0.7x)
-   * - Creates cooler looking effect
-   */
-  const leftEyeTransformX = useTransform(leftEyeX, (value) => {
-    return value > 0 ? value * 1.5 : value * 0.7;
-  });
-  
-  /**
-   * HOVER EFFECT TRANSFORMS (Opposite of left eye)
-   * ==============================================
-   * - Right eye moves MORE when cursor is on the left (1.5x)
-   * - Right eye moves LESS when cursor is on the right (0.7x)
-   */
-  const rightEyeTransformX = useTransform(rightEyeX, (value) => {
-    return value < 0 ? value * 1.5 : value * 0.7;
-  });
+  // Each eye has an asymmetric X transform so they diverge slightly —
+  // left eye exaggerates rightward movement, right eye exaggerates leftward.
+  // This creates a more natural-looking gaze effect.
+  const leftEyeTransformX  = useTransform(leftEyeX,  (v) => v > 0 ? v * 1.5 : v * 0.7);
+  const rightEyeTransformX = useTransform(rightEyeX, (v) => v < 0 ? v * 1.5 : v * 0.7);
 
-  // ==============
-  // EVENT HANDLERS
-  // ==============
-  
-  /* Tracks mouse position and converts to normalized eye movement */
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
-    
-    // Calculate mouse position relative to logo center
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Normalize to -1 to 1 range
-    const deltaX = (event.clientX - centerX) / (rect.width / 2);
+    const rect    = containerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width  / 2;
+    const centerY = rect.top  + rect.height / 2;
+    // Normalise to [-1, 1] then scale to a max pixel movement of 4px
+    const deltaX = (event.clientX - centerX) / (rect.width  / 2);
     const deltaY = (event.clientY - centerY) / (rect.height / 2);
-    
-    // Movement limit
-    const maxMovement = 4; // Maximum pixel movement for eyes
-
-    // Update motion values for eye positions
+    const maxMovement = 4;
     mouseX.set(deltaX * maxMovement);
     mouseY.set(deltaY * maxMovement);
   };
 
-  /* Resets hover state and eye positions when cursor leaves logo */
   const handleMouseLeave = () => {
     setIsHovered(false);
+    // Snap eyes back to centre
     mouseX.set(0);
     mouseY.set(0);
   };
 
-
-  /**
-   * COMPONENT OUTPUT
-   * ================
-   */
   return (
-    // Wrap entire logo in Link to make it clickable and navigate to homepage
+    // Clicking anywhere on the logo navigates back to home
     <Link to="/" className="logo">
       <div 
         ref={containerRef}

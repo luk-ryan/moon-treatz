@@ -14,8 +14,7 @@ type TermsSectionProps = {
 
 const TermsSection = ({ terms, agreed, onChange, error }: TermsSectionProps) => (
   <>
-    {/* Terms notice box
-        Displays a "Terms & Conditions" heading then each term as a list item.*/}
+    {/* TERMS NOTICE BOX */}
     <div className="preorder-terms-notice">
       <p><strong>Terms &amp; Conditions</strong></p>
       <ul>
@@ -23,7 +22,7 @@ const TermsSection = ({ terms, agreed, onChange, error }: TermsSectionProps) => 
       </ul>
     </div>
 
-    {/* Agreement checkbox */}
+    {/* AGREEMENT CHECKBOX */}
     <div className="preorder-terms-check">
       <label className={`preorder-checkbox-label${error ? " preorder-input-error-label" : ""}`}>
         <input

@@ -8,7 +8,6 @@
  * - Animated macaron decorations floating in background
  * - Filter system to view specific flavours
  * - Smooth transitions between views and filters
- * - URL hash support (#all) for direct linking to All Flavours view
  * 
  * View Modes:
  * 1. Weekly Specials: Image gallery of past weekly box offerings
@@ -21,103 +20,15 @@ import { useLocation } from "react-router-dom";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import FlavourCard from "./FlavourCard";
 import WeeklyGallery from "./WeeklyGallery";
-import type { FlavourCardProps } from "../../types/types";
-import { pageTransition, viewModeTransition } from "../../config/animations";
-import { macaronDecorations } from "./macaronDecorations";
+import { pageTransition } from "../../config/animations";
+import { flavours } from "../../config/flavours";
+import { macaronDecorations } from "../../components/decorations/macaronDecorations";
 
-/**
- * Flavours Data Configuration
- * ===========================
- * Complete array of all available macaron flavours with their descriptions and images.
- * 
- * Each flavour includes:
- * - Unique ID for filtering and React keys
- * - Display name
- * - Image path
- * - Detailed description of shells and filling
- * 
- * Note: Some flavours are commented out (Coffee, Strawberry, Lemon) as they are currently unavailable.
- * 
- * @constant {FlavourCardProps[]} flavours
- */
-const flavours: FlavourCardProps[] = [
-  {
-    id: 1,
-    name: "Vanilla",
-    src: "/flavours/vanilla.jpg",
-    description: "Blue macaron shells filled with a smooth vanilla French buttercream.",
-  },
-  {
-    id: 2,
-    name: "Chocolate",
-    src: "/flavours/chocolate.jpg",
-    description: "Chocolate-flavoured shells filled with a rich, dark chocolate ganache.",
-  },
-  {
-    id: 3,
-    name: "Matcha",
-    src: "/flavours/matcha.jpg",
-    description: "Matcha-flavoured shells filled with a white chocolate, matcha buttercream.",
-  },
-  {
-    id: 4,
-    name: "Cookies and Cream",
-    src: "/flavours/cookies_and_cream.jpg",
-    description: "Oreo-inspired macaron shells filled with creamy Oreo buttercream and Oreo pieces.",
-  },
-  {
-    id: 5,
-    name: "Salted Caramel",
-    src: "/flavours/salted_caramel.jpg",
-    description: "Classic macaron shells filled with salted caramel buttercream filling and a caramel centre.",
-  },
-  {
-    id: 6,
-    name: "Red Velvet",
-    src: "/flavours/red_velvet.jpg",
-    description: "Light chocolate shells with a red tint filled with tangy-sweet cream cheese buttercream filling.",
-  },
-  // {
-  //   id: 3,
-  //   name: "Coffee",
-  //   src: "/flavours/unavailable.jpg",
-  //   description: "Coffee Flavour description",
-  // },
-  // {
-  //   id: 7,
-  //   name: "Strawberry",
-  //   src: "/flavours/unavailable.jpg",
-  //   description: "Strawberry Flavour description",
-  // },
-  // {
-  //   id: 8,
-  //   name: "Lemon",
-  //   src: "/flavours/unavailable.jpg",
-  //   description: "Lemon Flavour description",
-  // },
-];
+// Flavour data lives in src/config/flavours.ts — imported above.
 
 /**
  * Flavours Component Implementation
  * =================================
- * State Management:
- * - viewMode: Controls whether showing "weekly" gallery or "all" flavours
- * - selectedFlavourId: Tracks which flavour filter is active (null = show all)
- * 
- * URL Hash Support:
- * - Checks for #all hash on mount and route changes
- * - Automatically switches to "all" view if hash is present
- * 
- * Layout Adaptation:
- * - Wide wrapper when showing all flavours (grid layout)
- * - Regular wrapper when showing single flavour (larger display)
- * 
- * Components Rendered:
- * 1. Animated macaron decorations (background)
- * 2. View mode selector (Weekly Specials | All Flavours)
- * 3. Conditional content based on view mode:
- *    - WeeklyGallery component for weekly view
- *    - Flavour filter buttons + FlavourCard grid for all view
  */
 const Flavours = () => {
   // Get current location from React Router for hash detection
@@ -134,6 +45,10 @@ const Flavours = () => {
     null
   );
 
+  const selectedIndex = selectedFlavourId === null ? -1 : flavours.findIndex(f => f.id === selectedFlavourId);
+  const prevFlavour = selectedIndex > 0 ? flavours[selectedIndex - 1] : null;
+  const nextFlavour = selectedIndex < flavours.length - 1 ? flavours[selectedIndex + 1] : null;
+
   // Effect to check for #all hash in URL and switch to all flavours view
   useEffect(() => {
     // If URL has #all hash, automatically switch to all flavours view
@@ -144,9 +59,9 @@ const Flavours = () => {
 
   // Determine which flavours to display based on filter selection
   const flavoursToShow =
-    selectedFlavourId === null // If no filter selected
-      ? flavours // Show all flavours
-      : flavours.filter((f) => f.id === selectedFlavourId); // Show only selected flavour
+    selectedFlavourId === null
+      ? flavours
+      : flavours.filter((f) => f.id === selectedFlavourId);
 
   return (
     // Wrap in motion.div for page transition animation
@@ -207,40 +122,92 @@ const Flavours = () => {
             exit={{ opacity: 0, y: -50 }} // Fade out, slide up when leaving
             transition={{ duration: 0.4 }}
           >
-            {/* Filter buttons for selecting specific flavours */}
-            <div className="flavour-selection narrow-wrapper">
-        {/* Show All button - clears filter */}
-        <button
-          onClick={() => setSelectedFlavourId(null)}
-          className={selectedFlavourId === null ? "active" : ""}
-        >
-          Show All
-        </button>
-        {/* Individual flavour filter buttons */}
-        {flavours.map((flavour) => (
-          <button
-            key={flavour.id}
-            onClick={() => setSelectedFlavourId(flavour.id)}
-            className={selectedFlavourId === flavour.id ? "active" : ""}
-          >
-            {flavour.name}
-          </button>
-        ))}
+            {/* Restaurant-style menu */}
+            <div className="flavour-menu-box narrow-wrapper">
+              <div className="flavour-menu-header">
+                <span className="fmh-diamond">✦</span>
+                <span className="fmh-text">Our Flavours</span>
+                <span className="fmh-diamond">✦</span>
+              </div>
+              <div className="fmc-corner fmc-corner--tl" />
+              <div className="fmc-corner fmc-corner--tr" />
+              <div className="fmc-corner fmc-corner--bl" />
+              <div className="fmc-corner fmc-corner--br" />
+              <div className="flavour-menu-list">
+                <button
+                  onClick={() => setSelectedFlavourId(null)}
+                  className={`flavour-menu-item${selectedFlavourId === null ? " flavour-menu-item--active" : ""}`}
+                >
+                  <span className="fmi-diamond">◆</span>
+                  <span className="fmi-name">Show All</span>
+                </button>
+                {flavours.map((flavour, i) => (
+                  <motion.button
+                    key={flavour.id}
+                    onClick={() => setSelectedFlavourId(flavour.id)}
+                    className={`flavour-menu-item${selectedFlavourId === flavour.id ? " flavour-menu-item--active" : ""}`}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04, duration: 0.3 }}
+                  >
+                    <span className="fmi-diamond">◆</span>
+                    <span className="fmi-name">{flavour.name}</span>
+                    <span className="fmi-dots" aria-hidden="true"/>
+                    <span className="fmi-num">{String(i + 1).padStart(2, "0")}</span>
+                  </motion.button>
+                ))}
+              </div>
             </div>
 
             {/* Nested AnimatePresence for smooth transitions when filtering flavours */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={selectedFlavourId ?? "all-flavours"} // Key changes when filter changes, triggering animation
-                {...viewModeTransition} // Pre-configured animation settings
-                className={selectedFlavourId === null ? "wide-wrapper" : "wrapper"} // wide-wrapper = grid (all flavours), wrapper = single item (one flavour)
+                key={selectedFlavourId ?? "all-flavours"}
+                initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -30, scale: 0.96 }}
+                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                className={selectedFlavourId === null ? "wide-wrapper" : "wrapper"}
               >
-                {/* Flavour card grid - displays filtered results */}
+                {/* Flavour card grid */}
                 <div className="flavour-card-list">
-                  {flavoursToShow.map((flavour) => (
-                    <FlavourCard key={flavour.id} {...flavour} />
+                  {flavoursToShow.map((flavour, i) => (
+                    <motion.div
+                      key={flavour.id}
+                      initial={{ opacity: 0, y: 24, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <FlavourCard key={flavour.id} {...flavour} />
+                    </motion.div>
                   ))}
                 </div>
+                {/* Page-flip navigation — only when a single flavour is selected */}
+                {selectedFlavourId !== null && (
+                  <div className="flavour-pagination">
+                    <button
+                      className="flavour-page-btn flavour-page-btn--prev"
+                      onClick={() => prevFlavour && setSelectedFlavourId(prevFlavour.id)}
+                      disabled={!prevFlavour}
+                    >
+                      <span className="page-btn-arrow">❮</span>
+                      <span className="page-btn-label">{prevFlavour?.name ?? "–"}</span>
+                    </button>
+                    <div className="flavour-page-indicator">
+                      <span className="page-num">{selectedIndex + 1}</span>
+                      <span className="page-sep">of</span>
+                      <span className="page-total">{flavours.length}</span>
+                    </div>
+                    <button
+                      className="flavour-page-btn flavour-page-btn--next"
+                      onClick={() => nextFlavour && setSelectedFlavourId(nextFlavour.id)}
+                      disabled={!nextFlavour}
+                    >
+                      <span className="page-btn-label">{nextFlavour?.name ?? "–"}</span>
+                      <span className="page-btn-arrow">❯</span>
+                    </button>
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
           </motion.div>

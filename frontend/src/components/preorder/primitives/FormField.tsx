@@ -2,7 +2,7 @@
  * FormField Component
  * ===================
  * Wrapper that pairs a `<label>` with any form input child.
- * Handles required/optional badges and inline validation error display.
+ * Handles required/optional badges and validation error display.
  */
 
 import type { ReactNode } from "react";

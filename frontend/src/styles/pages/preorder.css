@@ -43,7 +43,6 @@
   .preorder-field:has(#cat-notes),
   .preorder-field:has(#pickupDate),
   .preorder-field:has(#eventDate),
-  .preorder-field:has(.preorder-nks-timetable),
   .preorder-field:has(.preorder-radio-group),
   .preorder-field:has(.preorder-checkbox-group) {
     grid-column: 1 / -1;
@@ -122,17 +121,6 @@
   cursor: default;
 }
 
-.preorder-subtitle {
-  font-size: var(--fs-300);
-  color: var(--clr-accent);
-  margin-bottom: 0.5rem;
-}
-
-.preorder-special-name {
-  font-style: italic;
-  font-weight: 600;
-}
-
 .preorder-notice-text {
   font-size: var(--fs-200);
   color: var(--clr-text-body);
@@ -203,20 +191,6 @@
   box-shadow: 0 0 0 0.125rem rgba(192, 57, 43, 0.2);
 }
 
-.preorder-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c9a227' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.85rem center;
-  padding-right: 2.5rem;
-  cursor: pointer;
-}
-
-.preorder-select option {
-  background: #1a1a1a;
-  color: var(--clr-text-body);
-}
-
 .preorder-input-narrow {
   max-width: 6rem;
 }
@@ -231,51 +205,6 @@
   font-size: var(--fs-100);
   color: #e74c3c;
   font-style: italic;
-}
-
-/* ---- Tabs ---- */
-.preorder-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  padding: 0.35rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--clr-gold-700);
-  border-radius: 0.5rem;
-}
-
-.preorder-tab {
-  flex: 1;
-  padding: 0.7rem 1.5rem;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 0.35rem;
-  color: #888;
-  font-family: var(--ff-accent);
-  font-size: var(--fs-200);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s;
-}
-
-.preorder-tab:hover {
-  color: var(--clr-primary);
-  border-color: var(--clr-gold-700);
-}
-
-.preorder-tab-active {
-  background: linear-gradient(135deg, var(--clr-gold-600) 0%, var(--clr-gold-400) 50%, var(--clr-gold-600) 100%);
-  border-color: var(--clr-gold-400);
-  color: var(--clr-black);
-  font-weight: 700;
-  box-shadow:
-    0 0 1.25rem var(--shadow-gold),
-    0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.preorder-tab-active:hover {
-  color: var(--clr-black);
 }
 
 /* ---- Quantity stepper ---- */
@@ -334,42 +263,6 @@
 }
 
 /* ---- Quantity stepper ---- */
-
-/* ---- NKS timetable ---- */
-/* ---- NKS Timetable ---- */
-.preorder-nks-timetable {
-  width: 100%;
-}
-
-.preorder-nks-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  align-items: start;
-}
-
-.preorder-nks-column {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.preorder-nks-day-header {
-  font-family: var(--ff-accent);
-  font-size: var(--fs-300);
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--clr-primary);
-  text-align: center;
-  padding: 0.5rem 0.75rem 0.6rem;
-  margin-bottom: 0.4rem;
-  border: 1px solid var(--clr-gold-700);
-  border-radius: 0.375rem;
-  background: rgba(201, 162, 39, 0.05);
-  text-shadow: 0 0 12px var(--shadow-gold-medium);
-  box-shadow: 0 0 8px rgba(201, 162, 39, 0.08), inset 0 0 12px rgba(201, 162, 39, 0.04);
-}
 
 /* Cards */
 .preorder-nks-card {
@@ -875,8 +768,7 @@
   background: var(--clr-gold-500);
 }
 
-.preorder-cal-day-active::after,
-.preorder-cal-selected::after {
+.preorder-cal-day-active::after {
   background: var(--clr-gold-400) !important;
   box-shadow: 0 0 5px rgba(201, 162, 39, 0.6);
 }
@@ -885,19 +777,6 @@
   color: rgba(255, 255, 255, 0.2);
   cursor: not-allowed;
   text-decoration: line-through;
-}
-
-.preorder-cal-today {
-  border: 1px solid var(--clr-gold-700);
-  color: var(--clr-primary);
-}
-
-.preorder-cal-selected {
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.35) 0%, rgba(201, 162, 39, 0.18) 100%);
-  border: 1.5px solid var(--clr-gold-400);
-  color: var(--clr-gold-200);
-  font-weight: 600;
-  box-shadow: 0 0 10px var(--shadow-gold-medium);
 }
 
 /* Active day in weekly calendar (day clicked, slot not yet chosen) */
@@ -1052,6 +931,7 @@
     0 0 0.5rem rgba(192, 57, 43, 0.6),
     0 0 1.25rem rgba(192, 57, 43, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  will-change: box-shadow;
   animation: unavailablePulse 2.5s ease-in-out infinite;
 }
 @keyframes unavailablePulse {
@@ -1335,13 +1215,6 @@
   border-bottom: 1px solid var(--clr-gold-700);
 }
 
-.preorder-cart-price-icon {
-  font-size: var(--fs-300);
-  color: var(--clr-accent);
-  font-family: var(--ff-base);
-  font-weight: 700;
-}
-
 .preorder-cart-empty {
   font-size: var(--fs-200);
   color: #666;
@@ -1403,31 +1276,6 @@
   opacity: 0.4;
   cursor: not-allowed;
   transform: none !important;
-}
-
-/* ---- Form step — cart summary bar ---- */
-.preorder-cart-summary {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  padding: 0.65rem 0.85rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--clr-gold-700);
-  border-radius: 0.5rem;
-  text-align: left;
-}
-
-.preorder-cart-chip {
-  padding: 0.25rem 0.65rem;
-  background: rgba(201, 162, 39, 0.1);
-  border: 1px solid var(--clr-gold-600);
-  border-radius: 1rem;
-  font-family: var(--ff-accent);
-  font-size: var(--fs-100);
-  color: var(--clr-primary);
-  letter-spacing: 0.06em;
 }
 
 .preorder-back-btn {
@@ -1551,11 +1399,6 @@
   margin-top: 0.25rem;
 }
 
-/* Back button that sits above the form */
-.preorder-form-back {
-  align-self: flex-start;
-}
-
 /* ---- Catering details step: list of package cards ---- */
 .preorder-catering-detail-list {
   display: flex;
@@ -1638,17 +1481,6 @@
   border-color: var(--clr-primary);
   color: var(--clr-primary);
   font-weight: 700;
-}
-
-/* ---- Form section divider headings ---- */
-.preorder-field-section-heading {
-  font-family: var(--ff-accent);
-  font-size: var(--fs-300);
-  color: var(--clr-primary);
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(201, 162, 39, 0.25);
-  letter-spacing: 0.06em;
-  grid-column: 1 / -1;
 }
 
 /* =============================================
@@ -1781,19 +1613,6 @@
   font-size: var(--fs-300);
   font-weight: 700;
   color: var(--clr-primary);
-}
-
-/* Terms list */
-.preorder-modal-terms-list {
-  margin: 0;
-  padding-left: 1.25rem;
-  font-family: var(--ff-base);
-  font-size: var(--fs-100);
-  color: var(--clr-text-body);
-  line-height: 1.7;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
 }
 
 /* Action buttons row */

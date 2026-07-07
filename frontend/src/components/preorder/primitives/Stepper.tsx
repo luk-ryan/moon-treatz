@@ -27,7 +27,7 @@ const Stepper = ({ id, value, min = 1, max = Infinity, onChange, error }: Steppe
       −
     </button>
 
-    {/* Read-only display input — users cannot type directly; value only changes via buttons. */}
+    {/* READ-ONLY DISPLAY — users cannot type directly; value only changes via buttons. */}
     <input
       id={id}
       type="number"

@@ -14,9 +14,9 @@ import { motion } from "framer-motion";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { butterflyEntrance, butterflyTransition } from "../../config/animations";
 import {leftButterflies, rightButterflies, butterflyYValues, butterflyScaleX, butterflyRotate, type ButterflyDecor}
-    from "./butterflyDecorations";
-import { cloudDecorations, type CloudDecor } from "./cloudDecorations";
-import { sparkleDecorations, type SparkleDecor } from "./sparkleDecorations";
+    from "../decorations/butterflyDecorations";
+import { cloudDecorations, type CloudDecor } from "../decorations/cloudDecorations";
+import { sparkleDecorations, type SparkleDecor } from "../decorations/sparkleDecorations";
 
 const HomeDecorations = () => {
   // Disable animations on mobile — static spans only

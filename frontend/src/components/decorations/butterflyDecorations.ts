@@ -2,8 +2,8 @@
  * Butterfly Decoration Configuration
  * ==================================
  * The positioning and animation properties for all butterfly decorations.
- * Butterflies are arranged in two distinct trails (left and right) to kinda like create visual interest
- * and maybe guide the user's eye through the page content.
+ * Butterflies are arranged in two distinct trails (left and right) to kinda like
+ * create visual interest and maybe guide the user's eye through the page content.
  * 
  * Design Pattern:
  * - Left trail: 8 butterflies along the left side of the page

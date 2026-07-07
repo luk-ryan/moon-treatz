@@ -1,9 +1,10 @@
 /**
  * OrderButton Component
  * =====================
- * Generic reusable button that renders as an active link when an href is
- * provided, or as a disabled button when not — sharing the same visual style.
+ * A Generic reusable button that can render as either a link or a disabled button.
  */
+
+import { Link } from "react-router-dom";
 
 interface OrderButtonProps {
   href?: string;
@@ -15,17 +16,16 @@ const OrderButton = ({ href, children, className = "" }: OrderButtonProps) => {
   const isEnabled = !!href && href.trim().length > 0;
   const baseClass = `pre-order-button${className ? ` ${className}` : ""}`;
 
+  // Active: renders as a navigable link
   if (isEnabled) {
     return (
-      <a
-        href={href}
-        className={baseClass}
-      >
+      <Link to={href!} className={baseClass}>
         {children}
-      </a>
+      </Link>
     );
   }
 
+  // Disabled: renders as a non-interactive button
   return (
     <button className={`${baseClass} pre-order-button-disabled`} disabled>
       {children}

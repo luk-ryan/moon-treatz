@@ -6,15 +6,9 @@
  * Displays all selected items, flavour choices, contact info,
  * scheduling details, payment details, and terms acceptance.
  *
- * Responsibilities split with parent (PreOrder):
- *   ReviewModal  → display-only; fires callbacks, owns no state
- *   PreOrder     → owns form state, errors state, emailjs send, and terms checkbox state
- *
  * Sections are conditionally rendered:
  *   Flavours   → only if weekly box or catering packages are in the cart
  *   Scheduling → only if a pickup date or event date was selected
- *   Scheduling fields (orderTime, pickupMethod, etc.) are each individually
- *   gated so they don't appear as blank rows when not applicable.
  */
 
 import TermsSection from "./sections/TermsSection";
@@ -152,7 +146,6 @@ const ReviewModal = ({
         <div className="preorder-modal-details">
           <span className="preorder-modal-label">Method</span>
           <span style={{ textTransform: "capitalize" }}>{form.paymentMethod === "etransfer" ? "E-Transfer" : form.paymentMethod}</span>
-          {/* {form.etransferEmail && <><span className="preorder-modal-label">E-Transfer To</span><span>{form.etransferEmail}</span></>} */}
           {form.notes && <><span className="preorder-modal-label">Notes</span><span>{form.notes}</span></>}
         </div>
       </section>

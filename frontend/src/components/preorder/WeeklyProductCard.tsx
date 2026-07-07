@@ -20,9 +20,10 @@ interface WeeklyProductCardProps {
 }
 
 const WeeklyProductCard = ({ isAvailable, qty, onChange, flavours }: WeeklyProductCardProps) => {
-  // desc: if the weekly special config has flavours listed, show them;
-  // otherwise fall back to a generic label so the card is never blank.
-  const desc = flavours.length > 0 ? `7 macarons · ${flavours.join(", ")}` : "7 macarons · Weekly Special";
+  // Only show specific flavours when the box is available — if it's closed,
+  // the flavours may have changed by the time it reopens, so show a generic label instead.
+  const availableDesc = flavours.length > 0 ? `7 macarons · ${flavours.join(", ")}` : "7 macarons · Weekly Special";
+  const desc = isAvailable ? availableDesc : "7 macarons · Weekly Special";
   if (isAvailable) {
     return (
       <div className={`preorder-product-card${qty > 0 ? " preorder-card-active" : ""}`}>

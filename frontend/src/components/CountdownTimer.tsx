@@ -10,23 +10,15 @@
  * The `nextReleaseDate` in preOrderForm config should be updated manually each week to the upcoming release date.
  */
 
-import { useState, useEffect } from "react";
 import { useIsMobile } from "../hooks/useIsMobile";
-import { getTimeUntilNextRelease } from "../config/preOrderForm";
+import { useCountdownTimer } from "../hooks/useCountdownTimer";
 
 // Zero-pads a number to 2 digits: 9 → "09", 42 → "42"
 const pad = (n: number) => String(n).padStart(2, "0");
 
 const CountdownTimer = () => {
-  // Initialise state immediately with current time-until-release (avoids a blank frame on mount)
-  const [time, setTime] = useState(getTimeUntilNextRelease);
+  const time = useCountdownTimer();
   const isMobile = useIsMobile();
-
-  // Tick every second; clear the interval on unmount to prevent memory leaks
-  useEffect(() => {
-    const id = setInterval(() => setTime(getTimeUntilNextRelease()), 1000);
-    return () => clearInterval(id);
-  }, []);
 
   // Hide the timer entirely once the release date has passed
   if (time.total <= 0) return null;

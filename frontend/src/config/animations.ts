@@ -106,3 +106,15 @@ export const butterflyEntrance = {
     scale: { duration: 0.8, type: "spring", bounce: 0.5 }
   }
 };
+
+/**
+ * Fade-Up Animation
+ * =================
+ * Reusable scroll-triggered fade-in-from-below animation used across multiple sections (Menu, WeeklyBox, Contact, etc.).
+ */
+export const fadeUp = (delay = 0, y = 24, duration = 0.5, amount = 0.2) => ({
+  initial: { opacity: 0, y },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: false, amount },
+  transition: { duration, delay, ease: "easeOut" },
+});

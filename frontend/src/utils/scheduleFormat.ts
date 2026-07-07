@@ -2,9 +2,9 @@
  * scheduleFormat.ts
  * =================
  * Shared helpers for converting internal pickupDate values into human-readable { label, time } pairs.
- * Used by both the review modal (JSX) and the email builder (plain strings) so the logic only lives in one place.
  */
 
+// Returns the upcoming Thu/Fri/Sat. The `|| 7` skips a full week when today is Thursday.
 function getPickupWeekDates() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -18,6 +18,7 @@ function getPickupWeekDates() {
   return { thu, fri, sat };
 }
 
+// e.g. → "Thursday, July 10, 2025"
 const fmtDate = (d: Date) =>
   d.toLocaleDateString("en-CA", {
     weekday: "long",
@@ -26,6 +27,7 @@ const fmtDate = (d: Date) =>
     year: "numeric",
   });
 
+// Maps every weekly slot to its day key and display time label.
 const WEEKLY_SLOT_LABELS: Record<string, { day: "thu" | "fri" | "sat"; time: string }> = {
   "thursday-morning":   { day: "thu", time: "Morning" },
   "thursday-afternoon": { day: "thu", time: "Afternoon" },
@@ -39,20 +41,18 @@ const WEEKLY_SLOT_LABELS: Record<string, { day: "thu" | "fri" | "sat"; time: str
 };
 
 /**
- * Parse a weekly pickupDate slug into a human-readable { label, time } pair.
- * Returns null if the slug is unrecognised.
- *
- * Handles regular weekly slots ("thursday-afternoon") and
- * NKS slots ("nks-friday-430-500pm").
+ * Parse a pickupDate into a { label, time } pair.
  */
 export function parsePickupDate(pickupDate: string): { label: string; time: string } | null {
   const { thu, fri, sat } = getPickupWeekDates();
   const dayMap = { thu, fri, sat };
 
-  // NKS format: "nks-thursday-430-500pm" or "nks-friday-740-810pm"
+  // NKS format: "nks-thursday-430-500pm" / "nks-friday-740-810pm"
   const nksMatch = pickupDate.match(/^nks-(thursday|friday)-(.+)$/);
   if (nksMatch) {
     const dateObj = nksMatch[1] === "thursday" ? thu : fri;
+    // "430-500pm" → groups: ["4","30","5","00","pm"] → "4:30 – 5:00 pm"
+    // Falls back to the raw string if the format doesn't match.
     const timeMatch = nksMatch[2].match(/^(\d{1,2})(\d{2})-(\d{1,2})(\d{2})(am|pm)$/);
     const timeStr = timeMatch
       ? `${timeMatch[1]}:${timeMatch[2]} \u2013 ${timeMatch[3]}:${timeMatch[4]} ${timeMatch[5]}`
