@@ -234,6 +234,13 @@
     position: relative;
     z-index: 20;
   }
+  /* Constrain hero button on mobile — don't let it stretch or wrap */
+  .home-hero-actions .pre-order-button {
+    padding: 0.65rem 2rem;
+    font-size: var(--fs-200);
+    width: auto;
+    white-space: nowrap;
+  }
 
   /* ── About strip ── */
   .home-about-inner { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -548,6 +555,19 @@
     border-right-color: var(--clr-accent);
   }
 
+  .view-mode-selector button:not(:first-child):not(:last-child) {
+    border-left: 0.1875rem solid var(--clr-gold-500);
+    border-right: 0.1875rem solid var(--clr-gold-500);
+    border-top: 0.0625rem solid var(--clr-gold-600);
+    border-bottom: none;
+    border-radius: 0;
+  }
+
+  .view-mode-selector button:not(:first-child):not(:last-child).active {
+    border-left-color: var(--clr-accent);
+    border-right-color: var(--clr-accent);
+  }
+
   .view-mode-selector button:last-child {
     border-left: 0.1875rem solid var(--clr-gold-500);
     border-top: 0.0625rem solid var(--clr-gold-600);
@@ -585,6 +605,11 @@
     margin-left: 1.25rem;
     margin-right: 1.25rem;
     padding: 1.75rem 1.25rem 1.25rem;
+  }
+
+  /* Raise header above the absolute-positioned corner accents (z-index: 15) */
+  .flavour-menu-header {
+    z-index: 20;
   }
 
   .flavour-selection {
@@ -670,8 +695,14 @@
     width: 2rem;
     height: 2rem;
     font-size: 1.5rem;
-    bottom: -35%;
+    bottom: -56%;
     top: auto;
+  }
+
+  /* Specialty gallery arrows sit lower than weekly because specialty has 12 dots
+     that wrap to a second row, pushing the arrow position down further */
+  .specialty-view-active .gallery-arrow {
+    bottom: -45%;
   }
 
   .gallery-arrow-left {
@@ -692,22 +723,47 @@
     display: none;
   }
 
-  /* Hide macarons when weekly view is active on mobile */
+  /* Dots wrap to a new row when count exceeds 12 (specialty has exactly 12).
+     max-width caps each row at 12 dots before wrapping. */
+  .gallery-dots {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    max-width: calc(12 * (0.75rem + 0.6rem));
+    margin-inline: auto;
+    margin-top: 2rem;
+  }
+
+  /* Hide macarons when weekly or specialty view is active on mobile */
   .weekly-view-active .macaron-decor,
+  .specialty-view-active .macaron-decor,
   .weekly-view-active .macaron-top-right-1,
+  .specialty-view-active .macaron-top-right-1,
   .weekly-view-active .macaron-top-right-2,
+  .specialty-view-active .macaron-top-right-2,
   .weekly-view-active .macaron-top-right-3,
+  .specialty-view-active .macaron-top-right-3,
   .weekly-view-active .macaron-bottom-left-stack-1,
+  .specialty-view-active .macaron-bottom-left-stack-1,
   .weekly-view-active .macaron-bottom-left-stack-2,
+  .specialty-view-active .macaron-bottom-left-stack-2,
   .weekly-view-active .macaron-bottom-left-stack-3,
+  .specialty-view-active .macaron-bottom-left-stack-3,
   .weekly-view-active .macaron-right-single-1,
+  .specialty-view-active .macaron-right-single-1,
   .weekly-view-active .macaron-right-single-2,
+  .specialty-view-active .macaron-right-single-2,
   .weekly-view-active .macaron-right-single-3,
+  .specialty-view-active .macaron-right-single-3,
   .weekly-view-active .macaron-right-single-4,
+  .specialty-view-active .macaron-right-single-4,
   .weekly-view-active .macaron-left-single-1,
+  .specialty-view-active .macaron-left-single-1,
   .weekly-view-active .macaron-left-single-2,
+  .specialty-view-active .macaron-left-single-2,
   .weekly-view-active .macaron-left-single-3,
-  .weekly-view-active .macaron-left-single-4 {
+  .specialty-view-active .macaron-left-single-3,
+  .weekly-view-active .macaron-left-single-4,
+  .specialty-view-active .macaron-left-single-4 {
     display: none !important;
   }
 

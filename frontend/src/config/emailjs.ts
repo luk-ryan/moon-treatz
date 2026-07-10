@@ -20,7 +20,7 @@
  *   {{notes}}             — customer notes (optional)
  */
 
-export const EMAILJS_SERVICE_ID = "service_5gw2y86";
-export const EMAILJS_TEMPLATE_ID = "template_caje0bq";   // admin notification
-export const EMAILJS_CUSTOMER_TEMPLATE_ID = "template_d16xewb"; // customer receipt — update after creating in EmailJS dashboard
-export const EMAILJS_PUBLIC_KEY = "YQLrcf9CfcuVaQfi_";
+export const EMAILJS_SERVICE_ID = "service_1orwmeb";
+export const EMAILJS_TEMPLATE_ID = "template_j990dk1";   // admin notification
+export const EMAILJS_CUSTOMER_TEMPLATE_ID = "template_is8hbu7"; // customer receipt — update after creating in EmailJS dashboard
+export const EMAILJS_PUBLIC_KEY = "y0VKT80sTZCA9P094";

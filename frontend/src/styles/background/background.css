@@ -10,6 +10,12 @@
   position: absolute;
   font-size: 5rem;
   pointer-events: none;
+  z-index: 0; /* behind page content but visible above background */
+}
+/* First 3 left butterflies float in front of content */
+.butterfly-left-1,
+.butterfly-left-2,
+.butterfly-left-3 {
   z-index: 10;
 }
 .butterfly-left-1 {
@@ -446,12 +452,15 @@
 /* =========================
    GIANT MACARON DECORATIONS
    ========================= */
+/* will-change promotes each macaron to its own GPU compositing layer
+   so the float animations run entirely on the GPU */
 .macaron-decor {
   position: absolute;
   pointer-events: none;
   opacity: 1;
   z-index: -5;
   filter: drop-shadow(0 0 0.75rem var(--shadow-gold-light));
+  will-change: transform;
 }
 .macaron-top-right-1 {
   width: 18vw;
@@ -567,72 +576,88 @@
 }
 
 /* Macaron repositioning for flavours page views */
+/* Macaron repositioning for flavours page views.
+   specialty-view-active uses the same close-in positions as weekly-view-active. */
 .weekly-view-active .macaron-top-right-1,
+.specialty-view-active .macaron-top-right-1,
 .flavour-selected-active .macaron-top-right-1 {
   right: 3%;
   top: 15%;
 }
 .weekly-view-active .macaron-top-right-2,
+.specialty-view-active .macaron-top-right-2,
 .flavour-selected-active .macaron-top-right-2 {
   right: 14%;
   top: 18%;
 }
 .weekly-view-active .macaron-top-right-3,
+.specialty-view-active .macaron-top-right-3,
 .flavour-selected-active .macaron-top-right-3 {
   right: 7%;
   top: 22%;
 }
 .weekly-view-active .macaron-bottom-left-stack-1,
+.specialty-view-active .macaron-bottom-left-stack-1,
 .flavour-selected-active .macaron-bottom-left-stack-1 {
   left: 2%;
   top: 65%;
 }
 .weekly-view-active .macaron-bottom-left-stack-2,
+.specialty-view-active .macaron-bottom-left-stack-2,
 .flavour-selected-active .macaron-bottom-left-stack-2 {
   left: 12%;
   top: 70%;
 }
 .weekly-view-active .macaron-bottom-left-stack-3,
+.specialty-view-active .macaron-bottom-left-stack-3,
 .flavour-selected-active .macaron-bottom-left-stack-3 {
   left: 6%;
   top: 75%;
 }
 .weekly-view-active .macaron-right-single-1,
+.specialty-view-active .macaron-right-single-1,
 .flavour-selected-active .macaron-right-single-1 {
   right: 15%;
   top: 48%;
 }
 .weekly-view-active .macaron-right-single-2,
+.specialty-view-active .macaron-right-single-2,
 .flavour-selected-active .macaron-right-single-2 {
   right: 4%;
   top: 8%;
 }
 .weekly-view-active .macaron-right-single-3,
+.specialty-view-active .macaron-right-single-3,
 .flavour-selected-active .macaron-right-single-3 {
   right: 11%;
   top: 60%;
 }
 .weekly-view-active .macaron-right-single-4,
+.specialty-view-active .macaron-right-single-4,
 .flavour-selected-active .macaron-right-single-4 {
   right: 6%;
   top: 78%;
 }
 .weekly-view-active .macaron-left-single-1,
+.specialty-view-active .macaron-left-single-1,
 .flavour-selected-active .macaron-left-single-1 {
   left: 14%;
   top: 12%;
 }
 .weekly-view-active .macaron-left-single-2,
+.specialty-view-active .macaron-left-single-2,
 .flavour-selected-active .macaron-left-single-2 {
   left: 4%;
   top: 28%;
 }
 .weekly-view-active .macaron-left-single-3,
+.specialty-view-active .macaron-left-single-3,
 .flavour-selected-active .macaron-left-single-3 {
   left: 16%;
   top: 42%;
 }
 .weekly-view-active .macaron-left-single-4,
+.specialty-view-active .macaron-left-single-4,
 .flavour-selected-active .macaron-left-single-4 {
   left: 9%;
   top: 55%;

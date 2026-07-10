@@ -136,9 +136,9 @@ export type MacaronDecor = {
   className: string;
   animate: {
     y: number[];
-    x: number[];
+    x?: number[];
     rotate: number[];
-    scale: number[];
+    scale?: number[];
   };
   transition: {
     duration: number;

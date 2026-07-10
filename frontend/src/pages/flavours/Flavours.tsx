@@ -4,14 +4,15 @@
  * The main flavours showcase page displaying all available macaron flavours and a gallery of past weekly specials.
  * 
  * Page Features:
- * - Two view modes: Weekly Specials Gallery and All Flavours
- * - Animated macaron decorations floating in background
+ * - Three view modes: Weekly Specials Gallery, Specialty Flavours Gallery, All Flavours
+ * - Animated macaron decorations floating in background (reposition per view mode)
  * - Filter system to view specific flavours
  * - Smooth transitions between views and filters
  * 
  * View Modes:
- * 1. Weekly Specials: Image gallery of past weekly box offerings
- * 2. All Flavours: Complete catalogue with individual flavour cards
+ * 1. Weekly Specials: Image carousel of past weekly box offerings
+ * 2. Specialty Flavours: Carousel of decorative/specialty flavour shots
+ * 3. All Flavours: Complete catalogue with individual flavour cards
  */
 
 import { useState, useEffect } from "react";
@@ -20,6 +21,7 @@ import { useLocation } from "react-router-dom";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import FlavourCard from "./FlavourCard";
 import WeeklyGallery from "./WeeklyGallery";
+import SpecialtyGallery from "./SpecialtyGallery";
 import { pageTransition } from "../../config/animations";
 import { flavours } from "../../config/flavours";
 import { macaronDecorations } from "../../components/decorations/macaronDecorations";
@@ -37,8 +39,8 @@ const Flavours = () => {
   // Check if viewport is mobile (600px or below)
   const isMobile = useIsMobile();
   
-  // State for controlling which view mode is active (weekly gallery or all flavours)
-  const [viewMode, setViewMode] = useState<"weekly" | "all">("weekly");
+  // "weekly" | "specialty" | "all" — controls which gallery/view is rendered
+  const [viewMode, setViewMode] = useState<"weekly" | "all" | "specialty">("weekly");
   
   // State for tracking which flavour is selected for filtering (null = show all)
   const [selectedFlavourId, setSelectedFlavourId] = useState<number | null>(
@@ -67,7 +69,8 @@ const Flavours = () => {
     // Wrap in motion.div for page transition animation
     <motion.div 
       {...pageTransition} 
-      className={`${viewMode === "weekly" ? "weekly-view-active" : ""} ${selectedFlavourId !== null ? "flavour-selected-active" : ""}`}
+      // specialty-view-active: repositions macarons close-in on desktop, hides them on mobile
+      className={`${viewMode === "weekly" ? "weekly-view-active" : ""} ${viewMode === "specialty" ? "specialty-view-active" : ""} ${selectedFlavourId !== null ? "flavour-selected-active" : ""}`}
     >
       {/* Render floating macaron decorations in background */}
       {macaronDecorations.map((macaron, index) => (
@@ -90,7 +93,12 @@ const Flavours = () => {
         >
           Weekly Specials
         </button>
-        {/* All Flavours button - switches to catalogue view */}
+        <button
+          onClick={() => setViewMode("specialty")}
+          className={viewMode === "specialty" ? "active" : ""}
+        >
+          Specialty Flavours
+        </button>
         <button
           onClick={() => setViewMode("all")}
           className={viewMode === "all" ? "active" : ""}
@@ -103,15 +111,12 @@ const Flavours = () => {
       {/* mode="wait" makes the exit animation complete before the enter animation starts */}
       <AnimatePresence mode="wait">
         {viewMode === "weekly" ? (
-          // Weekly Specials Gallery View
-          <motion.div
-            key="weekly" // Unique key helps AnimatePresence track this element
-            initial={{ opacity: 0, y: 50 }} // Start invisible, shifted down
-            animate={{ opacity: 1, y: 0 }} // Fade in, slide up to position
-            exit={{ opacity: 0, y: -50 }} // Fade out, slide up when leaving
-            transition={{ duration: 0.4 }}
-          >
+          <motion.div key="weekly" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -50 }} transition={{ duration: 0.4 }}>
             <WeeklyGallery />
+          </motion.div>
+        ) : viewMode === "specialty" ? (
+          <motion.div key="specialty" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -50 }} transition={{ duration: 0.4 }}>
+            <SpecialtyGallery />
           </motion.div>
         ) : (
           // All Flavours Catalogue View
@@ -171,15 +176,8 @@ const Flavours = () => {
               >
                 {/* Flavour card grid */}
                 <div className="flavour-card-list">
-                  {flavoursToShow.map((flavour, i) => (
-                    <motion.div
-                      key={flavour.id}
-                      initial={{ opacity: 0, y: 24, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <FlavourCard key={flavour.id} {...flavour} />
-                    </motion.div>
+                  {flavoursToShow.map((flavour) => (
+                    <FlavourCard key={flavour.id} {...flavour} />
                   ))}
                 </div>
                 {/* Page-flip navigation — only when a single flavour is selected */}

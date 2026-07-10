@@ -777,6 +777,57 @@ div > h1:first-child {
   margin-top: 0.5rem;
   align-items: flex-start;
 }
+
+/* Hero-specific button overrides — brighter, larger, more dramatic than the standard variant */
+.home-hero-actions .pre-order-button {
+  padding: 0.75rem 3.5rem;
+  font-size: var(--fs-400);
+  background: linear-gradient(
+    135deg,
+    #ffe066 0%,
+    #f0b800 30%,
+    #ffd700 60%,
+    #ffe066 100%
+  );
+  border: 2px solid #f0c030;
+  box-shadow:
+    0 0 18px rgba(240, 180, 0, 0.6),
+    0 0 36px rgba(240, 180, 0, 0.25),
+    0 6px 20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  text-shadow: 0 1px 2px rgba(120, 80, 0, 0.5);
+  letter-spacing: 0.2em;
+}
+.home-hero-actions .pre-order-button::before {
+  animation: buttonShimmer 5s infinite; /* faster shimmer sweep */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+}
+.home-hero-actions .pre-order-button:hover {
+  background: linear-gradient(
+    135deg,
+    #fff0a0 0%,
+    #ffd700 40%,
+    #ffec60 100%
+  );
+  box-shadow:
+    0 0 24px rgba(255, 210, 0, 0.85),
+    0 0 50px rgba(255, 210, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px) scale(1.03);
+  border-color: #ffe066;
+}
+.home-hero-actions .pre-order-button:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    0 0 12px rgba(240, 180, 0, 0.5),
+    0 3px 10px rgba(0, 0, 0, 0.5);
+}
 /* Placeholder image right side */
 /* Polaroid collage */
 .home-hero-img-wrap {
@@ -790,8 +841,68 @@ div > h1:first-child {
   height: 100%;
   min-height: 26rem;
 }
+/* Shuffle button — circular gold-glow icon + label, anchored top-right of collage */
+.hero-collage-shuffle {
+  position: absolute;
+  top: 0;
+  right: -5rem;  width: 7rem;  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 20;
+}
+.hero-collage-shuffle:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.hero-collage-shuffle-icon {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(180, 145, 60, 0.18), rgba(0, 0, 0, 0.82));
+  border: 2px solid var(--clr-gold-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: var(--clr-gold-200);
+  box-shadow:
+    0 0 14px var(--glow-accent-strong),
+    0 0 28px var(--glow-accent-medium),
+    0 0 50px var(--glow-accent-light),
+    inset 0 0 10px var(--glow-accent-light);
+  transition: box-shadow 0.25s, border-color 0.25s, color 0.25s;
+}
+.hero-collage-shuffle:hover:not(:disabled) .hero-collage-shuffle-icon {
+  border-color: var(--clr-gold-200);
+  color: #fff;
+  box-shadow:
+    0 0 20px var(--glow-accent-strong),
+    0 0 40px var(--glow-accent-medium),
+    0 0 70px var(--glow-accent-light),
+    inset 0 0 16px var(--glow-accent-medium);
+}
+.hero-collage-shuffle-label {
+  font-size: var(--fs-100);
+  font-family: var(--ff-accent);
+  letter-spacing: 0.12em;
+  color: var(--clr-gold-300);
+  text-shadow:
+    0 0 6px var(--glow-accent-strong),
+    0 0 14px var(--glow-accent-medium);
+  white-space: nowrap;
+  min-width: 7rem;
+  text-align: center;
+}
+/* will-change promotes each polaroid to its own GPU layer, keeping
+   8 simultaneous infinite float animations off the main thread */
 .hero-polaroid-float {
   position: absolute;
+  will-change: transform;
 }
 .hero-polaroid {
   width: 9rem;
@@ -884,20 +995,20 @@ div > h1:first-child {
   font-weight: 400;
   font-style: italic;
   letter-spacing: 0.06em;
-  background: linear-gradient(135deg, #f0d060 0%, #c9a227 50%, #f5e080 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
   margin: 0;
   text-align: center;
-  filter: drop-shadow(0 0 8px rgba(201,162,39,0.4));
+  filter: drop-shadow(0 0 2px rgba(255,255,255,0.9));
 }
 .polaroid-lightbox-sub {
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 0.6rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(201,162,39,0.6);
+  color: rgba(240, 210, 80, 0.9);
+  text-shadow: 0 0 8px rgba(220, 180, 40, 0.6);
   margin: 0;
   text-align: center;
   font-style: normal;
