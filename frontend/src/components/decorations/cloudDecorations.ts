@@ -4,7 +4,7 @@
  * Configuration for floating cloud decorations displayed on the home page.
  */
 
-import type { CloudDecor } from "../types/types";
+import type { CloudDecor } from "../../types/types";
 
 // Re-export the type (vs-code error workaround)
 export type { CloudDecor };

@@ -18,6 +18,7 @@ export type MenuItemProps = {
   quantity: number;
   price: number;
   flavours: number;
+  bestValue?: boolean;
 };
 
 /**
@@ -92,7 +93,7 @@ export type ButterflyDecor = {
  * @property {number} transition.duration - Animation duration in seconds
  * @property {number} transition.repeat - Number of animation repeats (Infinity for infinite)
  * @property {number[]} transition.ease - Easing function
- * @property {number} [transition.delay] - Snimation start delay
+ * @property {number} [transition.delay] - Animation start delay
  */
 export type CloudDecor = {
   src: string;
@@ -135,9 +136,9 @@ export type MacaronDecor = {
   className: string;
   animate: {
     y: number[];
-    x: number[];
+    x?: number[];
     rotate: number[];
-    scale: number[];
+    scale?: number[];
   };
   transition: {
     duration: number;

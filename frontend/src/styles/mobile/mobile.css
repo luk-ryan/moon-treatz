@@ -9,6 +9,16 @@
  */
 
 @media (max-width: 600px) {
+  html {
+    scrollbar-gutter: auto;
+    scrollbar-width: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
   /* =============================================
      PERFORMANCE - Disable Animations & Heavy Elements
      ============================================= */
@@ -28,10 +38,17 @@
   }
 
   /* Keep only essential shadows */
-  .menu-list,
-  .weekly-special-content,
-  .order-instructions {
+  .menu-list {
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Restore cart ring + add solid border so it's visible without glow */
+  .floating-cart {
+    box-shadow:
+      0 0 0 2px #c9a227,
+      0 0.25rem 0.75rem rgba(0, 0, 0, 0.5) !important;
+    border: 2px solid #c9a227 !important;
+    animation: none !important;
   }
 
   /* =============================================
@@ -118,16 +135,16 @@
 
   .ribbon-left {
     justify-content: flex-start;
-    padding-left: 2.5rem;
+    padding-left: 2.75rem;
   }
 
   .ribbon-right {
     justify-content: flex-end;
-    padding-right: 1rem;
+    padding-right: 1.5rem;
   }
 
   .ribbon-section a {
-    font-size: var(--fs-200);
+    font-size: var(--fs-100);
     letter-spacing: 0;
     color: var(--clr-gold-200);
     text-shadow:
@@ -144,22 +161,22 @@
   }
 
   .ribbon-right a::before {
-    font-size: var(--fs-200);
+    font-size: var(--fs-100);
   }
 
   .rosette-frame {
-    width: 10rem;
-    height: 10rem;
+    width: 9rem;
+    height: 9rem;
   }
 
   .rosette-frame::after {
-    width: 7rem;
-    height: 7rem;
+    width: 6.25rem;
+    height: 6.25rem;
   }
 
   .rosette-inner {
-    width: 6rem;
-    height: 6rem;
+    width: 5.5rem;
+    height: 5.5rem;
   }
 
   /* =============================================
@@ -168,6 +185,9 @@
 
   .logo-container {
     width: 6.5rem;
+  }
+  .logo-moon {
+    height: 100%;
   }
 
   /* =============================================
@@ -178,28 +198,149 @@
   .wrapper,
   .narrow-wrapper {
     max-width: 100%;
-    padding-inline: 1rem;
+    padding-inline: 1.25rem;
   }
 
-  /* Intro section - reduce spacing and font size */
-  .intro-section {
-    margin-top: -2rem;
+  /* ── Hero ── */
+  .home-hero {
+    width: 100%;
+    left: 0;
+    transform: none;
+    min-height: 50svh;
     margin-bottom: 1.5rem;
+    margin-top: -5rem;
   }
-
-  .intro-para {
+  .home-hero-body {
+    grid-template-columns: 1fr;
+    padding: 0.75rem 1.25rem 2rem;
+  }
+  .home-hero-img-wrap { display: none; }
+  .home-hero-title { font-size: clamp(2rem, 10vw, 3rem); }
+  .home-hero-eyebrow {
+    display: none;
+  }
+  .home-hero-sub {
     font-size: var(--fs-200);
     line-height: 1.6;
+    max-width: 100%;
+  }
+  .home-hero-actions {
+    margin-top: 0.25rem;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 20;
+  }
+  .pre-order-button {
+    position: relative;
+    z-index: 20;
+  }
+  /* Constrain hero button on mobile — don't let it stretch or wrap */
+  .home-hero-actions .pre-order-button {
+    padding: 0.65rem 2rem;
+    font-size: var(--fs-200);
+    width: auto;
+    white-space: nowrap;
   }
 
-  .intro-para:not(:last-child) {
-    margin-bottom: 1rem;
+  /* ── About strip ── */
+  .home-about-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .home-about {
+    padding: 1.75rem 1rem;
+    margin-top: -3rem;
+    margin-bottom: 1.5rem;
+  }
+  .home-about-heading {
+    font-size: clamp(1.3rem, 6vw, 1.8rem);
+  }
+  .home-about-text {
+    font-size: var(--fs-200);
+    line-height: 1.65;
   }
 
-  /* Catering menu title spacing - reduce gap between title and description */
+  /* ── Weekly Special ── */
+  .ws-title {
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+  }
+  .ws-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+  }
+  .ws-header {
+    margin-bottom: 1.5rem;
+  }
+  .weekly-special {
+    margin-top: -3rem;
+  }
+  .ws-feature {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+    gap: 1.5rem;
+  }
+  /* Unwrap ws-img-col so image and schedule can be reordered independently */
+  .ws-img-col { display: contents; }
+  .ws-img-wrap { order: 1; }
+  .ws-info-col { order: 2; }
+  .ws-schedule-block {
+    order: 3;
+    margin-top: -1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(201,162,39,0.15);
+  }
+  .ws-schedule-label { font-size: 0.65rem; }
+  .ws-pill { font-size: 0.65rem; padding: 0.2rem 0.6rem; }
+  .ws-flavour-list li {
+    font-size: 1.4rem;
+    padding: 0.45rem 0;
+  }
+  .ws-flavour-eyebrow {
+    font-size: 0.75rem;
+  }
+  .ws-desc {
+    font-size: var(--fs-100);
+    line-height: 1.65;
+  }
+  .ws-price-badge {
+    width: 5.5rem;
+    height: 5.5rem;
+    font-size: 1.25rem;
+    top: -1.5rem;
+    right: -1rem;
+  }
+  .ws-schedule-label {
+    font-size: 0.75rem;
+  }
+  .ws-pill {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+  }
+  .ws-info-col {
+    gap: 1.25rem;
+  }
+
+  /* ── Contact ── */
+  .contact-inner { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
+  .contact-divider { width: 100%; height: 1px; align-self: auto; }
+  .contact-col--location { max-width: 100%; }
+  .contact-col--links { margin-left: -1.5rem; }
+
+  /* ── Catering menu ── */
+  .menu-section {
+    margin-top: -5rem;
+  }
   .menu-section h1 {
-    font-size: var(--fs-600);
+    font-size: var(--fs-500);
     margin-bottom: 0.5rem;
+  }
+  .menu-title {
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+  }
+  .menu-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+  }
+  .menu-intro {
+    font-size: var(--fs-200);
+    margin-bottom: 1.25rem;
   }
 
   .menu-section p {
@@ -226,14 +367,77 @@
   }
 
   .menu-list {
-    padding: 1rem;
-    gap: 0.75rem;
+    padding: 0.75rem;
+    gap: 0;
   }
 
   .menu-list-row {
-    font-size: var(--fs-200);
+    flex-direction: row;
+    align-items: center;
+    padding: 0.65rem 0.25rem;
+  }
+
+  .menu-item-qty {
+    font-size: var(--fs-300);
+    min-width: 1.5rem;
+  }
+
+  .menu-item-info {
+    display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    gap: 0.15rem 0.3rem;
+  }
+
+  .menu-item-flavours {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    flex-basis: 100%;
+    line-height: 1;
+  }
+
+  .menu-best-badge {
+    display: none;
+  }
+
+  .menu-item-arrow {
+    display: none;
+  }
+
+  .menu-item-left {
+    gap: 0.4rem;
+  }
+
+  .menu-item-info {
     gap: 0.25rem;
+  }
+
+  .menu-item-price {
+    font-size: var(--fs-400);
+    min-width: 2rem;
+    order: 1;
+  }
+
+  .menu-item-unit {
+    font-size: 0.85rem;
+    order: 2;
+  }
+
+  .menu-item-right {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.05rem;
+    flex-shrink: 0;
+    padding-left: 0.25rem;
+  }
+
+  .menu-item-arrow {
+    display: none;
+  }
+
+  .macaron-icon {
+    height: 1.1rem;
   }
 
   /* Contact section */
@@ -292,76 +496,6 @@
     margin-bottom: 1.5rem;
   }
 
-  .weekly-info {
-    margin: 0 0 1rem;
-  }
-
-  .weekly-info .order-intro {
-    font-size: var(--fs-200);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .weekly-order-buttons {
-    gap: 0.75rem;
-    margin: 0.75rem 0 1.5rem;
-  }
-
-  .timeslots-list {
-    grid-template-columns: 1fr;
-    gap: 0.4rem;
-  }
-
-  .timeslots-list li {
-    padding: 0.5rem 1rem;
-    white-space: normal;
-  }
-
-  /* Weekly special mobile layout */
-  .weekly-special-content {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-    border-width: 0.1875rem;
-    gap: 0rem;
-  }
-
-  .weekly-special-content::before,
-  .weekly-special-content::after {
-    width: 1.5625rem;
-    height: 1.5625rem;
-    border-width: 0.125rem;
-  }
-
-  .weekly-special-imgframe {
-    padding: 0.5rem;
-    margin-bottom: 0;
-  }
-
-  .weekly-special-flavours {
-    padding: 0.75rem;
-  }
-
-  .weekly-special-flavours h3 {
-    font-size: var(--fs-300);
-    margin-bottom: 1rem;
-  }
-
-  .weekly-special-flavours li {
-    font-size: var(--fs-200);
-    padding: 0.75rem 1rem;
-  }
-
-  .price-tag {
-    width: 6rem;
-    height: 6rem;
-    top: -1.5rem;
-    right: -1.5rem;
-  }
-
-  .price-tag span {
-    font-size: 1.7rem;
-  }
-
   /* Dietary restrictions mobile layout */
   .dietary-restrictions {
     flex-direction: column;
@@ -369,60 +503,28 @@
     gap: 0.5rem;
   }
 
-  /* Order instructions mobile sizing */
-  .order-instructions {
-    margin-top: 3rem;
-    padding: 1.25rem;
-  }
+  .restriction-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 0.9rem 0.35rem 0.65rem;
+    gap: 0.45rem;
+    border-color: rgba(220, 80, 80, 1);
+    background: rgba(220, 80, 80, 0.3);
+    opacity: 1;    position: relative;
+    z-index: 10;  }
 
-  .order-instructions h3 {
-    font-size: var(--fs-400);
-    margin-bottom: 1rem;
-  }
-
-  .order-instructions p,
-  .order-intro,
-  .order-list li {
-    font-size: var(--fs-200);
-    line-height: 1.6;
-  }
-
-  .order-note {
-    font-size: var(--fs-100);
-    margin-bottom: 1rem;
-  }
-
-  .payment-badge {
-    font-size: var(--fs-100);
-    padding: 0.5rem 1rem;
-  }
-
-  .payment-options {
-    gap: 0.75rem;
+  .restriction-label .icon {
+    height: 1.25rem;
+    width: auto;
   }
 
   /* Pre-order button mobile sizing */
   .pre-order-button {
-    padding: 0.75rem 2rem;
-    font-size: var(--fs-200);
-    width: 100%;
-    max-width: 20rem;
-  }
-
-  /* NKS student pre-order button - two-line mobile layout */
-  .pre-order-button-nks-student {
-    font-size: var(--fs-200);
-    padding: 0.75rem 2rem;
-    line-height: 1.3;
-  }
-
-  .pre-order-notice {
+    padding: 0.5rem 1.25rem;
     font-size: var(--fs-100);
-  }
-
-  /* Pickup locations list - reduce indentation on mobile */
-  .order-list ul {
-    margin-left: 0 !important;
+    width: auto;
+    max-width: 14rem;
   }
 
   /* =============================================
@@ -439,8 +541,8 @@
   .view-mode-selector button {
     width: 95%;
     min-width: unset;
-    padding: 1.5rem 2rem;
-    font-size: var(--fs-300);
+    padding: 0.9rem 1.5rem;
+    font-size: var(--fs-200);
   }
 
   .view-mode-selector button:first-child {
@@ -449,15 +551,68 @@
     border-radius: 0.5rem 0.5rem 0 0;
   }
 
+  .view-mode-selector button:first-child.active {
+    border-right-color: var(--clr-accent);
+  }
+
+  .view-mode-selector button:not(:first-child):not(:last-child) {
+    border-left: 0.1875rem solid var(--clr-gold-500);
+    border-right: 0.1875rem solid var(--clr-gold-500);
+    border-top: 0.0625rem solid var(--clr-gold-600);
+    border-bottom: none;
+    border-radius: 0;
+  }
+
+  .view-mode-selector button:not(:first-child):not(:last-child).active {
+    border-left-color: var(--clr-accent);
+    border-right-color: var(--clr-accent);
+  }
+
   .view-mode-selector button:last-child {
     border-left: 0.1875rem solid var(--clr-gold-500);
     border-top: 0.0625rem solid var(--clr-gold-600);
     border-radius: 0 0 0.5rem 0.5rem;
   }
 
+  .view-mode-selector button:last-child.active {
+    border-left-color: var(--clr-accent);
+  }
+
+  /* Flavour pagination */
+  .flavour-pagination {
+    gap: 0.75rem;
+    margin: 1.5rem auto 0.5rem;
+  }
+
+  .flavour-page-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.6rem;
+    min-width: 5.5rem;
+    max-width: 6.5rem;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.2rem;
+    line-height: 1.3;
+  }
+
+  .page-btn-arrow {
+    font-size: 0.75rem;
+  }
+
   /* Flavour selection filter menu */
+  .flavour-menu-box {
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
+    padding: 1.75rem 1.25rem 1.25rem;
+  }
+
+  /* Raise header above the absolute-positioned corner accents (z-index: 15) */
+  .flavour-menu-header {
+    z-index: 20;
+  }
+
   .flavour-selection {
-    width: 80%;
     flex-direction: column;
     gap: 0.5rem;
     padding: 1.25rem 1.5rem;
@@ -479,6 +634,18 @@
   .weekly-gallery-section {
     padding: 0 1rem;
     margin: 2rem auto;
+  }
+
+  .gallery-nameplate {
+    padding: 0rem 1rem;
+    white-space: normal;
+    text-align: center;
+    max-width: 80vw;
+  }
+
+  .gallery-nameplate-title {
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
   }
 
   .weekly-gallery-section h2 {
@@ -528,8 +695,14 @@
     width: 2rem;
     height: 2rem;
     font-size: 1.5rem;
-    bottom: -35%;
+    bottom: -56%;
     top: auto;
+  }
+
+  /* Specialty gallery arrows sit lower than weekly because specialty has 12 dots
+     that wrap to a second row, pushing the arrow position down further */
+  .specialty-view-active .gallery-arrow {
+    bottom: -45%;
   }
 
   .gallery-arrow-left {
@@ -546,22 +719,51 @@
     transform: scale(1.1);
   }
 
-  /* Hide macarons when weekly view is active on mobile */
+  .gallery-flavour-pills {
+    display: none;
+  }
+
+  /* Dots wrap to a new row when count exceeds 12 (specialty has exactly 12).
+     max-width caps each row at 12 dots before wrapping. */
+  .gallery-dots {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    max-width: calc(12 * (0.75rem + 0.6rem));
+    margin-inline: auto;
+    margin-top: 2rem;
+  }
+
+  /* Hide macarons when weekly or specialty view is active on mobile */
   .weekly-view-active .macaron-decor,
+  .specialty-view-active .macaron-decor,
   .weekly-view-active .macaron-top-right-1,
+  .specialty-view-active .macaron-top-right-1,
   .weekly-view-active .macaron-top-right-2,
+  .specialty-view-active .macaron-top-right-2,
   .weekly-view-active .macaron-top-right-3,
+  .specialty-view-active .macaron-top-right-3,
   .weekly-view-active .macaron-bottom-left-stack-1,
+  .specialty-view-active .macaron-bottom-left-stack-1,
   .weekly-view-active .macaron-bottom-left-stack-2,
+  .specialty-view-active .macaron-bottom-left-stack-2,
   .weekly-view-active .macaron-bottom-left-stack-3,
+  .specialty-view-active .macaron-bottom-left-stack-3,
   .weekly-view-active .macaron-right-single-1,
+  .specialty-view-active .macaron-right-single-1,
   .weekly-view-active .macaron-right-single-2,
+  .specialty-view-active .macaron-right-single-2,
   .weekly-view-active .macaron-right-single-3,
+  .specialty-view-active .macaron-right-single-3,
   .weekly-view-active .macaron-right-single-4,
+  .specialty-view-active .macaron-right-single-4,
   .weekly-view-active .macaron-left-single-1,
+  .specialty-view-active .macaron-left-single-1,
   .weekly-view-active .macaron-left-single-2,
+  .specialty-view-active .macaron-left-single-2,
   .weekly-view-active .macaron-left-single-3,
-  .weekly-view-active .macaron-left-single-4 {
+  .specialty-view-active .macaron-left-single-3,
+  .weekly-view-active .macaron-left-single-4,
+  .specialty-view-active .macaron-left-single-4 {
     display: none !important;
   }
 
@@ -581,106 +783,19 @@
      BACKGROUND DECORATIONS - Clouds, Butterflies, Macarons
      ============================================= */
 
-  .cloud-left-1 {
-    top: 15%;
-    left: -15%;
-    width: 18rem;
-    height: auto;
-  }
-  .cloud-left-2 {
-    bottom: 10%;
-    left: -18%;
-    width: 16rem;
-    height: auto;
-    transform: scaleX(-1);
-  }
-  .cloud-left-3 {
-    top: 50%;
-    left: -12%;
-    width: 15rem;
-    height: auto;
-    opacity: 0.65;
-  }
-  .cloud-left-4 {
-    top: 75%;
-    left: -10%;
-    width: 13rem;
-    height: auto;
-    opacity: 0.55;
-  }
-  .cloud-right-1 {
-    top: 20%;
-    right: -15%;
-    width: 18rem;
-    height: auto;
-  }
-  .cloud-right-2 {
-    bottom: 15%;
-    right: -18%;
-    width: 17rem;
-    height: auto;
-  }
-  .cloud-right-3 {
-    top: 60%;
-    right: -12%;
-    width: 14rem;
-    height: auto;
-    opacity: 0.65;
-  }
-  .cloud-center-1 {
-    top: 30%;
-    left: 5%;
-    width: 12rem;
-    height: auto;
-    opacity: 0.4;
-  }
-  .cloud-center-2 {
-    top: 65%;
-    right: 8%;
-    width: 13rem;
-    height: auto;
-    opacity: 0.4;
-  }
-  .cloud-lower-left {
-    bottom: 35%;
-    left: -8%;
-    width: 14rem;
-    height: auto;
-    opacity: 0.5;
-  }
-  .cloud-lower-center {
-    bottom: 40%;
-    left: 48%;
-    width: 13rem;
-    height: auto;
-    opacity: 0.45;
-  }
-  .cloud-lower-right {
-    bottom: 38%;
-    right: -8%;
-    width: 14rem;
-    height: auto;
-    opacity: 0.5;
-  }
-  .cloud-bottom-1 {
-    bottom: 5%;
-    left: 40%;
-    width: 13rem;
-    height: auto;
-    opacity: 0.45;
-  }
+  /* Hide only the center cloud that overlaps the hero button */
+  .cloud-center-1 { display: none; }
+  /* Hide left clouds to identify offender */
+  .cloud-left-2 { display: none; }
 
   .butterfly {
     position: absolute;
     font-size: 4rem;
-    opacity: 0.6 !important;
+    opacity: 0.4 !important;
     pointer-events: none;
     z-index: 0;
   }
-  .butterfly-left-5,
-  .butterfly-left-6,
-  .butterfly-left-7,
-  .butterfly-left-8 {
+  .butterfly-left-1 {
     display: none;
   }
 
@@ -744,4 +859,80 @@
     left: -22% !important;
     top: 68% !important;
   }
+
+  /* =============================================
+     PRE-ORDER PAGE - Mobile Layout
+     ============================================= */
+
+  /* Cart panel + summary panel: float to top before the form content */
+  .preorder-cart-layout,
+  .preorder-step-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preorder-cart-panel,
+  .preorder-order-summary {
+    order: -1;
+  }
+
+  /* Tighten page padding on mobile */
+  .preorder-page {
+    padding: 1rem 1rem 3rem;
+  }
+
+  /* Reduce pre-order title size on mobile */
+  .preorder-title {
+    font-size: var(--fs-500);
+  }
+
+  /* Stack step nav buttons full-width on very narrow screens */
+  .preorder-step-nav {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .preorder-step-nav .preorder-submit-btn,
+  .preorder-step-nav .preorder-step-back {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* NKS timetable: stack Thu/Fri columns vertically */
+  .preorder-nks-columns {
+    grid-template-columns: 1fr;
+  }
+
+  /* Catering grid: stack to single column */
+  .preorder-catering-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Flavour checkbox grid: single column */
+  .preorder-checkbox-group {
+    grid-template-columns: 1fr;
+  }
+
+  /* Calendar slot cards: single column */
+  .preorder-cal-slots {
+    grid-template-columns: 1fr;
+  }
+
+  /* =============================================
+     FRAMER-MOTION VISIBILITY FIX
+     framer-motion applies inline opacity/transform via JS;
+     CSS !important overrides inline styles, so this forces
+     all page content visible regardless of animation state.
+     ============================================= */
+  .wrapper,
+  .wrapper * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Re-allow specific intentional transforms / opacity */
+  .home-hero-overlay       { opacity: 1 !important; }
+  .home-hero-bg            { transform: none !important; opacity: 1 !important; }
+  .floating-cart           { transform: none !important; }
+  .floating-cart-badge     { transform: none !important; }
 }

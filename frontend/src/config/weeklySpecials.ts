@@ -165,8 +165,8 @@ export const weeklySpecials: WeeklyFlavour[] = [
     images: [
       "/flavours/weekly_specials/weekly_special_14(box-view).jpg",
       "/flavours/weekly_specials/weekly_special_14(box-view2).jpg",
-      "/flavours/weekly_specials/weekly_special_14(top-view).jpg",
       "/flavours/weekly_specials/weekly_special_14(side-view).jpg",
+      "/flavours/weekly_specials/weekly_special_14(side-view2).jpg",
     ],
   },
   {
