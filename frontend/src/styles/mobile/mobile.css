@@ -695,14 +695,14 @@
     width: 2rem;
     height: 2rem;
     font-size: 1.5rem;
-    bottom: -56%;
+    bottom: -45%;
     top: auto;
   }
 
   /* Specialty gallery arrows sit lower than weekly because specialty has 12 dots
      that wrap to a second row, pushing the arrow position down further */
   .specialty-view-active .gallery-arrow {
-    bottom: -45%;
+    bottom: -40%;
   }
 
   .gallery-arrow-left {

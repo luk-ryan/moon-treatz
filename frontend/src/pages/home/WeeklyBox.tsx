@@ -15,8 +15,19 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getLatestSpecial } from "../../config/weeklySpecials";
 import { fadeUp } from "../../config/animations";
+import { preOrderOpenDate } from "../../config/preOrderForm";
 
 const latestSpecial = getLatestSpecial();
+
+// Build "Month Day–Day" label from preOrderOpenDate to (preOrderOpenDate + 2 days)
+const getPreOrderDate = () => {
+  const start = new Date(preOrderOpenDate + "T00:00:00");
+  const end = new Date(start);
+  end.setDate(end.getDate() + 2);
+  const month = start.toLocaleDateString("en-US", { month: "short" });
+  return `${month} ${start.getDate()}–${end.getDate()}`;
+};
+const preOrderDate = getPreOrderDate();
 
 const WeeklyBox = () => {
   return (
@@ -53,7 +64,7 @@ const WeeklyBox = () => {
 
           {/* Flavours — staggered bullet reveal */}
           <motion.div className="ws-flavour-block" {...fadeUp(0.2)}>
-            <p className="ws-flavour-eyebrow">Last Week's Flavours · Mar 5–7</p>
+            <p className="ws-flavour-eyebrow">Last Week's Flavours · {preOrderDate}</p>
             <ul className="ws-flavour-list">
               {latestSpecial.flavours.map((flavour, i) => (
                 <motion.li
