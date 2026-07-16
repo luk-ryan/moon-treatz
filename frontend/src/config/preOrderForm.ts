@@ -19,7 +19,7 @@
  * The date the form automatically opens. Used for the countdown timer.
  * Format: "YYYY-MM-DD"
  */
-export const preOrderOpenDate: string = "2026-07-07";
+export const preOrderOpenDate: string = "2026-07-21";
 
 /**
  * Manual Close Override
@@ -27,6 +27,24 @@ export const preOrderOpenDate: string = "2026-07-07";
  * Set to true to close the form immediately regardless of the open date.
  */
 export const preOrderClosed: boolean = false;
+
+/**
+ * Force Open Override
+ * ===================
+ * Set to true to force the weekly box form open regardless of the open date.
+ * Useful when taking orders early without changing the countdown date.
+ */
+export const preOrderForceOpen: boolean = true;
+
+/**
+ * Next Week's Flavours
+ * ====================
+ * Overrides the flavours shown on the weekly box card in the pre-order form.
+ * Set these to next week's actual flavours without touching the gallery config.
+ * Leave as an empty array [] to fall back to the latest weekly special entry.
+ */
+export const nextWeekFlavours: string[] = ["Earl Grey", "Cookies & Cream", "Vanilla"];
+// Example: export const nextWeekFlavours: string[] = ["Pistachio", "Lemon", "Biscoff"];
 
 /**
  * Returns time remaining until preOrderOpenDate as { days, hours, minutes, seconds, total }.

@@ -34,6 +34,7 @@ import { motion } from "framer-motion";
 import { pageTransition } from "../../config/animations";
 import { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_CUSTOMER_TEMPLATE_ID, EMAILJS_PUBLIC_KEY } from "../../config/emailjs";
 import { getLatestSpecial } from "../../config/weeklySpecials";
+import { nextWeekFlavours, preOrderForceOpen } from "../../config/preOrderForm";
 import { isPreOrderFormAvailable } from "../../config/preOrderForm";
 import FormField from "../../components/preorder/primitives/FormField";
 import Textarea from "../../components/preorder/primitives/Textarea";
@@ -52,7 +53,10 @@ import { useCart } from "../../context/CartContext";
 import { CATERING_SIZES, CATERING_IMAGES, PICKUP_LOCATIONS } from "../../config/catering";
 
 const latestSpecial = getLatestSpecial();
-const weeklyAvailable = isPreOrderFormAvailable();
+// Use nextWeekFlavours from config if set, otherwise fall back to the latest gallery entry
+const weeklyFlavours = nextWeekFlavours.length > 0 ? nextWeekFlavours : latestSpecial.flavours;
+
+const weeklyAvailable = preOrderForceOpen || isPreOrderFormAvailable();
 
 // CATERING_SIZES, CATERING_IMAGES, PICKUP_LOCATIONS — all imported from config/catering.ts above
 
@@ -371,7 +375,7 @@ const PreOrder = () => {
                 <h2 className="preorder-section-heading">Weekly Box</h2>
                 <WeeklyProductCard
                   isAvailable={weeklyAvailable}
-                  flavours={latestSpecial.flavours}
+                  flavours={weeklyFlavours}
                   qty={cart.weekly}
                   onChange={(n) => {
                     setCart(p => ({ ...p, weekly: n }));
@@ -791,7 +795,7 @@ const PreOrder = () => {
               let flavourLine = "";
               let flavoursHtml = "";
               if (i.label === "Weekly Special Box") {
-                const fl = latestSpecial.flavours.join(", ");
+                const fl = weeklyFlavours.join(", ");
                 flavourLine = `\n  Flavours: ${fl}`;
                 flavoursHtml = `<div style="color:#c9a227;font-size:0.8rem;margin-top:0.25rem;font-style:italic;">Flavours: ${fl}</div>`;
               } else {
@@ -815,13 +819,13 @@ const PreOrder = () => {
               };
             });
             const deliveryFeeRow = form.pickupMethod === "delivery"
-              ? `\nDelivery Fee: ~$4+ (based on distance)`
+              ? `\nDelivery Fee: ~$4+ ($4 base + $0.50/km beyond 10 km)`
               : "";
             const deliveryFeeHtml = form.pickupMethod === "delivery"
               ? `<tr style="border-bottom:1px solid #ede5d0;"><td style="padding:0.75rem 0;font-size:0.95rem;color:#1a1408;"><strong style="font-size:1rem;">Delivery Fee</strong><br/><span style="font-size:0.75rem;color:#888;font-style:italic;">$4 base + $0.50/km beyond 10 km</span></td><td style="padding:0.75rem 0;font-size:1rem;color:#c9a227;text-align:right;white-space:nowrap;font-weight:bold;">~$4+</td></tr>`
               : "";
-            const orderSummary = orderItems.map(r => r.text).join("\n") + deliveryFeeRow + `\n\nSubtotal: $${cartEstimate} + Delivery fee`;
-            const order_summary_html = `<table style="width:100%;border-collapse:collapse;">${orderItems.map(r => r.html).join("")}${deliveryFeeHtml}<tr><td colspan="2"><table style="width:100%;border-collapse:collapse;border-top:2px solid #c9a227;margin-top:0.5rem;"><tr><td style="padding:0.5rem 0 0 0;font-size:1.05rem;color:#c9a227;text-align:right;letter-spacing:0.02em;"><strong>Subtotal: $${cartEstimate}${form.pickupMethod === "delivery" ? " + Delivery fee" : ""}</strong></td></tr></table></td></tr></table>`;
+            const orderSummary = orderItems.map(r => r.text).join("\n") + deliveryFeeRow + `\n\nSubtotal: $${cartEstimate}${form.pickupMethod === "delivery" ? " + Delivery fee (~$4+)" : ""}`;
+            const order_summary_html = `<table style="width:100%;border-collapse:collapse;">${orderItems.map(r => r.html).join("")}${deliveryFeeHtml}<tr><td colspan="2"><table style="width:100%;border-collapse:collapse;border-top:2px solid #c9a227;margin-top:0.5rem;"><tr><td style="padding:0.5rem 0 0 0;font-size:1.05rem;color:#c9a227;text-align:right;letter-spacing:0.02em;"><strong>Subtotal: $${cartEstimate}${form.pickupMethod === "delivery" ? " + Delivery fee (~$4+)" : ""}</strong></td></tr></table></td></tr></table>`;
 
             /* Human-readable schedule line for the email body */
             let schedule = "Not specified";
@@ -889,6 +893,7 @@ const PreOrder = () => {
               .catch(() => {});
 
             setShowReview(false);
+            clearCart();
             setSubmitted(true);
           }}
         />

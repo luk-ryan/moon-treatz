@@ -76,13 +76,25 @@ const pad   = (n: number) => String(n).padStart(2, "0");
 const toKey = (d: Date)   => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
 // Returns the upcoming Thu/Fri/Sat (strictly in the future, never today).
+import { preOrderOpenDate } from "../../../config/preOrderForm";
+
+// Returns Thu/Fri/Sat of the week that contains preOrderOpenDate.
+// Only advances to the following week if Saturday of that week has already passed today.
 const getPickupWeek = () => {
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const daysUntilThu = (4 - today.getDay() + 7) % 7 || 7;
-  const thu = new Date(today); thu.setDate(today.getDate() + daysUntilThu);
-  const fri = new Date(thu);   fri.setDate(thu.getDate() + 1);
+  const anchor = new Date(preOrderOpenDate + "T00:00:00");
+  const today  = new Date(); today.setHours(0, 0, 0, 0);
+
+  // Find the Thursday of the week containing the anchor.
+  const daysToThu = ((4 - anchor.getDay() + 3) % 7) - 3;
+  const thu = new Date(anchor); thu.setDate(anchor.getDate() + daysToThu);
   const sat = new Date(thu);   sat.setDate(thu.getDate() + 2);
-  return { thursday: thu, friday: fri, saturday: sat };
+
+  // If Saturday of that week has already passed, advance one week forward
+  if (sat < today) thu.setDate(thu.getDate() + 7);
+
+  const fri = new Date(thu); fri.setDate(thu.getDate() + 1);
+  const satFinal = new Date(thu); satFinal.setDate(thu.getDate() + 2);
+  return { thursday: thu, friday: fri, saturday: satFinal };
 };
 
 // ─── Props  ────────────────────────────────────────────────────────────────────
@@ -114,11 +126,9 @@ const OrderCalendar = (props: OrderCalendarProps) => {
   const pickupWeek = getPickupWeek();
   const { thursday, friday, saturday } = pickupWeek;
 
-  // availableKeyMap looks up a calendar cell's "YYYY-MM-DD" key and instantly know which DayKey it maps to.
-  // Used to decide if a cell is clickable and which slot list to show.
-  // In NKS mode, Saturday is omitted (no Saturday classes).
+  // In NKS mode, Thursday and Saturday are omitted — Friday only.
   const availableKeyMap: Record<string, DayKey> = isWeekly ? {
-    [toKey(thursday)]: "thursday",
+    ...(nksOnly ? {} : { [toKey(thursday)]: "thursday" }),
     [toKey(friday)]:   "friday",
     ...(nksOnly ? {} : { [toKey(saturday)]: "saturday" }),
   } : {};
@@ -142,10 +152,24 @@ const OrderCalendar = (props: OrderCalendarProps) => {
 
   // ── Catering-mode: earliest bookable date + blocked set ───────────────────────
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  // minDate = the next Wednesday from today (never same-day).
-  // The `|| 7` to skip forward a full week when today IS Wednesday.
-  const daysUntilWed = (3 - today.getDay() + 7) % 7 || 7;
-  const minDate = new Date(today); minDate.setDate(today.getDate() + daysUntilWed);
+  // minDate logic:
+  //   - preOrderOpenDate in the future → first Wednesday on or after that date
+  //   - preOrderOpenDate already passed → next Wednesday at least 7 days from today
+  const anchor = new Date(preOrderOpenDate + "T00:00:00");
+  const minDate = (() => {
+    if (anchor >= today) {
+      // Find the first Wednesday on or after the anchor
+      const daysToWed = (3 - anchor.getDay() + 7) % 7;
+      const d = new Date(anchor); d.setDate(anchor.getDate() + daysToWed);
+      return d;
+    } else {
+      // Anchor has passed — next Wednesday exactly 2 weeks after preOrderOpenDate
+      const base = new Date(anchor); base.setDate(anchor.getDate() + 14);
+      const daysToWed = (3 - base.getDay() + 7) % 7;
+      const d = new Date(base); d.setDate(base.getDate() + daysToWed);
+      return d;
+    }
+  })();
   // Build a Set for O(1) manually blocked-date checks inside the cell loop below.
   const blockedSet = new Set(cateringBlockedDates);
 

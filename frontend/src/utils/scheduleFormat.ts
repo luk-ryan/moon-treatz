@@ -4,18 +4,26 @@
  * Shared helpers for converting internal pickupDate values into human-readable { label, time } pairs.
  */
 
-// Returns the upcoming Thu/Fri/Sat. The `|| 7` skips a full week when today is Thursday.
+import { preOrderOpenDate } from "../config/preOrderForm";
+
+// Returns Thu/Fri/Sat of the week containing preOrderOpenDate.
+// Only advances to the following week if Saturday of that week has already passed today.
 function getPickupWeekDates() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const daysUntilThu = (4 - today.getDay() + 7) % 7 || 7;
-  const thu = new Date(today);
-  thu.setDate(today.getDate() + daysUntilThu);
+  const anchor = new Date(preOrderOpenDate + "T00:00:00");
+  const today  = new Date(); today.setHours(0, 0, 0, 0);
+
+  const daysToThu = ((4 - anchor.getDay() + 3) % 7) - 3;
+  const thu = new Date(anchor);
+  thu.setDate(anchor.getDate() + daysToThu);
+  const sat = new Date(thu); sat.setDate(thu.getDate() + 2);
+
+  if (sat < today) thu.setDate(thu.getDate() + 7);
+
   const fri = new Date(thu);
   fri.setDate(thu.getDate() + 1);
-  const sat = new Date(thu);
-  sat.setDate(thu.getDate() + 2);
-  return { thu, fri, sat };
+  const satFinal = new Date(thu);
+  satFinal.setDate(thu.getDate() + 2);
+  return { thu, fri, sat: satFinal };
 }
 
 // e.g. → "Thursday, July 10, 2025"
