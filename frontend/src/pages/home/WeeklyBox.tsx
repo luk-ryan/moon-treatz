@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getLatestSpecial } from "../../config/weeklySpecials";
 import { fadeUp } from "../../config/animations";
-import { preOrderOpenDate } from "../../config/preOrderForm";
 
 const latestSpecial = getLatestSpecial();
 
