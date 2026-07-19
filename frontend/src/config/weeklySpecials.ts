@@ -199,6 +199,16 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_17(side-view).jpg",
     ],
   },
+  {
+    id: 18,
+    flavours: ["Dubai Chocolate", "Red Velvet", "Matcha"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_18.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_18(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_18(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_18(side-view).jpg",
+    ],
+  },
 ];
 
 /**
