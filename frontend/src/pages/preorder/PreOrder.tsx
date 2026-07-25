@@ -37,6 +37,7 @@ import { getLatestSpecial } from "../../config/weeklySpecials";
 import { nextWeekFlavours, preOrderForceOpen } from "../../config/preOrderForm";
 import { isPreOrderFormAvailable } from "../../config/preOrderForm";
 import FormField from "../../components/preorder/primitives/FormField";
+import Input from "../../components/preorder/primitives/Input";
 import Textarea from "../../components/preorder/primitives/Textarea";
 import Stepper from "../../components/preorder/primitives/Stepper";
 import OrderCalendar from "../../components/preorder/sections/OrderCalendar";
@@ -81,6 +82,7 @@ type OrderForm = {
   pickupMethod: string; pickupLocation: string; deliveryAddress: string;
   // Shared
   name: string; email: string; phone: string; instagram: string; notes: string;
+  nksStudentName: string;
   paymentMethod: string; etransferEmail: string; agreedToTerms: boolean;
 };
 const FORM_INIT: OrderForm = {
@@ -88,6 +90,7 @@ const FORM_INIT: OrderForm = {
   eventDate: "", orderTime: "",
   pickupMethod: "", pickupLocation: "", deliveryAddress: "",
   name: "", email: "", phone: "", instagram: "", notes: "",
+  nksStudentName: "",
   paymentMethod: "", etransferEmail: "", agreedToTerms: false,
 };
 
@@ -271,6 +274,7 @@ const PreOrder = () => {
     if (!form.name.trim()) e.name = "Name is required.";
     if (!form.email.trim()) e.email = "Email is required.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Please enter a valid email.";
+    if (isNks && !form.nksStudentName.trim()) e.nksStudentName = "Student name is required for NKS orders.";
     return e;
   };
   const getCateringErrors = () => {
@@ -567,13 +571,26 @@ const PreOrder = () => {
                       className="preorder-checkbox-input"
                       checked={isNks}
                       onChange={(e) => {
-                        setForm(p => ({ ...p, orderType: e.target.checked ? "nks-student" : "regular", pickupDate: "", eventDate: "", orderTime: "" }));
-                        setErrors(p => ({ ...p, orderType: undefined, pickupDate: undefined, eventDate: undefined, orderTime: undefined }));
+                        setForm(p => ({ ...p, orderType: e.target.checked ? "nks-student" : "regular", pickupDate: "", eventDate: "", orderTime: "", nksStudentName: "" }));
+                        setErrors(p => ({ ...p, orderType: undefined, pickupDate: undefined, eventDate: undefined, orderTime: undefined, nksStudentName: undefined }));
                       }}
                     />
                     <span>NKS Order</span>
                   </label>
                 </div>
+
+                {/* NKS student name — only shown when NKS checkbox is checked */}
+                {isNks && (
+                  <FormField label="NKS Student Name" htmlFor="nksStudentName" required error={errors.nksStudentName}>
+                    <Input
+                      id="nksStudentName" name="nksStudentName"
+                      value={form.nksStudentName}
+                      onChange={e => { setForm(p => ({ ...p, nksStudentName: e.target.value })); setErrors(p => ({ ...p, nksStudentName: undefined })); }}
+                      placeholder="Student's full name"
+                      error={!!errors.nksStudentName}
+                    />
+                  </FormField>
+                )}
 
                 <div className="preorder-step-nav">
                   <button type="button" className="preorder-reset-btn preorder-step-back" onClick={() => setStep(hasCatering ? "catering-details" : "cart")}>← Back</button>
@@ -870,16 +887,17 @@ const PreOrder = () => {
             const templateParams = {
               customer_name:      form.name,
               pickup_date,
-              customer_email:     form.email,
-              customer_phone:     form.phone || "—",
-              customer_instagram: form.instagram || "—",
-              order_summary:      orderSummary,
+              customer_email:      form.email,
+              customer_phone:      form.phone || "—",
+              customer_instagram:  form.instagram || "—",
+              nks_student_name:    form.nksStudentName || "—",
+              order_summary:       orderSummary,
               order_summary_html,
               schedule,
               pickup_delivery,
-              payment_method:     form.paymentMethod,
+              payment_method:      form.paymentMethod,
               payment_instructions,
-              notes:              form.notes || "—",
+              notes:               form.notes || "—",
             };
 
             /* Order confirmation email */

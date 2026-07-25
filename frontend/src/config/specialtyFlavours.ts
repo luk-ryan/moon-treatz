@@ -21,4 +21,6 @@ export const specialtyFlavours: SpecialtyFlavour[] = [
   { src: "/flavours/specialty_flavours/decorative_pistachio.jpg",            name: "Pistachio" },
   { src: "/flavours/specialty_flavours/decorative_salted_caramel.jpg",       name: "Salted Caramel" },
   { src: "/flavours/specialty_flavours/decorative_strawberry.jpg",           name: "Strawberry" },
+  { src: "/flavours/specialty_flavours/decorative_dubai_chocolate.jpg",       name: "Dubai Chocolate" },
+  { src: "/flavours/specialty_flavours/decorative_red_velvet.jpg",            name: "Red Velvet" },
 ];

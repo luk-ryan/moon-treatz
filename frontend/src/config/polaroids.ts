@@ -55,6 +55,9 @@ export const ALL_POLAROIDS: PolaroidEntry[] = [
   { src: "/flavours/polaroids/trio_red_velvet+chocolate+jasmine_tea.jpg",                            name: "Red Velvet · Chocolate · Jasmine Tea",          description: "Bold, rich & floral" },
   { src: "/flavours/polaroids/trio_vanilla+ferrero_rocher+earl_grey.jpg",                            name: "Vanilla · Ferrero Rocher · Earl Grey",          description: "Elegant and refined" },
   { src: "/flavours/polaroids/trio_vanilla+red_velvet+biscoff.jpg",                                  name: "Vanilla · Red Velvet · Biscoff",                description: "Classic with a twist" },
+  { src: "/flavours/polaroids/trio_dubai_chocolate+matcha+red_velvet.jpg",                           name: "Dubai Chocolate · Matcha · Red Velvet",          description: "Bold, chocolatey & indulgent" },
+  { src: "/flavours/polaroids/box_dubai_chocolate+matcha+red_velvet.jpg",                            name: "Dubai Chocolate · Matcha · Red Velvet",          description: "A box worth savouring" },
+  { src: "/flavours/polaroids/box_top_view_dubai_chocolate+matcha+red_velvet.jpg",                   name: "Dubai Chocolate · Matcha · Red Velvet",          description: "Top view of a stunning trio" },
 ];
 
 /** Returns n unique random entries from ALL_POLAROIDS. */

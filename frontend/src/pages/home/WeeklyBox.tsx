@@ -19,6 +19,8 @@ import { fadeUp } from "../../config/animations";
 const latestSpecial = getLatestSpecial();
 
 /* NOTE FROM RYAN - WAS NOT SHOWING CORRECT DATE, MAY NOT NEED TO SHOW ANYWAY
+   
+   YESH MASTER RYAN.
 
 // Build "Month Day–Day" label from preOrderOpenDate to (preOrderOpenDate + 2 days)
 const getPreOrderDate = () => {
@@ -70,7 +72,6 @@ const WeeklyBox = () => {
         <div className="ws-info-col">
           {/* Flavours — staggered bullet reveal */}
           <motion.div className="ws-flavour-block" {...fadeUp(0.2)}>
-            {/* <p className="ws-flavour-eyebrow">Last Week's Flavours · {preOrderDate}</p> */}
             <p className="ws-flavour-eyebrow">Previous Week's Flavours</p>
             <ul className="ws-flavour-list">
               {latestSpecial.flavours.map((flavour, i) => (

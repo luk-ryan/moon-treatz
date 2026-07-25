@@ -89,8 +89,8 @@ const getPickupWeek = () => {
   const thu = new Date(anchor); thu.setDate(anchor.getDate() + daysToThu);
   const sat = new Date(thu);   sat.setDate(thu.getDate() + 2);
 
-  // If Saturday of that week has already passed, advance one week forward
-  if (sat < today) thu.setDate(thu.getDate() + 7);
+  // If Saturday of that week has already passed or is today, advance one week forward
+  if (sat <= today) thu.setDate(thu.getDate() + 7);
 
   const fri = new Date(thu); fri.setDate(thu.getDate() + 1);
   const satFinal = new Date(thu); satFinal.setDate(thu.getDate() + 2);
@@ -122,17 +122,18 @@ const OrderCalendar = (props: OrderCalendarProps) => {
   const isWeekly = props.mode === "weekly";
 
   // ── Weekly-mode: compute the three pickup dates ──────────────────────────────
-  // getPickupWeek() always returns the *next* Thu/Fri/Sat, never the current day.
   const pickupWeek = getPickupWeek();
   const { thursday, friday, saturday } = pickupWeek;
+  const todayWeekly = new Date(); todayWeekly.setHours(0, 0, 0, 0);
 
-  // In NKS mode, Thursday and Saturday are omitted — Friday only.
+  // Only include pickup days that are strictly in the future (not today, not past).
+  // In NKS mode Thursday and Saturday are also excluded.
   const availableKeyMap: Record<string, DayKey> = isWeekly ? {
-    ...(nksOnly ? {} : { [toKey(thursday)]: "thursday" }),
-    [toKey(friday)]:   "friday",
-    ...(nksOnly ? {} : { [toKey(saturday)]: "saturday" }),
+    ...(nksOnly || thursday <= todayWeekly ? {} : { [toKey(thursday)]: "thursday" }),
+    ...(friday <= todayWeekly ? {} : { [toKey(friday)]: "friday" }),
+    ...(nksOnly || saturday <= todayWeekly ? {} : { [toKey(saturday)]: "saturday" }),
   } : {};
-  const availableKeys = new Set(Object.keys(availableKeyMap)); // O(1) per-cell lookup
+  const availableKeys = new Set(Object.keys(availableKeyMap));
 
   // Recovers the active DayKey from a stored slot string like "thursday-morning".
   // Returns null for empty / unrecognised strings.
@@ -181,10 +182,15 @@ const OrderCalendar = (props: OrderCalendarProps) => {
   const [viewMonth, setViewMonth] = useState(isWeekly ? thursday.getMonth()    : minDate.getMonth());
 
   // Prevent navigating back past the month that contains minDate.
-  // Always false in weekly mode (nav arrows are disabled in the JSX too).
-  const canGoPrev = !isWeekly && (
-    viewYear > minDate.getFullYear() ||
-    (viewYear === minDate.getFullYear() && viewMonth > minDate.getMonth())
+  // In weekly mode, allow going back only if we've navigated past Thursday's month.
+  const canGoPrev = isWeekly
+    ? (viewYear > thursday.getFullYear() || (viewYear === thursday.getFullYear() && viewMonth > thursday.getMonth()))
+    : (viewYear > minDate.getFullYear() || (viewYear === minDate.getFullYear() && viewMonth > minDate.getMonth()));
+
+  // In weekly mode, allow navigating forward only if Saturday spills into the next month.
+  const canGoNextWeekly = isWeekly && (
+    viewYear < saturday.getFullYear() ||
+    (viewYear === saturday.getFullYear() && viewMonth < saturday.getMonth())
   );
 
   const prevMonth = () => {
@@ -335,7 +341,7 @@ const OrderCalendar = (props: OrderCalendarProps) => {
         <span className="preorder-cal-month-label">{MONTH_NAMES[viewMonth]} {viewYear}</span>
         <button
           type="button" className="preorder-cal-nav"
-          onClick={nextMonth} disabled={isWeekly}
+          onClick={nextMonth} disabled={isWeekly && !canGoNextWeekly}
           aria-label="Next month"
         >›</button>
       </div>
@@ -366,7 +372,7 @@ const OrderCalendar = (props: OrderCalendarProps) => {
             // Catering: three independent disable reasons checked separately.
             const isTooSoon = cellDate < minDate;  // before the minimum booking window
             const isBlocked = blockedSet.has(key); // manually blocked in config
-            const isNksDay  = nksOnly && cellDate.getDay() !== 4 && cellDate.getDay() !== 5; // NKS → Thu/Fri only
+            const isNksDay  = nksOnly && cellDate.getDay() !== 5; // NKS → Friday only
             return {
               isDisabled: isTooSoon || isBlocked || isNksDay,
               isSelected: (props as CateringProps).dateValue === key,
