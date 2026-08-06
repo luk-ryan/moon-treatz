@@ -43,7 +43,11 @@ export const preOrderForceOpen: boolean = true;
  * Set these to next week's actual flavours without touching the gallery config.
  * Leave as an empty array [] to fall back to the latest weekly special entry.
  */
-export const nextWeekFlavours: string[] = ["Earl Grey", "Cookies & Cream", "Vanilla"];
+export const nextWeekFlavours: string[] = [
+  "Pistachio",
+  "Chocolate",
+  "Strawberry Cheescake",
+];
 // Example: export const nextWeekFlavours: string[] = ["Pistachio", "Lemon", "Biscoff"];
 
 /**

@@ -131,7 +131,7 @@ export const weeklySpecials: WeeklyFlavour[] = [
   },
   {
     id: 11,
-    flavours: ["Vanilla", "Cookies and Cream", "Pistachio"],
+    flavours: ["Vanilla", "Cookies & Cream", "Pistachio"],
     displayImage: "/flavours/weekly_specials/transparent/weekly_special_11.png",
     images: [
       "/flavours/weekly_specials/weekly_special_11(box-view).jpg",
@@ -149,7 +149,7 @@ export const weeklySpecials: WeeklyFlavour[] = [
   },
   {
     id: 13,
-    flavours: ["Coconut", "Cookies and Cream", "Salted Caramel"],
+    flavours: ["Coconut", "Cookies & Cream", "Salted Caramel"],
     displayImage: "/flavours/weekly_specials/transparent/weekly_special_13.png",
     images: [
       "/flavours/weekly_specials/weekly_special_13(box-view).jpg",
@@ -207,6 +207,16 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_18(box-view).jpg",
       "/flavours/weekly_specials/weekly_special_18(box-view2).jpg",
       "/flavours/weekly_specials/weekly_special_18(side-view).jpg",
+    ],
+  },
+  {
+    id: 19,
+    flavours: ["Earl Grey", "Cookies & Cream", "Vanilla"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_19.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_19(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_19(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_19(side-view).jpg",
     ],
   },
 ];
