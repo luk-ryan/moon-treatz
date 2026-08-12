@@ -19,7 +19,7 @@
  * The date the form automatically opens. Used for the countdown timer.
  * Format: "YYYY-MM-DD"
  */
-export const preOrderOpenDate: string = "2026-07-21";
+export const preOrderOpenDate: string = "2026-08-11";
 
 /**
  * Manual Close Override

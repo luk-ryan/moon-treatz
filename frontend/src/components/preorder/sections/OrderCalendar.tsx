@@ -6,13 +6,14 @@
  *
  *   mode="weekly"
  *   ─────────────
- *   Locked to the upcoming Thu/Fri/Sat pickup week. No month navigation.
+ *   Locked to the upcoming Thu/Fri/Sat pickup week.
  *   A single `value` string stores both the day and slot
  *   (e.g. "thursday-morning" or "nks-thursday-430-500pm").
  *
  *   mode="catering"
  *   ────────────────
- *   Navigable month calendar. Dates before next Wednesday are blocked.
+ *   Navigatable monthly calendar. Earliest bookable date is the upcoming Wednesday unless today
+ *   is already Tue or later, which rolls it to the following week's Wednesday instead.
  *   All manually blocked dates from config are also disabled.
  *
  * Both modes support `nksOnly`:
@@ -89,8 +90,11 @@ const getPickupWeek = () => {
   const thu = new Date(anchor); thu.setDate(anchor.getDate() + daysToThu);
   const sat = new Date(thu);   sat.setDate(thu.getDate() + 2);
 
-  // If Saturday of that week has already passed or is today, advance one week forward
-  if (sat <= today) thu.setDate(thu.getDate() + 7);
+  // Keep rolling forward one week at a time until a Saturday that hasn't happened yet has been reached
+  while (sat <= today) {
+    thu.setDate(thu.getDate() + 7);
+    sat.setDate(sat.getDate() + 7);
+  }
 
   const fri = new Date(thu); fri.setDate(thu.getDate() + 1);
   const satFinal = new Date(thu); satFinal.setDate(thu.getDate() + 2);
@@ -153,23 +157,14 @@ const OrderCalendar = (props: OrderCalendarProps) => {
 
   // ── Catering-mode: earliest bookable date + blocked set ───────────────────────
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  // minDate logic:
-  //   - preOrderOpenDate in the future → first Wednesday on or after that date
-  //   - preOrderOpenDate already passed → next Wednesday at least 7 days from today
-  const anchor = new Date(preOrderOpenDate + "T00:00:00");
+  // Tuesday is baking day. Sun/Mon still allow booking this week's Wednesday;
+  // Tue onward is too short notice, so it rolls to the following week's Wednesday.
   const minDate = (() => {
-    if (anchor >= today) {
-      // Find the first Wednesday on or after the anchor
-      const daysToWed = (3 - anchor.getDay() + 7) % 7;
-      const d = new Date(anchor); d.setDate(anchor.getDate() + daysToWed);
-      return d;
-    } else {
-      // Anchor has passed — next Wednesday exactly 2 weeks after preOrderOpenDate
-      const base = new Date(anchor); base.setDate(anchor.getDate() + 14);
-      const daysToWed = (3 - base.getDay() + 7) % 7;
-      const d = new Date(base); d.setDate(base.getDate() + daysToWed);
-      return d;
-    }
+    const daysToWed  = (3 - today.getDay() + 7) % 7;
+    const upcomingWed = new Date(today); upcomingWed.setDate(today.getDate() + daysToWed);
+    if (today.getDay() < 2) return upcomingWed;
+    upcomingWed.setDate(upcomingWed.getDate() + 7);
+    return upcomingWed;
   })();
   // Build a Set for O(1) manually blocked-date checks inside the cell loop below.
   const blockedSet = new Set(cateringBlockedDates);
