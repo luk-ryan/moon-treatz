@@ -290,6 +290,7 @@
   text-transform: uppercase;
   color: var(--clr-gold-400);
   transition: all 0.25s ease;
+  text-align: left; /* buttons default to centered text; keep wrapped names flush left */
 }
 .fmi-dots {
   flex: 1;
@@ -854,4 +855,263 @@
 }
 .gallery-dot:hover { background: var(--clr-gold-600); box-shadow: 0 0 0.625rem var(--shadow-gold-strong); }
 .gallery-dot.active { background: var(--clr-primary); box-shadow: 0 0 0.9375rem var(--shadow-gold-medium); transform: scale(1.3); }
+
+/* =============================================
+   GALLERY VIEW TOGGLE (Gallery | List switch)
+   ============================================= */
+.gallery-view-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  max-width: 37.5rem;
+  margin: 0 auto 2.75rem;
+}
+.gallery-view-toggle-label {
+  font-family: var(--ff-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201,162,39,0.4);
+  transition: all 0.3s ease;
+}
+.gallery-view-toggle-label.active {
+  color: var(--clr-accent);
+  text-shadow: 0 0 0.75rem var(--glow-accent-full);
+}
+.gallery-view-switch {
+  position: relative;
+  width: 3.4rem;
+  height: 1.8rem;
+  border-radius: 1rem;
+  border: 0.125rem solid var(--clr-gold-600);
+  background: linear-gradient(135deg, rgba(15,12,6,0.9) 0%, rgba(26,20,8,0.95) 100%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+.gallery-view-switch.on {
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0.75rem var(--glow-accent), inset 0 0 0.5rem rgba(201,162,39,0.15);
+}
+.gallery-view-switch-knob {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--clr-gold-200) 0%, var(--clr-gold-500) 100%);
+  box-shadow: 0 0.0625rem 0.25rem rgba(0,0,0,0.6);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.gallery-view-switch.on .gallery-view-switch-knob {
+  transform: translateX(1.55rem);
+  background: linear-gradient(135deg, var(--clr-gold-100) 0%, var(--clr-accent) 100%);
+  box-shadow: 0 0 0.5rem var(--glow-accent-full), 0 0.0625rem 0.25rem rgba(0,0,0,0.6);
+}
+
+/* =============================================
+   GALLERY LIST VIEW
+   ============================================= */
+.gallery-list-frame {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  margin: 0 auto;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 12, 8, 0.7) 0%,
+    rgba(5, 4, 3, 0.9) 50%,
+    rgba(15, 12, 8, 0.7) 100%
+  );
+  padding: 3.5rem 1.5rem 1.5rem;
+  border: 0.25rem solid var(--clr-gold-500);
+}
+/* Top decorative line with center diamond — matches gallery-image-wrapper */
+.gallery-list-frame::before {
+  content: "◆";
+  position: absolute;
+  top: 0.2rem;
+  left: 0;
+  right: 0;
+  font-size: 1rem;
+  color: var(--clr-gold-500);
+  text-shadow: 0 0 0.75rem var(--shadow-gold);
+  z-index: 20;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--clr-gold-600) 20%,
+    transparent 48%,
+    transparent 52%,
+    var(--clr-gold-600) 80%,
+    transparent 100%
+  );
+  background-size: 100% 0.0625rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-align: center;
+  line-height: 1;
+}
+/* Bottom decorative line */
+.gallery-list-frame::after {
+  content: "";
+  position: absolute;
+  bottom: 0.2rem;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--clr-gold-600) 15%,
+    var(--clr-gold-400) 48%,
+    var(--clr-gold-400) 52%,
+    var(--clr-gold-600) 85%,
+    transparent 100%
+  );
+  background-size: 100% 0.2rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-align: center;
+  line-height: 1;
+}
+.gallery-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.gallery-list-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, rgba(15,12,8,0.75) 0%, rgba(5,4,3,0.92) 100%);
+  border: 0.125rem solid var(--clr-gold-600);
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+/* Inset hairline echoes the menu-box double-border treatment */
+.gallery-list-item::before {
+  content: "";
+  position: absolute;
+  inset: 0.3rem;
+  border: 0.0625rem solid rgba(201,162,39,0.15);
+  pointer-events: none;
+}
+.gallery-list-item:hover {
+  border-color: var(--clr-gold-400);
+  box-shadow: 0 0 1.25rem rgba(201,162,39,0.3), 0 0.5rem 1.25rem rgba(0,0,0,0.5);
+  transform: translateY(-0.15rem);
+}
+.gallery-list-thumb-wrap {
+  width: 15.5rem;
+  height: 11.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(201,162,39,0.1) 0%, transparent 72%);
+  border-right: 0.0625rem solid rgba(201,162,39,0.15);
+  padding-right: 1.5rem;
+}
+.gallery-list-thumb {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0.25rem 0.5rem rgba(0,0,0,0.65));
+}
+/* Specialty photos read smaller than the weekly box cutouts at the same size, so size them up */
+.specialty-gallery-section .gallery-list-thumb-wrap {
+  width: 19rem;
+  height: 14rem;
+}
+/* Thumb + name variant (specialty list) — real photos fill the frame instead of floating on a glow */
+.gallery-list-thumb-wrap--photo {
+  background: none;
+  border: 0.0625rem solid var(--clr-gold-600);
+  overflow: hidden;
+}
+.gallery-list-thumb-wrap--photo .gallery-list-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+}
+.gallery-list-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.gallery-list-week {
+  font-family: var(--ff-accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-gold-300);
+  text-shadow: 0 0 0.5rem rgba(201,162,39,0.3);
+}
+.gallery-list-info .gallery-flavour-pills { margin-bottom: 0; }
+.gallery-list-name {
+  font-family: var(--ff-accent);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #fff8e7 0%, var(--clr-gold-200) 40%, var(--clr-gold-400) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 0.375rem rgba(200,160,60,0.5));
+}
+
+/* Photo variant (specialty gallery) — the name is baked into the photo as a caption
+   instead of sitting in a separate text column. */
+.gallery-list-item--photo {
+  padding: 0.4rem;
+}
+.gallery-list-item--photo::before {
+  display: none; /* would otherwise paint behind the full-bleed photo */
+}
+.gallery-list-photo-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  border: 0.0625rem solid rgba(201,162,39,0.35);
+}
+.gallery-list-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gallery-list-photo-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.75rem 1.5rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 55%, transparent 100%);
+}
+.gallery-list-photo-caption-text {
+  font-family: var(--ff-accent);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #fff8e7 0%, var(--clr-gold-200) 40%, var(--clr-gold-400) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0.125rem 0.5rem rgba(0,0,0,0.9));
+}
+
 

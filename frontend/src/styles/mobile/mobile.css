@@ -720,7 +720,53 @@
   }
 
   .gallery-flavour-pills {
-    display: none;
+    gap: 0.3rem;
+  }
+
+  .gallery-flavour-pill {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.08em;
+  }
+
+  .gallery-view-toggle-label {
+    font-size: 0.65rem;
+  }
+
+  .gallery-view-toggle {
+    justify-content: center;
+  }
+
+  .gallery-list-frame {
+    padding: 1.75rem 1rem 1rem;
+  }
+
+  .gallery-list-item {
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .gallery-list-thumb-wrap {
+    width: 10rem;
+    height: 8rem;
+    padding-right: 1rem;
+  }
+
+  .specialty-gallery-section .gallery-list-thumb-wrap {
+    width: 12rem;
+    height: 9.5rem;
+  }
+
+  .gallery-list-photo-caption {
+    padding: 1.25rem 1rem 0.75rem;
+  }
+
+  .gallery-list-photo-caption-text {
+    font-size: 1rem;
+  }
+
+  .gallery-list-week {
+    font-size: 0.72rem;
   }
 
   /* Dots wrap to a new row when count exceeds 12 (specialty has exactly 12).
