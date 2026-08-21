@@ -44,9 +44,9 @@ export const preOrderForceOpen: boolean = true;
  * Leave as an empty array [] to fall back to the latest weekly special entry.
  */
 export const nextWeekFlavours: string[] = [
-  "Pistachio",
-  "Chocolate",
-  "Strawberry Cheescake",
+  "Tiramisu",
+  "Salted Caramel",
+  "Red Velvet",
 ];
 // Example: export const nextWeekFlavours: string[] = ["Pistachio", "Lemon", "Biscoff"];
 
