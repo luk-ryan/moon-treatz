@@ -584,6 +584,45 @@
     margin: 1.5rem auto 0.5rem;
   }
 
+  .flavour-card {
+    padding: 2rem 1.25rem 1.5rem;
+    gap: 1.15rem;
+  }
+
+  /* Single-flavour view: keep the same sizing mobile already had, ignoring the desktop-only .wrapper overrides */
+  .wrapper .flavour-card-list {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr));
+    justify-content: initial;
+  }
+
+  .wrapper .flavour-card {
+    padding: 2rem 1.25rem 1.5rem;
+    gap: 1.15rem;
+  }
+
+  .wrapper .flavour-card img {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+  .wrapper .flavour-card p {
+    max-width: 22rem;
+    padding: 0;
+  }
+
+  .flavour-card h3 {
+    font-size: 1.4rem;
+  }
+
+  .flavour-card img {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+  .flavour-card p {
+    font-size: var(--fs-200);
+  }
+
   .flavour-page-btn {
     padding: 0.5rem 1rem;
     font-size: 0.6rem;
@@ -632,8 +671,14 @@
 
   /* Weekly gallery */
   .weekly-gallery-section {
-    padding: 0 1rem;
+    padding: 0 1.25rem;
     margin: 2rem auto;
+  }
+
+  /* Classic has no .weekly-gallery-section wrapper, so it never got that section's
+     trailing bottom margin — match it exactly (margin, not padding, so it behaves the same). */
+  .classic-flavours-view {
+    margin-bottom: 2rem;
   }
 
   .gallery-nameplate {
@@ -661,6 +706,12 @@
   .weekly-gallery-container {
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  /* Classic's carousel has no .weekly-gallery-section ancestor, so it never got the
+     same side padding Weekly/Specialty inherit from that section on mobile — add it here. */
+  .classic-gallery-active {
+    padding: 0 1.25rem;
   }
 
   /* Reduce corner accent size on mobile */
@@ -700,9 +751,16 @@
   }
 
   /* Specialty gallery arrows sit lower than weekly because specialty has 12 dots
-     that wrap to a second row, pushing the arrow position down further */
-  .specialty-view-active .gallery-arrow {
-    bottom: -40%;
+     that wrap to a second row, pushing the arrow position down further.
+     (Scoped to .specialty-gallery-section — .specialty-view-active is no longer applied in JSX.) */
+  .specialty-gallery-section .gallery-arrow {
+    bottom: -35%;
+  }
+
+  /* Classic's carousel container is taller (top-left title + wrapped description),
+     so the same -45% offset pushes the arrows way too far down — pull them back up. */
+  .classic-gallery-active .gallery-arrow {
+    bottom: -35%;
   }
 
   .gallery-arrow-left {
@@ -737,38 +795,6 @@
     justify-content: center;
   }
 
-  .gallery-list-frame {
-    padding: 1.75rem 1rem 1rem;
-  }
-
-  .gallery-list-item {
-    gap: 1rem;
-    padding: 0.75rem 1rem;
-  }
-
-  .gallery-list-thumb-wrap {
-    width: 10rem;
-    height: 8rem;
-    padding-right: 1rem;
-  }
-
-  .specialty-gallery-section .gallery-list-thumb-wrap {
-    width: 12rem;
-    height: 9.5rem;
-  }
-
-  .gallery-list-photo-caption {
-    padding: 1.25rem 1rem 0.75rem;
-  }
-
-  .gallery-list-photo-caption-text {
-    font-size: 1rem;
-  }
-
-  .gallery-list-week {
-    font-size: 0.72rem;
-  }
-
   /* Dots wrap to a new row when count exceeds 12 (specialty has exactly 12).
      max-width caps each row at 12 dots before wrapping. */
   .gallery-dots {
@@ -779,37 +805,37 @@
     margin-top: 2rem;
   }
 
-  /* Hide macarons when weekly or specialty view is active on mobile */
+  /* Hide macarons when weekly, specialty, or a single flavour view is active on mobile */
   .weekly-view-active .macaron-decor,
-  .specialty-view-active .macaron-decor,
+  .flavour-selected-active .macaron-decor,
   .weekly-view-active .macaron-top-right-1,
-  .specialty-view-active .macaron-top-right-1,
+  .flavour-selected-active .macaron-top-right-1,
   .weekly-view-active .macaron-top-right-2,
-  .specialty-view-active .macaron-top-right-2,
+  .flavour-selected-active .macaron-top-right-2,
   .weekly-view-active .macaron-top-right-3,
-  .specialty-view-active .macaron-top-right-3,
+  .flavour-selected-active .macaron-top-right-3,
   .weekly-view-active .macaron-bottom-left-stack-1,
-  .specialty-view-active .macaron-bottom-left-stack-1,
+  .flavour-selected-active .macaron-bottom-left-stack-1,
   .weekly-view-active .macaron-bottom-left-stack-2,
-  .specialty-view-active .macaron-bottom-left-stack-2,
+  .flavour-selected-active .macaron-bottom-left-stack-2,
   .weekly-view-active .macaron-bottom-left-stack-3,
-  .specialty-view-active .macaron-bottom-left-stack-3,
+  .flavour-selected-active .macaron-bottom-left-stack-3,
   .weekly-view-active .macaron-right-single-1,
-  .specialty-view-active .macaron-right-single-1,
+  .flavour-selected-active .macaron-right-single-1,
   .weekly-view-active .macaron-right-single-2,
-  .specialty-view-active .macaron-right-single-2,
+  .flavour-selected-active .macaron-right-single-2,
   .weekly-view-active .macaron-right-single-3,
-  .specialty-view-active .macaron-right-single-3,
+  .flavour-selected-active .macaron-right-single-3,
   .weekly-view-active .macaron-right-single-4,
-  .specialty-view-active .macaron-right-single-4,
+  .flavour-selected-active .macaron-right-single-4,
   .weekly-view-active .macaron-left-single-1,
-  .specialty-view-active .macaron-left-single-1,
+  .flavour-selected-active .macaron-left-single-1,
   .weekly-view-active .macaron-left-single-2,
-  .specialty-view-active .macaron-left-single-2,
+  .flavour-selected-active .macaron-left-single-2,
   .weekly-view-active .macaron-left-single-3,
-  .specialty-view-active .macaron-left-single-3,
+  .flavour-selected-active .macaron-left-single-3,
   .weekly-view-active .macaron-left-single-4,
-  .specialty-view-active .macaron-left-single-4 {
+  .flavour-selected-active .macaron-left-single-4 {
     display: none !important;
   }
 
@@ -823,6 +849,24 @@
 
   .gallery-caption p {
     font-size: var(--fs-100);
+  }
+
+  /* Classic tab carousel — top-left title + description, scaled down to fit a narrow frame */
+  .classic-title-topleft {
+    top: 2.25rem;
+    left: 1rem;
+    right: 1rem;
+    padding: 0.15rem 0 1.25rem;
+  }
+
+  .classic-title-topleft h3 {
+    font-size: var(--fs-300);
+  }
+
+  .gallery-caption.classic-caption p {
+    font-size: var(--fs-100);
+    font-weight: 500;
+    line-height: 1;
   }
 
   /* =============================================
@@ -962,6 +1006,16 @@
   /* Calendar slot cards: single column */
   .preorder-cal-slots {
     grid-template-columns: 1fr;
+  }
+
+  /* Review modal: stack label above value instead of squeezing them side by side */
+  .preorder-modal-details {
+    grid-template-columns: 1fr;
+    gap: 0.15rem 0;
+  }
+
+  .preorder-modal-details > span:not(.preorder-modal-label):not(:last-child) {
+    margin-bottom: 0.5rem;
   }
 
   /* =============================================

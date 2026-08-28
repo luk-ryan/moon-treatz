@@ -86,7 +86,7 @@ const WeeklyBox = () => {
                     ease: "easeOut",
                   }}
                 >
-                  <Link to="/flavours#all">{flavour}</Link>
+                  <Link to="/flavours#classic">{flavour}</Link>
                 </motion.li>
               ))}
             </ul>

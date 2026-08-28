@@ -17,7 +17,13 @@ function getPickupWeekDates() {
   thu.setDate(anchor.getDate() + daysToThu);
   const sat = new Date(thu); sat.setDate(thu.getDate() + 2);
 
-  if (sat < today) thu.setDate(thu.getDate() + 7);
+  // Keep rolling forward a week at a time until Saturday hasn't already happened.
+  // Must mirror the identical loop in OrderCalendar.tsx's getPickupWeek so the
+  // calendar's selectable days and the review/email labels never disagree.
+  while (sat <= today) {
+    thu.setDate(thu.getDate() + 7);
+    sat.setDate(sat.getDate() + 7);
+  }
 
   const fri = new Date(thu);
   fri.setDate(thu.getDate() + 1);

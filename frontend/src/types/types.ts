@@ -30,13 +30,15 @@ export type MenuItemProps = {
  * @interface FlavourCardProps
  * @property {number} id - Unique identifier for the flavour (used for filtering and React keys)
  * @property {string} name - Display name of the flavour (e.g., "Vanilla", "Chocolate")
- * @property {string} src - Relative path to the flavour's image
+ * @property {string} src - Relative path to the flavour's image (used in the grid/single-card views)
+ * @property {string} [carouselSrc] - Optional separate image for the carousel view; falls back to `src` if omitted
  * @property {string} description - Detailed description of the flavour's characteristics and filling
  */
 export type FlavourCardProps = {
   id: number;
   name: string;
   src: string;
+  carouselSrc?: string;
   description: string;
 };
 

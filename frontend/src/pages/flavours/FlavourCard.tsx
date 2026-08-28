@@ -11,7 +11,7 @@ const FlavourCard = ({ name, src, description }: FlavourCardProps) => {
   return (
     <div className="flavour-card">
       <h3>{name}</h3>
-      <img src={src} loading="lazy" />
+      <img src={src} alt={name} loading="lazy" />
       <p>{description}</p>
     </div>
   );

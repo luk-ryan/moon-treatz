@@ -157,12 +157,13 @@ const OrderCalendar = (props: OrderCalendarProps) => {
 
   // ── Catering-mode: earliest bookable date + blocked set ───────────────────────
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  // Tuesday is baking day. Sun/Mon still allow booking this week's Wednesday;
-  // Tue onward is too short notice, so it rolls to the following week's Wednesday.
+  // Tuesday is baking day. Only skip to the following week when the upcoming Wednesday is 0-1 days away
+  //    (If today is Tue or Wed) — too short notice to bake.
+  // This keeps lead time between 2 days (Monday) and 8 days (Tuesday), never more.
   const minDate = (() => {
     const daysToWed  = (3 - today.getDay() + 7) % 7;
     const upcomingWed = new Date(today); upcomingWed.setDate(today.getDate() + daysToWed);
-    if (today.getDay() < 2) return upcomingWed;
+    if (daysToWed >= 2) return upcomingWed;
     upcomingWed.setDate(upcomingWed.getDate() + 7);
     return upcomingWed;
   })();
