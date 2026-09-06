@@ -7,72 +7,21 @@
 
 ## Table of Contents
 
-1. [Custom Hooks](#1-custom-hooks)
-2. [State Management](#2-state-management)
-3. [Animations](#3-animations)
-4. [CSS Techniques](#4-css-techniques)
-5. [Component Architecture](#5-component-architecture)
-6. [Configuration Patterns](#6-configuration-patterns)
-7. [Utility Logic](#7-utility-logic)
-8. [Layout & Interaction Details](#8-layout--interaction-details)
-9. [EmailJS Integration](#9-emailjs-integration)
-10. [Mobile Responsiveness](#10-mobile-responsiveness)
-11. [Performance Optimizations](#11-performance-optimizations)
+1. [State Management](#1-state-management)
+2. [Animations](#2-animations)
+3. [Component Architecture](#3-component-architecture)
+4. [Configuration Patterns](#4-configuration-patterns)
+5. [Utility Logic](#5-utility-logic)
+6. [Layout & Interaction Details](#6-layout--interaction-details)
+7. [EmailJS Integration](#7-emailjs-integration)
+8. [Mobile Responsiveness](#8-mobile-responsiveness)
+9. [Performance Optimizations](#9-performance-optimizations)
 
 ---
 
-## 1. Custom Hooks
+## 1. State Management
 
-### 1.1 Countdown Timer
-
-**File:** `src/hooks/useCountdownTimer.ts`
-
-```typescript
-const [time, setTime] = useState(getTimeUntilNextRelease);
-useEffect(() => {
-  const id = setInterval(() => setTime(getTimeUntilNextRelease()), 1000);
-  return () => clearInterval(id);
-}, []);
-```
-
-Passing the function itself (`getTimeUntilNextRelease`) instead of calling it (`getTimeUntilNextRelease()`) to `useState` gives a correct initial value on the very first render, with no blank/zero frame before the interval kicks in. The interval is cleared on unmount so remounts (e.g. route changes) never stack up duplicate timers.
-
-### 1.2 Flavour Selection
-
-**File:** `src/hooks/useFlavourSelection.ts`
-
-```typescript
-const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-const contentRef = useRef<HTMLDivElement>(null);
-const scrollToContent = () => contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-const select = (index: number | null) => { setSelectedIndex(index); scrollToContent(); };
-const itemsToShow = selectedIndex === null ? items : [items[selectedIndex]];
-```
-
-A generic hook (`useFlavourSelection<T>`) that couples declarative selection state with an imperative side effect (smooth-scrolling to a ref) so any component consuming it gets "select an item → scroll into view" behavior for free, without duplicating the scroll logic per page.
-
-### 1.3 Mobile Detection
-
-**File:** `src/hooks/useIsMobile.ts`
-
-```typescript
-const MOBILE_BREAKPOINT = 600;
-const [isMobile, setIsMobile] = useState(false);
-useEffect(() => {
-  const checkMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
-  checkMobile();
-  window.addEventListener('resize', checkMobile);
-  return () => window.removeEventListener('resize', checkMobile);
-}, []);
-```
-
-Defaults to `false` and checks immediately on mount (avoids a flash of desktop content), then re-checks on every `resize`. This single hook is the gate that decides whether heavy Framer Motion decorations mount at all — see [3.2](#32-conditional-rendering-by-device).
-
----
-
-## 2. State Management
-
-### 2.1 Cart Context with Persisted, Dual-Mode Setter
+### 1.1 Cart Context with Persisted, Dual-Mode Setter
 
 **File:** `src/context/CartContext.tsx`
 
@@ -106,9 +55,9 @@ const totalItems = Object.values(cart).reduce((sum, v) => sum + v, 0);
 
 ---
 
-## 3. Animations
+## 2. Animations
 
-### 3.1 Framer Motion Config Objects
+### 2.1 Framer Motion Config Objects
 
 **File:** `src/config/animations.ts`
 
@@ -135,7 +84,7 @@ export const macaronTransition = (delay: number = 0) => ({
 
 Animation presets live as plain exported objects/functions, not inline JSX props, so `<motion.span {...butterflyEntrance} animate={{...}} />` stays readable. `viewport: { once: false }` means the entrance replays every time the element scrolls back into view instead of only the first time. Per-property `transition` (different duration/easing for opacity vs. x vs. scale) creates layered, non-uniform motion instead of everything animating in lockstep. `macaronTransition(delay)` being a function turns "stagger 14 macarons" into a one-line `.map()` instead of 14 hand-written transition objects.
 
-### 3.2 Conditional Rendering by Device
+### 2.2 Conditional Rendering by Device
 
 **File:** `src/components/home/HomeDecorations.tsx`
 
@@ -164,162 +113,11 @@ Animation presets live as plain exported objects/functions, not inline JSX props
 
 `useIsMobile()` gates whether a `motion.span` (with keyframe arrays for a full flight path) or a plain static `span` gets rendered at all — mobile phones never even construct the Framer Motion animation objects, rather than mounting them and hiding them with CSS.
 
-### 3.3 Decomposed, Randomized Keyframe Arrays
-
-**Files:** `src/components/decorations/{butterflyDecorations,cloudDecorations,macaronDecorations,sparkleDecorations}.ts`
-
-```typescript
-// butterflyDecorations.ts — each instance gets a unique X path, but shares Y/scale/rotate
-export const leftButterflies: ButterflyDecor[] = [
-  { className: "butterfly-left-1", delay: 0,   xValues: [0, 35, 15, -25, -45, -15, 30, 0] },
-  { className: "butterfly-left-2", delay: 0.5, xValues: [0, 40, 20, -30, -50, -20, 35, 0] },
-];
-export const butterflyYValues = [0, -15, -25, -20, -10, -18, -8, 0];
-export const butterflyScaleX  = [1, 0.85, 1.15, 0.9, 1.1, 0.88, 1.08, 1]; // wing flap
-export const butterflyRotate  = [0, -3, 2, -2, 3, -1, 2, 0];
-```
-
-```typescript
-// cloudDecorations.ts — organic breathing via asymmetric scale + custom Bézier easing
-{
-  animate: {
-    scaleX: [1, 1.06, 0.96, 1.07, 1],
-    scaleY: [1, 0.95, 1.05, 0.94, 1],
-    rotate: [0, 2.5, -2, 3, 0],
-  },
-  transition: { duration: 4.5, repeat: Infinity, ease: [0.6, 0.01, 0.4, 0.99], delay: 0.5 },
-}
-```
-
-Splitting motion into independent axes (only `xValues` differs per butterfly; `y`/`scaleX`/`rotate` are shared arrays) avoids duplicating 8-keyframe definitions eight times over while still producing motion that never repeats identically across instances. Staggered `delay`s (0, 0.5s, 1s…) and slightly different `duration`s across clouds/macarons/sparkles prevent everything from visibly pulsing in sync, which is what makes background decorations read as "alive" rather than mechanical.
-
-### 3.4 Badge Re-mount Trick for Guaranteed Re-animation
-
-**File:** `src/components/FloatingCart.tsx`
-
-```tsx
-<AnimatePresence>
-  {totalItems > 0 && (
-    <motion.span
-      className="floating-cart-badge"
-      key={totalItems}
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0 }}
-      transition={{ type: "spring", stiffness: 400, damping: 15 }}
-    >
-      {totalItems > 99 ? "99+" : totalItems}
-    </motion.span>
-  )}
-</AnimatePresence>
-```
-
-`key={totalItems}` forces React to treat every quantity change as a brand-new element, so the spring-in animation (`initial` → `animate`) replays on *every* increment/decrement, not just the first time the badge appears. `AnimatePresence` handles the mount/unmount transition when the cart goes from empty to non-empty and back.
-
 ---
 
-## 4. CSS Techniques
+## 3. Component Architecture
 
-### 4.1 Layered `drop-shadow` for Glow on Transparent PNGs
-
-**File:** `src/styles/animations/animations.css`
-
-```css
-@keyframes macaronFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(-5deg) scale(1);
-    filter: drop-shadow(0 0 1rem var(--shadow-gold-intense)) drop-shadow(0 0 2rem var(--shadow-gold));
-  }
-  50% {
-    transform: translateY(-8px) rotate(5deg) scale(1.08);
-    filter: drop-shadow(0 0 1.5rem var(--shadow-gold-very-very-intense)) drop-shadow(0 0 3rem var(--shadow-gold-strong));
-  }
-}
-```
-
-`box-shadow` only draws around an element's box, which does nothing useful for a transparent macaron PNG — `filter: drop-shadow()` traces the actual alpha channel instead. Stacking two `drop-shadow()`s at different blur radii (1rem tight glow + 2rem soft halo) creates shadow depth for a single flat filter property, cheaper than a real lighting setup.
-
-### 4.2 Design Token System
-
-**File:** `src/styles/tokens/colors.css`
-
-```css
-:root {
-  --clr-gold-100: #f7e39b;
-  --clr-gold-400: #dab44d;
-  --clr-gold-700: #96752e;
-
-  --shadow-gold-light:   rgba(201, 162, 39, 0.1);
-  --shadow-gold-intense: rgba(201, 162, 39, 0.7);
-  --shadow-gold-full:    rgba(201, 162, 39, 1);
-
-  --clr-primary: var(--clr-gold-400);
-  --clr-accent:  var(--clr-blue-400);
-}
-```
-
-Numbered scale (`-100` … `-700`) makes intermediate shades predictable, and separating flat colors from pre-mixed `rgba()` shadow variants means every glow effect in the app reuses the same handful of opacity steps instead of one-off `rgba()` calls scattered across files. Semantic aliases (`--clr-primary`) mean component CSS never references a raw gold value directly — rebranding is a one-line change.
-
-### 4.3 Responsive Type Scale via Custom Properties
-
-**File:** `src/styles/tokens/typography.css`
-
-```css
-:root {
-  --fs-50:  0.875rem;
-  --fs-600: 2.333rem;
-  --fs-900: 4.5rem;
-}
-@media screen and (min-width: 800px) {
-  :root {
-    --fs-50:  0.844rem;
-    --fs-600: 2.746rem;
-    --fs-900: 5.364rem;
-  }
-}
-```
-
-A modular scale (steps `50`→`900`) redefined wholesale inside a single media query, instead of adding responsive overrides to every heading rule individually — every component using `var(--fs-600)` gets the desktop scale for free once the breakpoint hits.
-
-### 4.4 Gradient Underline via Pseudo-element
-
-**File:** `src/styles/utils/utils.css`
-
-```css
-.wrapper h1::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 0.125rem;
-  background: linear-gradient(90deg, transparent, var(--clr-gold-500), transparent);
-}
-```
-
-A `transparent → gold → transparent` gradient on a `::after` gives every page heading a soft-edged underline with zero extra DOM elements and no image asset.
-
-### 4.5 Colorizing Emoji with CSS Filters
-
-**File:** `src/styles/background/background.css`
-
-```css
-.butterfly-left-1 {
-  top: 16%; left: 5%;
-  font-size: 6.5rem;
-  animation-delay: 0s;
-  filter: hue-rotate(180deg) brightness(1.4);
-}
-```
-
-Since the decorations are emoji characters (🦋) rather than image assets, `hue-rotate()` + `brightness()` give each instance a distinct tint without needing separate colored PNGs — one character, infinite palette variations.
-
----
-
-## 5. Component Architecture
-
-### 5.1 Multi-Step Wizard State
+### 3.1 Multi-Step Wizard State
 
 **File:** `src/pages/preorder/PreOrder.tsx`
 
@@ -359,7 +157,7 @@ useEffect(() => {
 }, [errors, flavourErrors]);
 ```
 
-### 5.2 Constrained Checkbox Group
+### 3.2 Constrained Checkbox Group
 
 **File:** `src/components/preorder/primitives/CheckboxGroup.tsx`
 
@@ -374,7 +172,7 @@ const disabled = !checked && selected.length >= max;
 
 The disable condition is deliberately asymmetric: once `max` is reached, unselected options grey out, but *already-selected* ones stay clickable so the user can still deselect to make room. A naive `selected.length >= max` disabling everything would lock the user out of fixing their own selection.
 
-### 5.3 Smart Lazy-Init for Expand/Collapse State
+### 3.3 Smart Lazy-Init for Expand/Collapse State
 
 **File:** `src/components/preorder/CateringFlavourCard.tsx`
 
@@ -390,7 +188,7 @@ const [expandedBoxes, setExpandedBoxes] = useState<Set<number>>(() => {
 
 When a user returns to edit an order that already has a specialty flavour picked in box 3, box 3's "specialty flavours" section auto-expands on mount instead of forcing them to rediscover where their existing selection lives.
 
-### 5.4 Rolling Pickup-Week Date Math
+### 3.4 Rolling Pickup-Week Date Math
 
 **File:** `src/components/preorder/sections/OrderCalendar.tsx`
 
@@ -406,13 +204,13 @@ while (sat <= today) {
 }
 ```
 
-`((4 - anchor.getDay() + 3) % 7) - 3` is compact modular arithmetic that locates "the Thursday of the anchor week" regardless of what day of the week the anchor date falls on. The `while (sat <= today)` loop then fast-forwards week-by-week until it lands on the next *future* pickup weekend — this same exact formula is intentionally duplicated (not abstracted into a shared import) in `scheduleFormat.ts` so the calendar UI, review modal, and confirmation email can never disagree about which week "next Thursday" means; see [7.1](#71-mirrored-date-math-with-an-explicit-warning-comment).
+`((4 - anchor.getDay() + 3) % 7) - 3` is compact modular arithmetic that locates "the Thursday of the anchor week" regardless of what day of the week the anchor date falls on. The `while (sat <= today)` loop then fast-forwards week-by-week until it lands on the next *future* pickup weekend — this same exact formula is intentionally duplicated (not abstracted into a shared import) in `scheduleFormat.ts` so the calendar UI, review modal, and confirmation email can never disagree about which week "next Thursday" means; see [5.1](#51-mirrored-date-math-with-an-explicit-warning-comment).
 
 ---
 
-## 6. Configuration Patterns
+## 4. Configuration Patterns
 
-### 6.1 Layered Availability Flags
+### 4.1 Layered Availability Flags
 
 **File:** `src/config/preOrderForm.ts`
 
@@ -429,7 +227,7 @@ export const isPreOrderFormAvailable = (): boolean => {
 
 Three independent flags give three levels of manual control over one date-driven feature: a hard kill-switch (`preOrderClosed`), a hard override to open early (`preOrderForceOpen`), and the default date-based gate — letting the site be toggled without touching component code.
 
-### 6.2 `as const` for Exhaustive Literal Keys
+### 4.2 `as const` for Exhaustive Literal Keys
 
 **File:** `src/config/catering.ts`
 
@@ -448,9 +246,9 @@ export const CATERING_IMAGES: Partial<Record<string, string>> = {
 
 ---
 
-## 7. Utility Logic
+## 5. Utility Logic
 
-### 7.1 Mirrored Date Math (with an explicit warning comment)
+### 5.1 Mirrored Date Math (with an explicit warning comment)
 
 **File:** `src/utils/scheduleFormat.ts`
 
@@ -477,9 +275,9 @@ Internal pickup-slot strings like `"nks-thursday-430-500pm"` are regex-parsed ba
 
 ---
 
-## 8. Layout & Interaction Details
+## 6. Layout & Interaction Details
 
-### 8.1 Interactive Eye-Tracking Logo
+### 6.1 Interactive Eye-Tracking Logo
 
 **File:** `src/layouts/Logo/index.tsx`
 
@@ -500,7 +298,7 @@ const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
 
 Raw pointer position flows through a `useMotionValue` → `useSpring` (physical lag/smoothing) → `useTransform` (asymmetric remap) pipeline — three composable Framer Motion primitives instead of one big `onMouseMove` handler doing manual easing math. The asymmetric multiplier (`v * 1.5` vs `v * 0.7` depending on direction) exaggerates movement toward the cursor more than movement away from it, which reads as more natural "watching" behavior than a linear 1:1 follow.
 
-### 8.2 Ornamental, Asset-Free Decoration
+### 6.2 Ornamental, Asset-Free Decoration
 
 **File:** `src/layouts/Header.tsx`
 
@@ -515,7 +313,7 @@ Raw pointer position flows through a `useMotionValue` → `useSpring` (physical 
 
 Header/footer corner brackets and ornamental symbols are plain Unicode characters (✦ • ☾ ◇) and repeated `div`s, not SVGs or images — kept lightweight while still giving the brand its "moon/celestial" motif, and easily recolored/animated purely through CSS.
 
-### 8.3 Pre-filled Gmail Compose Link
+### 6.3 Pre-filled Gmail Compose Link
 
 **File:** `src/layouts/Footer.tsx`
 
@@ -529,7 +327,7 @@ Using Gmail's `view=cm&fs=1&to=` compose URL (instead of a plain `mailto:`) open
 
 ---
 
-## 9. EmailJS Integration
+## 7. EmailJS Integration
 
 **Files:** `src/config/emailjs.ts`, `src/pages/preorder/PreOrder.tsx`
 
@@ -555,7 +353,7 @@ Two separate EmailJS templates are fired in parallel via `Promise.all` on order 
 
 ---
 
-## 10. Mobile Responsiveness
+## 8. Mobile Responsiveness
 
 **File:** `src/styles/mobile/mobile.css`
 
@@ -577,13 +375,13 @@ Two separate EmailJS templates are fired in parallel via `Promise.all` on order 
 }
 ```
 
-A single breakpoint (≤600px, matching `useIsMobile`'s `MOBILE_BREAKPOINT`) blanket-disables every animation, transition, text-shadow, and box-shadow in the app with `!important`, then explicitly re-enables a minimal border/shadow just for the floating cart badge so it doesn't look broken. Decorative elements are hidden outright rather than merely stopped, avoiding wasted layout. This CSS-level kill switch backs up the JS-level `isMobile` gating in [3.2](#32-conditional-rendering-by-device) — belt and suspenders against janky animation on low-power devices.
+A single breakpoint (≤600px, matching `useIsMobile`'s `MOBILE_BREAKPOINT`) blanket-disables every animation, transition, text-shadow, and box-shadow in the app with `!important`, then explicitly re-enables a minimal border/shadow just for the floating cart badge so it doesn't look broken. Decorative elements are hidden outright rather than merely stopped, avoiding wasted layout. This CSS-level kill switch backs up the JS-level `isMobile` gating in [2.2](#22-conditional-rendering-by-device) — belt and suspenders against janky animation on low-power devices.
 
 ---
 
-## 11. Performance Optimizations
+## 9. Performance Optimizations
 
-### 11.1 Route-Level Code Splitting
+### 9.1 Route-Level Code Splitting
 
 **File:** `src/pages/flavours/Flavours.tsx`
 
@@ -599,7 +397,7 @@ const ClassicFlavours    = lazy(() => import("./ClassicFlavours"));
 
 Each flavours tab is its own lazy-loaded chunk, so switching tabs is the only thing that triggers that tab's bundle download — the initial page load never pays for code the visitor might not view. `fallback={null}` is a deliberate choice: the chunks are small enough that a loading spinner would just flicker.
 
-### 11.2 Native Lazy-Loading Images
+### 9.2 Native Lazy-Loading Images
 
 ```tsx
 <img src={flavours[i].src} loading="lazy" alt={flavours[i].name} />
@@ -608,7 +406,7 @@ Each flavours tab is its own lazy-loaded chunk, so switching tabs is the only th
 
 `loading="lazy"` + `decoding="async"` defer and de-block off-screen gallery images using only browser-native attributes — no intersection-observer library needed for a page with dozens of flavour photos.
 
-### 11.3 Optimize the Layer That Matters
+### 9.3 Optimize the Layer That Matters
 
 The codebase deliberately skips `useMemo`/`useCallback`/`React.memo` in the preorder form and decoration components. The reasoning: form inputs need to re-render on every keystroke anyway, decorations are already gated out entirely on mobile (not just hidden), and the expensive stuff (flavour gallery tabs) is handled via `lazy()` route splitting instead. Rather than micro-optimizing re-renders that don't cost much, the app disables the actually-expensive work (animations, unmounted bundles) at the source.
 
@@ -623,14 +421,7 @@ The codebase deliberately skips `useMemo`/`useCallback`/`React.memo` in the preo
 
 **Animation**
 1. Config objects/functions over inline props keep JSX readable and reusable
-2. Decompose motion into independent axes to avoid duplicating keyframe arrays
-3. Gate expensive animations by device (`isMobile`) both in JS *and* CSS
-4. `key={value}` forces remount-based re-animation for value-driven badges
-
-**CSS**
-1. `drop-shadow()` over `box-shadow` for glow on transparent PNG/emoji content
-2. Centralize colors/shadows/type scale as custom properties with numbered steps
-3. One media query can redefine an entire token set for a breakpoint
+2. Gate expensive animations by device (`isMobile`) both in JS *and* CSS
 
 **Architecture**
 1. Union types for wizard steps make invalid states unrepresentable
