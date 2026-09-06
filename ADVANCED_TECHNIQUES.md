@@ -51,7 +51,7 @@ const [cart, setCartState] = useState<CartState>(() => {
          ↑                ↑
    defaults first    saved values override
 ```
-If a new product (say `c90`) gets added to `CartState` next month, an *old* saved cart from before that change won't have a `c90` key in it. Spreading `CART_INIT` first guarantees every key always has a value — `saved` just overwrites the ones it actually has.
+If a new product is added (say `c90`) gets added to `CartState` next month, an *old* saved cart from before that change won't have a `c90` key in it. Spreading `CART_INIT` first guarantees every key always has a value — `saved` just overwrites the ones it actually has.
 
 #### Writing + persisting
 
@@ -85,12 +85,12 @@ const { cart, setCart } = useCart();
 setCart(prev => ({ ...prev, c20: prev.c20 + 1 }));
 ```
 
-**Key Concepts:**
-- **Lazy initializer** — the `localStorage` read happens once on mount, never on re-renders
-- **Merge-on-restore** — protects against missing keys when the cart's shape changes later
-- **Dual-mode setter** — one function handles both "set to this value" and "update from previous value"
-- **Silent failure** — a storage error degrades gracefully instead of crashing the app
-- **Computed value** — `totalItems` is derived, never stored, so it's always accurate
+**Key Concepts**
+- **Lazy initializer** — the `localStorage` read only happens once, on mount, never on re-renders
+- **Merge-on-restore** — keeps safe if the cart's shape changes later and old saved carts are missing a key
+- **Dual-mode setter** — one function handles both "set to this value" and "update from the previous value"
+- **Silent failure** — if storage breaks, the cart just stops saving instead of crashing the whole app
+- **Computed value** — `totalItems` isn't stored anywhere, it's just calculated from `cart` each time, so it can't get out of sync
 
 ---
 
@@ -135,11 +135,11 @@ export const macaronTransition = (delay: number = 0) => ({
 </motion.span>
 ```
 
-**Key Concepts:**
-- Config objects keep JSX clean — spread them in with `{...preset}` instead of inlining
-- `once: false` on `viewport` replays the entrance every scroll, not just the first time
-- Per-property `transition` timing creates layered motion instead of one flat animation
-- A function-based preset (`macaronTransition(delay)`) turns "stagger N elements" into a one-line `.map()`
+**Key Concepts**
+- Config objects keep JSX clean — just spread them in with `{...preset}` instead of inlining
+- `once: false` on `viewport` means the entrance replays every scroll, not just the first time
+- Giving each property its own `transition` timing makes the motion feel layered instead of one flat animation
+- Making the preset a function (`macaronTransition(delay)`) lets stagger to a bunch of elements in one `.map()` instead of writing a transition by hand for each one
 
 ### 2.2 Conditional Rendering by Device
 
@@ -170,7 +170,7 @@ export const macaronTransition = (delay: number = 0) => ({
 )}
 ```
 
-**Why this matters:** the `isMobile ? ... : ...` check happens *before* the `motion.span` is ever created — on a phone, the app never builds the keyframe arrays or animation objects at all. That's a step further than animating something and then hiding it with CSS; the expensive work simply never runs.
+**Why this matters:** the `isMobile ? ... : ...` check runs *before* the `motion.span` is even created — on a phone, I never build the keyframe arrays or animation objects in the first place. That's a step further than animating something and then hiding it with CSS; the expensive work just never happens.
 
 **Key Concepts:**
 - Gate expensive animated components at the JS level, not just visually with CSS
@@ -238,11 +238,11 @@ useEffect(() => {
 }, [errors, flavourErrors]);
 ```
 
-**Key Concepts:**
-- Union type for `step` makes an invalid screen name impossible at compile time
-- `Partial<Record<keyof OrderForm, string>>` ties error messages directly to the form's own fields
-- A `Set` breadcrumb trail supports free back-navigation without re-deriving history
-- Changing upstream state (quantity) can deliberately "un-visit" a downstream step
+**Key Concept**
+- The union type for `step` makes an invalid screen name impossible — TypeScript just won't let it compile
+- `Partial<Record<keyof OrderForm, string>>` ties error messages straight to the form's own fields, so I can't forget one
+- A `Set` for the breadcrumb trail lets the user go back freely without me having to re-derive history
+- I can "un-visit" a step on purpose when something upstream changes, so stale answers can't sneak through
 
 ### 3.2 Constrained Checkbox Group
 
@@ -263,11 +263,11 @@ const toggle = (opt: string) => {
 const disabled = !checked && selected.length >= max;
 ```
 
-A naive `disabled = selected.length >= max` would lock the user out of fixing their own selection once the limit is hit — they'd have no way to uncheck anything. The `!checked &&` half of the condition is what keeps already-selected options interactive.
+If I'd just written `disabled = selected.length >= max`, the user would get locked out of fixing their own selection once they hit the limit — no way to uncheck anything. The `!checked &&` part of the condition is what keeps already-picked options clickable.
 
-**Key Concepts:**
-- Disable logic only blocks *new* selections, never existing ones
-- Wrapping the `<input>` and text in one `<label>` makes the whole row clickable
+**Key Concepts**
+- The disable logic only blocks *new* picks, never ones that are already selected
+- Wrapping the `<input>` and its text in one `<label>` makes the whole row clickable, not just the tiny checkbox
 
 ### 3.3 Smart Lazy-Init for Expand/Collapse State
 
@@ -289,9 +289,9 @@ const [expandedBoxes, setExpandedBoxes] = useState<Set<number>>(() => {
 });
 ```
 
-**Key Concepts:**
-- The lazy initializer inspects existing state to decide the *starting* UI state
-- Avoids a jarring "where did my selection go" moment when re-opening the form
+**Key Concepts**
+- The lazy initializer checks the existing state to decide what the UI should look like on the very first render
+- It avoids that "wait, where did my selection go" moment when someone reopens the form
 
 ### 3.4 Rolling Pickup-Week Date Math
 
@@ -385,9 +385,9 @@ export const CATERING_IMAGES: Partial<Record<string, string>> = {
 };
 ```
 
-**Key Concepts:**
-- `as const` turns a generic `string` into a specific literal type TypeScript can check against
-- `Partial<Record<K, V>>` lets a lookup map skip entries without breaking type-checking
+**Key Concepts**
+- `as const` turns a generic `string` into a specific value TypeScript can actually check against
+- `Partial<Record<K, V>>` lets me skip entries in a lookup map without breaking type-checking
 
 ---
 
@@ -432,10 +432,10 @@ The regex breaks "430-500pm" into 5 capture groups (start hour, start minute, en
 
 **Why is the date math copy-pasted instead of imported from `OrderCalendar`?** It's a deliberate trade-off: `OrderCalendar` is a component, this is a plain utility file, and importing one from the other for five lines of arithmetic isn't worth the coupling. Instead, the duplication is flagged with a loud comment so future edits know to update both places together.
 
-**Key Concepts:**
-- Named capture groups (via numbered groups) turn an opaque string ID into human-readable output
-- A fallback (`: nksMatch[2]`) means an unexpected format degrades instead of throwing
-- Sometimes a warning comment is a better trade-off than a forced shared abstraction
+**Key Concepts**
+- Numbered capture groups let me turn a messy string ID into something readable
+- The fallback (`: nksMatch[2]`) means an unexpected format just shows up as-is instead of crashing
+- Sometimes a warning comment is a better trade-off than forcing a shared abstraction that doesn't really fit
 
 ---
 
@@ -460,7 +460,7 @@ const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
 };
 ```
 
-Raw pointer position flows through a `useMotionValue` → `useSpring` (physical lag/smoothing) → `useTransform` (asymmetric remap) pipeline — three composable Framer Motion primitives instead of one big `onMouseMove` handler doing manual easing math. The asymmetric multiplier (`v * 1.5` vs `v * 0.7` depending on direction) exaggerates movement toward the cursor more than movement away from it, which reads as more natural "watching" behavior than a linear 1:1 follow.
+Raw pointer position through a `useMotionValue` → `useSpring` (adds lag/smoothing) → `useTransform` (remaps the number unevenly) pipeline — three small Framer Motion building blocks instead of one big `onMouseMove` handler doing manual easing math by hand. The uneven multiplier (`v * 1.5` one way, `v * 0.7` the other) exaggerates movement toward the cursor more than movement away from it, which reads as a more natural "watching" behavior than a flat 1:1 follow.
 
 ### 6.2 Ornamental, Asset-Free Decoration
 
@@ -475,7 +475,7 @@ Raw pointer position flows through a `useMotionValue` → `useSpring` (physical 
 </div>
 ```
 
-Header/footer corner brackets and ornamental symbols are plain Unicode characters (✦ • ☾ ◇) and repeated `div`s, not SVGs or images — kept lightweight while still giving the brand its "moon/celestial" motif, and easily recolored/animated purely through CSS.
+Header/footer corner brackets and ornamental symbols are just plain Unicode characters (✦ • ☮ ◇) and repeated `div`s — no SVGs, no images. Keeps things lightweight, still gives the brand its "moon/celestial" feel, and can recolor or animate any of it with plain CSS.
 
 ### 6.3 Pre-filled Gmail Compose Link
 
@@ -560,7 +560,7 @@ clearCart();
 }
 ```
 
-The breakpoint (≤600px) matches `useIsMobile`'s `MOBILE_BREAKPOINT` exactly. This CSS acts as a blanket safety net *underneath* the JS-level gating from [2.2](#22-conditional-rendering-by-device) — even if some animated element slips through a JS check, this `!important` rule stops it from ever actually animating on a low-power device.
+The breakpoint (≤600px) matches `useIsMobile`'s `MOBILE_BREAKPOINT` exactly on purpose. This CSS is a safety net underneath the JS-level gating from [2.2](#22-conditional-rendering-by-device) — even if something animated slips through a JS check somehow, this `!important` rule still stops it from actually animating on a low-power phone.
 
 **Key Concepts:**
 - One global rule (`animation: none !important`) is simpler and safer than disabling animations component-by-component
@@ -587,7 +587,7 @@ const ClassicFlavours    = lazy(() => import("./ClassicFlavours"));
 </Suspense>
 ```
 
-Switching tabs is the only thing that triggers a chunk download for that tab — the initial page load never pays for gallery code the visitor might never click into.
+Switching tabs is the only thing that triggers a download for that tab's code — the initial page load never has to pay for gallery code someone might not even click into.
 
 ### 9.2 Native Lazy-Loading Images
 
@@ -597,7 +597,7 @@ Switching tabs is the only thing that triggers a chunk download for that tab —
 ```
 
 - `loading="lazy"` — the browser only fetches the image once it's about to scroll into view
-- `decoding="async"` — decoding the image data happens off the main thread, so it can't block rendering
+- `decoding="async"` — the image gets decoded off the main thread, so it can't block anything else from rendering
 
 Both are plain HTML attributes — no intersection-observer library needed for a page with dozens of flavour photos.
 
@@ -605,9 +605,9 @@ Both are plain HTML attributes — no intersection-observer library needed for a
 
 The codebase deliberately skips `useMemo`/`useCallback`/`React.memo` in the preorder form and decoration components. The reasoning:
 
-- Form inputs need to re-render on every keystroke anyway — memoizing them wouldn't save much
-- Decorations are already gated out entirely on mobile (not rendered at all, not just hidden)
-- The genuinely expensive part (flavour gallery tabs) is handled with `lazy()` route splitting instead
+- Form inputs re-render on every keystroke anyway — memoizing them wouldn't really save much
+- Decorations are already skipped entirely on mobile (not rendered at all, not just hidden)
+- The genuinely expensive part (the flavour gallery tabs) is already handled with `lazy()` route splitting
 
 **Skip when:** the win is smaller than the complexity `useMemo`/`useCallback` add.
 **Use instead:** disable the actually-expensive work at the source (don't render it, don't animate it, don't bundle it) rather than micro-optimizing re-renders that don't cost much.
@@ -617,26 +617,26 @@ The codebase deliberately skips `useMemo`/`useCallback`/`React.memo` in the preo
 ## Key Takeaways
 
 **State**
-1. Lazy `useState` initializers avoid redundant `localStorage`/computation work on every render
-2. Dual-mode setters (`value | updater`) keep context APIs ergonomic
-3. Derive computed values (`totalItems`) instead of storing and syncing them
+1. Lazy `useState` initializers skip redundant `localStorage`/computation work on every render
+2. A setter that takes either a value or an updater function is just nicer to use than two separate functions
+3. Derive computed values (`totalItems`) instead of storing and syncing them separately
 
 **Animation**
-1. Config objects/functions over inline props keep JSX readable and reusable
-2. Gate expensive animations by device (`isMobile`) both in JS *and* CSS
+1. Config objects/functions over inline props keep my JSX readable and reusable
+2. Gate expensive animations by device (`isMobile`) in both JS *and* CSS
 
 **Architecture**
-1. Union types for wizard steps make invalid states unrepresentable
-2. Explicitly invalidate dependent steps when upstream state changes
-3. Duplicate small, critical logic (date math) across files only with a loud warning comment — don't force an awkward shared dependency for five lines
+1. Union types for wizard steps make invalid states impossible
+2. Explicitly invalidate dependent steps when something upstream changes
+3. It's fine to duplicate small, critical logic (like date math) across files as long as I leave a loud warning comment — better than forcing an awkward shared dependency for five lines
 
 **Integrations**
-1. `Promise.all` for multi-recipient email sends so confirmation waits on all of them
+1. `Promise.all` for sending multiple emails, so the confirmation waits on all of them
 
 **Performance**
-1. Route-level `lazy()` + `Suspense` for content the user might not view
-2. Native `loading="lazy"` / `decoding="async"` over JS-based lazy-load libraries
-3. Disable expensive work at the source (don't render/animate it) instead of micro-optimizing re-renders that are already cheap
+1. Route-level `lazy()` + `Suspense` for content people might not even view
+2. Native `loading="lazy"` / `decoding="async"` over pulling in a JS lazy-load library
+3. Cut expensive work off at the source (don't render/animate it) instead of micro-optimizing re-renders that were already cheap
 
 ---
 
