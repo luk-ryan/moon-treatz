@@ -219,6 +219,16 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_19(side-view).jpg",
     ],
   },
+  {
+    id: 20,
+    flavours: ["Tiramisu", "Salted Caramel", "Red Velvet"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_20.jpg",
+    images: [
+      "/flavours/weekly_specials/weekly_special_20(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_20(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_20(side-view).jpg",
+    ],
+  },
 ];
 
 /**
