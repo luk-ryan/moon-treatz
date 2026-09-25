@@ -9,12 +9,30 @@ export type SpecialtyFlavour = {
 };
 
 export const specialtyFlavours: SpecialtyFlavour[] = [
-  { src: "/flavours/specialty_flavours/decorative_biscoff.jpg",              name: "Biscoff" },
-  { src: "/flavours/specialty_flavours/decorative_chocolate_peanutbutter.jpg", name: "Chocolate Peanut Butter" },
-  { src: "/flavours/specialty_flavours/decorative_dubai_chocolate.jpg",       name: "Dubai Chocolate" },
-  { src: "/flavours/specialty_flavours/decorative_lemon.jpg",                name: "Lemon" },
-  { src: "/flavours/specialty_flavours/decorative_matcha.jpg",               name: "Matcha" },
-  { src: "/flavours/specialty_flavours/decorative_mint_chocolate.jpg",       name: "Mint Chocolate" },
-  { src: "/flavours/specialty_flavours/decorative_salted_caramel.jpg",       name: "Salted Caramel" },
-  { src: "/flavours/specialty_flavours/decorative_strawberry.jpg",           name: "Strawberry" },
+  {
+    src: "/flavours/specialty_flavours/decorative_biscoff.jpg",
+    name: "Biscoff",
+  },
+  {
+    src: "/flavours/specialty_flavours/decorative_chocolate_peanutbutter.jpg",
+    name: "Chocolate Peanut Butter",
+  },
+  {
+    src: "/flavours/specialty_flavours/decorative_dubai_chocolate.jpg",
+    name: "Dubai Chocolate",
+  },
+  { src: "/flavours/specialty_flavours/decorative_lemon.jpg", name: "Lemon" },
+  { src: "/flavours/specialty_flavours/decorative_matcha.jpg", name: "Matcha" },
+  {
+    src: "/flavours/specialty_flavours/decorative_mint_chocolate.jpg",
+    name: "Mint Chocolate",
+  },
+  {
+    src: "/flavours/specialty_flavours/decorative_salted_caramel.jpg",
+    name: "Salted Caramel",
+  },
+  {
+    src: "/flavours/specialty_flavours/decorative_strawberry.jpg",
+    name: "Strawberry",
+  },
 ];

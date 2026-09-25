@@ -19,14 +19,14 @@
  * The date the form automatically opens. Used for the countdown timer.
  * Format: "YYYY-MM-DD"
  */
-export const preOrderOpenDate: string = "2026-09-03";
+export const preOrderOpenDate: string = "2026-09-29";
 
 /**
  * Manual Close Override
  * =====================
  * Set to true to close the form immediately regardless of the open date.
  */
-export const preOrderClosed: boolean = false;
+export const preOrderClosed: boolean = true;
 
 /**
  * Force Open Override
@@ -43,7 +43,11 @@ export const preOrderForceOpen: boolean = true;
  * Set these to next week's actual flavours without touching the gallery config.
  * Leave as an empty array [] to fall back to the latest weekly special entry.
  */
-export const nextWeekFlavours: string[] = ["Biscoff", "Coconut", "Chocolate"];
+export const nextWeekFlavours: string[] = [
+  "Earl Grey",
+  "Salted Caramel",
+  "Cookies & Cream",
+];
 // Example: export const nextWeekFlavours: string[] = ["Pistachio", "Lemon", "Biscoff"];
 
 /**
