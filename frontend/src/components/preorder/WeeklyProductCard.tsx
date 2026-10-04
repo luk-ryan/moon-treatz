@@ -3,8 +3,8 @@
  * =================
  * Product card for the Weekly Special Box on the cart step.
  *
- * Available state:  shows the LIMITED TIME badge + quantity Stepper.
- * Unavailable state: shows a CLOSED badge + live countdown (or static label if no release date is set).
+ * Available state:  shows the LIMITED TIME badge + live countdown to the close cutoff + quantity Stepper.
+ * Unavailable state: shows a CLOSED badge, static label.
  */
 
 import CountdownTimer from "../CountdownTimer";
@@ -50,8 +50,17 @@ const WeeklyProductCard = ({ isAvailable, qty, onChange, flavours }: WeeklyProdu
             </span>
             <span className="preorder-product-desc">{desc}</span>
           </div>
-          {/* max=100: effectively unlimited */}
-          <Stepper value={qty} min={0} max={100} onChange={onChange} />
+          <div className="preorder-product-action">
+            {/* Show a live countdown to the close cutoff while orders are still open */}
+            {getTimeUntilNextRelease().total > 0 && (
+              <div className="preorder-weekly-available">
+                <span className="preorder-weekly-available-label">Closes in</span>
+                <CountdownTimer />
+              </div>
+            )}
+            {/* max=100: effectively unlimited */}
+            <Stepper value={qty} min={0} max={100} onChange={onChange} />
+          </div>
         </div>
       </div>
     );
@@ -71,16 +80,9 @@ const WeeklyProductCard = ({ isAvailable, qty, onChange, flavours }: WeeklyProdu
           </span>
           <span className="preorder-product-desc">{desc}</span>
         </div>
-        {/* Show a live countdown if the next release is in the future, otherwise a static label */}
+        {/* No automatic reopen date once closed, so just show a static label */}
         <div className="preorder-weekly-unavailable">
-          {getTimeUntilNextRelease().total > 0 ? (
-            <>
-              <span className="preorder-weekly-unavailable-label">Opens in</span>
-              <CountdownTimer />
-            </>
-          ) : (
-            <span className="preorder-weekly-unavailable-label">Currently unavailable</span>
-          )}
+          <span className="preorder-weekly-unavailable-label">Currently unavailable</span>
         </div>
       </div>
     </div>

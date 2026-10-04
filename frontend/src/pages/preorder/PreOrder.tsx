@@ -17,9 +17,9 @@
  *
  *   Toggled via the "NKS Order" checkbox on the Contact step.
  *   When active (form.orderType === "nks-student"):
- *     - The schedule step shows only Thu/Fri NKS class timetable slots
+ *     - The schedule step shows only the Friday NKS class timetable slots
  *     - Pickup / delivery fields are hidden (NKS orders are handed off at the dojo)
- *     - Saturday is removed from the weekly calendar
+ *     - Saturday and Sunday are removed from the weekly calendar (Friday only)
  *
  * ── Email ─────────────────────────────────────────────────────────────────────
  *
@@ -173,6 +173,18 @@ const PreOrder = () => {
         document.getElementById("catering")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 100);
     }
+  }, []);
+
+  /* Clear a stale weekly quantity left over in localStorage from before the close cutoff
+     ═══════════════════════════════════════════════════════════════════════════════════
+     Without this, a customer who added a weekly box before it closed could still see it
+     in their cart/checkout after it's no longer being sold. */
+  useEffect(() => {
+    if (!weeklyAvailable && cart.weekly > 0) {
+      setCart(p => ({ ...p, weekly: 0 }));
+      setForm(p => ({ ...p, pickupDate: "" }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* Track visited steps

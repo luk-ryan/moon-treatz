@@ -6,36 +6,25 @@
  *
  *   mode="weekly"
  *   ─────────────
- *   Locked to the upcoming Thu/Fri/Sat pickup week.
+ *   Locked to the Fri/Sat/Sun pickup weekend of the week containing preOrderCloseDate.
  *   A single `value` string stores both the day and slot
- *   (e.g. "thursday-morning" or "nks-thursday-430-500pm").
+ *   (e.g. "friday-morning" or "nks-friday-430-500pm").
  *
  *   mode="catering"
  *   ────────────────
- *   Navigatable monthly calendar. Earliest bookable date is the upcoming Wednesday unless today
- *   is already Tue or later, which rolls it to the following week's Wednesday instead.
+ *   Navigatable monthly calendar. Earliest bookable date is always 1 week out from today.
  *   All manually blocked dates from config are also disabled.
  *
  * Both modes support `nksOnly`:
  *   false → Morning / Afternoon / Evening slot cards
- *   true  → Full NKS karate class timetable (Thu + Fri only)
+ *   true  → Full NKS karate class timetable (Friday only)
  */
 
 import { useState } from "react";
 import { cateringBlockedDates } from "../../../config/preOrderForm";
 
 // ─── NKS class timetable ──────────────────────────────────────────────────────
-const NKS_SCHEDULE: Record<"thursday" | "friday", { value: string; time: string; label: string; sublabel: string }[]> = {
-  thursday: [
-    { value: "nks-thursday-430-500pm",   time: "4:30–5:00pm",   label: "White & White Adv Belt",   sublabel: "7 and under" },
-    { value: "nks-thursday-500-530pm",   time: "5:00–5:30pm",   label: "Yellow & Yellow Adv Belt", sublabel: "7 and under" },
-    { value: "nks-thursday-530-610pm",   time: "5:30–6:10pm",   label: "Purple to Brown Belt",     sublabel: "9–12 yrs" },
-    { value: "nks-thursday-610-700pm",   time: "6:10–7:00pm",   label: "Brown Adv & Black Belt+",  sublabel: "12 and under" },
-    { value: "nks-thursday-700-745pm",   time: "7:00–7:45pm",   label: "White & Yellow Belt",      sublabel: "Teen & Adult" },
-    { value: "nks-thursday-745-830pm",   time: "7:45–8:30pm",   label: "Purple to Brown Belt",     sublabel: "Teen & Adult" },
-    { value: "nks-thursday-830-915pm",   time: "8:30–9:15pm",   label: "Black Belt+",              sublabel: "Teen & Adult" },
-    { value: "nks-thursday-915-930pm",   time: "9:15–9:30pm",   label: "Black Belt+ Extension",    sublabel: "Teen & Adult" },
-  ],
+const NKS_SCHEDULE: Record<"friday", { value: string; time: string; label: string; sublabel: string }[]> = {
   friday: [
     { value: "nks-friday-430-500pm",   time: "4:30–5:00pm",   label: "Yellow & Yellow Adv Belt",         sublabel: "7 and under" },
     { value: "nks-friday-500-530pm",   time: "5:00–5:30pm",   label: "Orange & Orange Adv Belt",         sublabel: "7 and under" },
@@ -48,7 +37,7 @@ const NKS_SCHEDULE: Record<"thursday" | "friday", { value: string; time: string;
 };
 
 // ─── Standard time-of-day slots ───────────────────────────────────────────────
-type DayKey = "thursday" | "friday" | "saturday";
+type DayKey = "friday" | "saturday" | "sunday";
 
 // Base labels shared by both modes.
 // Catering uses these values directly; weekly prefixes them with the day name.
@@ -61,9 +50,9 @@ const BASE_SLOTS = [
 const CATERING_SLOTS = BASE_SLOTS;
 
 const WEEKLY_SLOTS: Record<DayKey, { value: string; label: string }[]> = {
-  thursday: BASE_SLOTS.map(s => ({ ...s, value: `thursday-${s.value}` })),
   friday:   BASE_SLOTS.map(s => ({ ...s, value: `friday-${s.value}` })),
   saturday: BASE_SLOTS.map(s => ({ ...s, value: `saturday-${s.value}` })),
+  sunday:   BASE_SLOTS.map(s => ({ ...s, value: `sunday-${s.value}` })),
 };
 
 const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -76,29 +65,23 @@ const MONTH_NAMES  = [
 const pad   = (n: number) => String(n).padStart(2, "0");
 const toKey = (d: Date)   => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-// Returns the upcoming Thu/Fri/Sat (strictly in the future, never today).
-import { preOrderOpenDate } from "../../../config/preOrderForm";
+// Returns the upcoming Fri/Sat/Sun (strictly in the future, never today).
+import { preOrderCloseDate } from "../../../config/preOrderForm";
 
-// Returns Thu/Fri/Sat of the week that contains preOrderOpenDate.
-// Only advances to the following week if Saturday of that week has already passed today.
+// Returns Fri/Sat/Sun of the week containing preOrderCloseDate.
 const getPickupWeek = () => {
-  const anchor = new Date(preOrderOpenDate + "T00:00:00");
-  const today  = new Date(); today.setHours(0, 0, 0, 0);
+  const anchor = new Date(preOrderCloseDate + "T00:00:00");
 
-  // Find the Thursday of the week containing the anchor.
-  const daysToThu = ((4 - anchor.getDay() + 3) % 7) - 3;
-  const thu = new Date(anchor); thu.setDate(anchor.getDate() + daysToThu);
-  const sat = new Date(thu);   sat.setDate(thu.getDate() + 2);
+  // Sunday that starts the anchor's own week.
+  const sunday = new Date(anchor);
+  sunday.setDate(anchor.getDate() - anchor.getDay());
 
-  // Keep rolling forward one week at a time until a Saturday that hasn't happened yet has been reached
-  while (sat <= today) {
-    thu.setDate(thu.getDate() + 7);
-    sat.setDate(sat.getDate() + 7);
-  }
+  // Friday/Sat/Sun of that same week — no rolling forward if they've already passed.
+  const fri = new Date(sunday); fri.setDate(sunday.getDate() + 5);
+  const sat = new Date(fri);    sat.setDate(fri.getDate() + 1);
+  const sun = new Date(fri);    sun.setDate(fri.getDate() + 2);
 
-  const fri = new Date(thu); fri.setDate(thu.getDate() + 1);
-  const satFinal = new Date(thu); satFinal.setDate(thu.getDate() + 2);
-  return { thursday: thu, friday: fri, saturday: satFinal };
+  return { friday: fri, saturday: sat, sunday: sun };
 };
 
 // ─── Props  ────────────────────────────────────────────────────────────────────
@@ -127,24 +110,24 @@ const OrderCalendar = (props: OrderCalendarProps) => {
 
   // ── Weekly-mode: compute the three pickup dates ──────────────────────────────
   const pickupWeek = getPickupWeek();
-  const { thursday, friday, saturday } = pickupWeek;
+  const { friday, saturday, sunday } = pickupWeek;
   const todayWeekly = new Date(); todayWeekly.setHours(0, 0, 0, 0);
 
   // Only include pickup days that are strictly in the future (not today, not past).
-  // In NKS mode Thursday and Saturday are also excluded.
+  // In NKS mode Saturday and Sunday are also excluded (only Friday has a class).
   const availableKeyMap: Record<string, DayKey> = isWeekly ? {
-    ...(nksOnly || thursday <= todayWeekly ? {} : { [toKey(thursday)]: "thursday" }),
     ...(friday <= todayWeekly ? {} : { [toKey(friday)]: "friday" }),
     ...(nksOnly || saturday <= todayWeekly ? {} : { [toKey(saturday)]: "saturday" }),
+    ...(nksOnly || sunday <= todayWeekly ? {} : { [toKey(sunday)]: "sunday" }),
   } : {};
   const availableKeys = new Set(Object.keys(availableKeyMap));
 
-  // Recovers the active DayKey from a stored slot string like "thursday-morning".
+  // Recovers the active DayKey from a stored slot string like "friday-morning".
   // Returns null for empty / unrecognised strings.
   const dayFromValue = (v: string): DayKey | null =>
-    v.startsWith("thursday") ? "thursday"
-    : v.startsWith("friday")   ? "friday"
+    v.startsWith("friday")   ? "friday"
     : v.startsWith("saturday") ? "saturday"
+    : v.startsWith("sunday")   ? "sunday"
     : null;
 
   // activeDay tracks which column of slot cards is currently open.
@@ -157,15 +140,11 @@ const OrderCalendar = (props: OrderCalendarProps) => {
 
   // ── Catering-mode: earliest bookable date + blocked set ───────────────────────
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  // Tuesday is baking day. Only skip to the following week when the upcoming Wednesday is 0-1 days away
-  //    (If today is Tue or Wed) — too short notice to bake.
-  // This keeps lead time between 2 days (Monday) and 8 days (Tuesday), never more.
+  // Earliest bookable catering date is always at least 1 week out from today.
   const minDate = (() => {
-    const daysToWed  = (3 - today.getDay() + 7) % 7;
-    const upcomingWed = new Date(today); upcomingWed.setDate(today.getDate() + daysToWed);
-    if (daysToWed >= 2) return upcomingWed;
-    upcomingWed.setDate(upcomingWed.getDate() + 7);
-    return upcomingWed;
+    const d = new Date(today);
+    d.setDate(d.getDate() + 7);
+    return d;
   })();
   // Build a Set for O(1) manually blocked-date checks inside the cell loop below.
   const blockedSet = new Set(cateringBlockedDates);
@@ -174,19 +153,19 @@ const OrderCalendar = (props: OrderCalendarProps) => {
   // Weekly mode: fixed to the pickup week's month — the nav buttons are disabled.
   // Catering mode: starts at minDate's month (first month with selectable dates)
   //                and advances forward as the user navigates.
-  const [viewYear,  setViewYear]  = useState(isWeekly ? thursday.getFullYear() : minDate.getFullYear());
-  const [viewMonth, setViewMonth] = useState(isWeekly ? thursday.getMonth()    : minDate.getMonth());
+  const [viewYear,  setViewYear]  = useState(isWeekly ? friday.getFullYear() : minDate.getFullYear());
+  const [viewMonth, setViewMonth] = useState(isWeekly ? friday.getMonth()    : minDate.getMonth());
 
   // Prevent navigating back past the month that contains minDate.
-  // In weekly mode, allow going back only if we've navigated past Thursday's month.
+  // In weekly mode, allow going back only if we've navigated past Friday's month.
   const canGoPrev = isWeekly
-    ? (viewYear > thursday.getFullYear() || (viewYear === thursday.getFullYear() && viewMonth > thursday.getMonth()))
+    ? (viewYear > friday.getFullYear() || (viewYear === friday.getFullYear() && viewMonth > friday.getMonth()))
     : (viewYear > minDate.getFullYear() || (viewYear === minDate.getFullYear() && viewMonth > minDate.getMonth()));
 
-  // In weekly mode, allow navigating forward only if Saturday spills into the next month.
+  // In weekly mode, allow navigating forward only if Sunday spills into the next month.
   const canGoNextWeekly = isWeekly && (
-    viewYear < saturday.getFullYear() ||
-    (viewYear === saturday.getFullYear() && viewMonth < saturday.getMonth())
+    viewYear < sunday.getFullYear() ||
+    (viewYear === sunday.getFullYear() && viewMonth < sunday.getMonth())
   );
 
   const prevMonth = () => {
@@ -236,7 +215,7 @@ const OrderCalendar = (props: OrderCalendarProps) => {
   // ── Slot panel visibility + content ──────────────────────────────────────────
   // slotDay: which day's slot list to render.
   //   Weekly  → comes from `activeDay` state (set on cell click).
-  //   Catering → derived from the date string; only Thu/Fri get NKS slots,
+  //   Catering → derived from the date string; only Friday gets NKS slots,
   //              all other days just show Morning/Afternoon/Evening.
   const slotDay: DayKey | null = isWeekly
     ? activeDay
@@ -244,17 +223,17 @@ const OrderCalendar = (props: OrderCalendarProps) => {
         const p = props as CateringProps;
         if (!p.dateValue) return null;
         const dow = new Date(p.dateValue + "T00:00:00").getDay(); // "T00:00:00" avoids timezone shifts
-        return dow === 4 ? "thursday" : dow === 5 ? "friday" : null;
+        return dow === 5 ? "friday" : null;
       })();
 
   // showSlots — nothing renders until a day is picked.
   const showSlots = isWeekly ? !!activeDay : !!(props as CateringProps).dateValue;
 
-  // Human-readable heading shown above the slot cards, e.g. "Thursday, July 10".
+  // Human-readable heading shown above the slot cards, e.g. "Friday, July 10".
   const getSlotHeading = (): string => {
     if (!showSlots) return "";
     if (isWeekly && activeDay) {
-      const d = activeDay === "thursday" ? thursday : activeDay === "friday" ? friday : saturday;
+      const d = activeDay === "friday" ? friday : activeDay === "saturday" ? saturday : sunday;
       return d.toLocaleDateString("en-CA", { weekday: "long", month: "long", day: "numeric" });
     }
     const dv = (props as CateringProps).dateValue;
@@ -266,10 +245,10 @@ const OrderCalendar = (props: OrderCalendarProps) => {
 
   // renderSlots: builds the slot card panel shown below the calendar grid.
   // Two layouts depending on mode:
-  //   NKS mode (nksOnly=true + Thu/Fri selected) → full class timetable, single column
-  //   Standard mode                              → Morning / Afternoon / Evening cards
+  //   NKS mode (nksOnly=true + Friday selected) → full class timetable, single column
+  //   Standard mode                             → Morning / Afternoon / Evening cards
   const renderSlots = () => {
-    if (nksOnly && slotDay && (slotDay === "thursday" || slotDay === "friday")) {
+    if (nksOnly && slotDay === "friday") {
       // NKS timetable: full class schedule in a single-column grid
       return (
         <div className="preorder-cal-slots" style={{ gridTemplateColumns: "1fr" }}>
@@ -297,7 +276,7 @@ const OrderCalendar = (props: OrderCalendarProps) => {
     }
 
     // Standard slots: Morning / Afternoon / Evening.
-    // Weekly uses WEEKLY_SLOTS (value includes day prefix, e.g. "thursday-morning").
+    // Weekly uses WEEKLY_SLOTS (value includes day prefix, e.g. "friday-morning").
     // Catering uses CATERING_SLOTS (plain strings, e.g. "morning").
     const slots = isWeekly && activeDay ? WEEKLY_SLOTS[activeDay] : CATERING_SLOTS;
 

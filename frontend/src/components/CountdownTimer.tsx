@@ -1,13 +1,13 @@
 /**
  * CountdownTimer Component
  * ========================
- * Displays a live countdown to the next pre-order release date.
- * Renders nothing when the release date has already passed.
+ * Displays a live countdown to the pre-order close cutoff.
+ * Renders nothing once the cutoff has already passed.
  *
  * On mobile: shows a simple "X Days" display.
  * On desktop: shows a ticking DD:HH:MM:SS segment display inside the button.
  *
- * The `nextReleaseDate` in preOrderForm config should be updated manually each week to the upcoming release date.
+ * `preOrderCloseDate` in preOrderForm config should be updated manually each week to the next cutoff.
  */
 
 import { useIsMobile } from "../hooks/useIsMobile";

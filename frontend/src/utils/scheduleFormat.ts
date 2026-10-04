@@ -4,35 +4,25 @@
  * Shared helpers for converting internal pickupDate values into human-readable { label, time } pairs.
  */
 
-import { preOrderOpenDate } from "../config/preOrderForm";
+import { preOrderCloseDate } from "../config/preOrderForm";
 
-// Returns Thu/Fri/Sat of the week containing preOrderOpenDate.
-// Only advances to the following week if Saturday of that week has already passed today.
+// Returns Fri/Sat/Sun of the week containing preOrderCloseDate.
 function getPickupWeekDates() {
-  const anchor = new Date(preOrderOpenDate + "T00:00:00");
-  const today  = new Date(); today.setHours(0, 0, 0, 0);
+  const anchor = new Date(preOrderCloseDate + "T00:00:00");
 
-  const daysToThu = ((4 - anchor.getDay() + 3) % 7) - 3;
-  const thu = new Date(anchor);
-  thu.setDate(anchor.getDate() + daysToThu);
-  const sat = new Date(thu); sat.setDate(thu.getDate() + 2);
+  // Sunday that starts the anchor's own week.
+  const sunday = new Date(anchor);
+  sunday.setDate(anchor.getDate() - anchor.getDay());
 
-  // Keep rolling forward a week at a time until Saturday hasn't already happened.
-  // Must mirror the identical loop in OrderCalendar.tsx's getPickupWeek so the
-  // calendar's selectable days and the review/email labels never disagree.
-  while (sat <= today) {
-    thu.setDate(thu.getDate() + 7);
-    sat.setDate(sat.getDate() + 7);
-  }
+  // Friday/Sat/Sun of that same week — no rolling forward if they've already passed.
+  const fri = new Date(sunday); fri.setDate(sunday.getDate() + 5);
+  const sat = new Date(fri);    sat.setDate(fri.getDate() + 1);
+  const sun = new Date(fri);    sun.setDate(fri.getDate() + 2);
 
-  const fri = new Date(thu);
-  fri.setDate(thu.getDate() + 1);
-  const satFinal = new Date(thu);
-  satFinal.setDate(thu.getDate() + 2);
-  return { thu, fri, sat: satFinal };
+  return { fri, sat, sun };
 }
 
-// e.g. → "Thursday, July 10, 2025"
+// e.g. → "Friday, July 10, 2025"
 const fmtDate = (d: Date) =>
   d.toLocaleDateString("en-CA", {
     weekday: "long",
@@ -42,36 +32,35 @@ const fmtDate = (d: Date) =>
   });
 
 // Maps every weekly slot to its day key and display time label.
-const WEEKLY_SLOT_LABELS: Record<string, { day: "thu" | "fri" | "sat"; time: string }> = {
-  "thursday-morning":   { day: "thu", time: "Morning" },
-  "thursday-afternoon": { day: "thu", time: "Afternoon" },
-  "thursday-evening":   { day: "thu", time: "Evening" },
+const WEEKLY_SLOT_LABELS: Record<string, { day: "fri" | "sat" | "sun"; time: string }> = {
   "friday-morning":     { day: "fri", time: "Morning" },
   "friday-afternoon":   { day: "fri", time: "Afternoon" },
   "friday-evening":     { day: "fri", time: "Evening" },
   "saturday-morning":   { day: "sat", time: "Morning" },
   "saturday-afternoon": { day: "sat", time: "Afternoon" },
   "saturday-evening":   { day: "sat", time: "Evening" },
+  "sunday-morning":     { day: "sun", time: "Morning" },
+  "sunday-afternoon":   { day: "sun", time: "Afternoon" },
+  "sunday-evening":     { day: "sun", time: "Evening" },
 };
 
 /**
  * Parse a pickupDate into a { label, time } pair.
  */
 export function parsePickupDate(pickupDate: string): { label: string; time: string } | null {
-  const { thu, fri, sat } = getPickupWeekDates();
-  const dayMap = { thu, fri, sat };
+  const { fri, sat, sun } = getPickupWeekDates();
+  const dayMap = { fri, sat, sun };
 
-  // NKS format: "nks-thursday-430-500pm" / "nks-friday-740-810pm"
-  const nksMatch = pickupDate.match(/^nks-(thursday|friday)-(.+)$/);
+  // NKS format: "nks-friday-430-500pm" — Friday is the only weekly NKS day.
+  const nksMatch = pickupDate.match(/^nks-friday-(.+)$/);
   if (nksMatch) {
-    const dateObj = nksMatch[1] === "thursday" ? thu : fri;
     // "430-500pm" → groups: ["4","30","5","00","pm"] → "4:30 – 5:00 pm"
     // Falls back to the raw string if the format doesn't match.
-    const timeMatch = nksMatch[2].match(/^(\d{1,2})(\d{2})-(\d{1,2})(\d{2})(am|pm)$/);
+    const timeMatch = nksMatch[1].match(/^(\d{1,2})(\d{2})-(\d{1,2})(\d{2})(am|pm)$/);
     const timeStr = timeMatch
       ? `${timeMatch[1]}:${timeMatch[2]} \u2013 ${timeMatch[3]}:${timeMatch[4]} ${timeMatch[5]}`
-      : nksMatch[2];
-    return { label: fmtDate(dateObj), time: `${timeStr} (NKS)` };
+      : nksMatch[1];
+    return { label: fmtDate(fri), time: `${timeStr} (NKS)` };
   }
 
   // Regular weekly slot

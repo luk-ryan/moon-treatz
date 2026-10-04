@@ -52,18 +52,18 @@ The entry with the **highest `id`** is automatically used as the current feature
 
 ---
 
-### 📅 Set the Next Pre-Order Open Date
+### 📅 Set the Next Pre-Order Close Date
 
-Open `frontend/src/config/preOrderForm.ts` and update `preOrderOpenDate`:
+Open `frontend/src/config/preOrderForm.ts` and update `preOrderCloseDate`:
 
 ```ts
 // Format: "YYYY-MM-DD"
-export const preOrderOpenDate: string = "2026-07-18";
+export const preOrderCloseDate: string = "2026-07-18";
 ```
 
-- A countdown timer will display on the site until that date arrives, then the form opens automatically.
-- To **force-close** the form at any time regardless of the date, set `preOrderClosed = true`.
-- To **re-open**, set `preOrderClosed = false` (and update `preOrderOpenDate` to the next release date).
+- The form is available up until 9:00am on that date, then it closes automatically.
+- To **force-close** the form early regardless of the date, set `preOrderClosed = true`.
+- To **force-open** the form past the close date, set `preOrderForceOpen = true`.
 
 ---
 

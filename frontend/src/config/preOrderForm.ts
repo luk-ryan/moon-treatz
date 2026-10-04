@@ -5,36 +5,35 @@
  *
  * HOW IT WORKS
  * ------------
- * 1. Set `preOrderOpenDate` to the date the form should automatically open.
- *    A countdown timer will show on the site until that date arrives.
- * 2. Once the date passes the form opens automatically and stays open.
- * 3. To manually close the form at any time, set `preOrderClosed` to true.
- * 4. To re-open, set `preOrderClosed` back to false (and update `preOrderOpenDate`
- *    to the next opening date if you want a new countdown).
+ * 1. Set `preOrderCloseDate` to the date orders should stop being accepted.
+ *    The form is available any time before 9:00am on that date.
+ * 2. Once 9:00am on that date passes, the form automatically closes.
+ * 3. `preOrderClosed` / `preOrderForceOpen` are manual overrides — not needed
+ *    for normal weekly use, but still there in case you need to force open/closed.
  */
 
 /**
- * Pre-Order Open Date
- * ===================
- * The date the form automatically opens. Used for the countdown timer.
+ * Pre-Order Close Date
+ * =====================
+ * The order window closes at 9:00am on this date. Also used for the countdown timer.
  * Format: "YYYY-MM-DD"
  */
-export const preOrderOpenDate: string = "2026-09-29";
+export const preOrderCloseDate: string = "2026-09-11";
 
 /**
  * Manual Close Override
  * =====================
- * Set to true to close the form immediately regardless of the open date.
+ * Set to true to close the form immediately regardless of the close date.
  */
-export const preOrderClosed: boolean = true;
+export const preOrderClosed: boolean = false;
 
 /**
  * Force Open Override
  * ===================
- * Set to true to force the weekly box form open regardless of the open date.
- * Useful when taking orders early without changing the countdown date.
+ * Set to true to force the weekly box form open regardless of the close date.
+ * Useful when taking orders early without changing the close date.
  */
-export const preOrderForceOpen: boolean = true;
+export const preOrderForceOpen: boolean = false;
 
 /**
  * Next Week's Flavours
@@ -51,13 +50,20 @@ export const nextWeekFlavours: string[] = [
 // Example: export const nextWeekFlavours: string[] = ["Pistachio", "Lemon", "Biscoff"];
 
 /**
- * Returns time remaining until preOrderOpenDate as { days, hours, minutes, seconds, total }.
- * `total` is milliseconds remaining (0 when the date has passed / form is open).
+ * The exact moment the order window closes: 9:00am on preOrderCloseDate.
+ */
+const getCloseCutoff = (): Date => {
+  const cutoff = new Date(preOrderCloseDate);
+  cutoff.setHours(9, 0, 0, 0);
+  return cutoff;
+};
+
+/**
+ * Returns time remaining until the 9:00am close cutoff as { days, hours, minutes, seconds, total }.
+ * `total` is milliseconds remaining (0 once the cutoff has passed / form is closed).
  */
 export const getTimeUntilNextRelease = () => {
-  const release = new Date(preOrderOpenDate);
-  release.setHours(0, 0, 0, 0);
-  const total = Math.max(0, release.getTime() - Date.now());
+  const total = Math.max(0, getCloseCutoff().getTime() - Date.now());
   const s = Math.floor(total / 1000);
   return {
     days: Math.floor(s / 86400),
@@ -71,11 +77,11 @@ export const getTimeUntilNextRelease = () => {
 /**
  * Returns true when the pre-order form should be accessible:
  * - not manually closed, AND
- * - the open date has been reached
+ * - it's still before 9:00am on preOrderCloseDate
  */
 export const isPreOrderFormAvailable = (): boolean => {
   if (preOrderClosed) return false;
-  return Date.now() >= new Date(preOrderOpenDate).getTime();
+  return Date.now() < getCloseCutoff().getTime();
 };
 
 /**

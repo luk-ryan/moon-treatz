@@ -976,6 +976,47 @@
     font-size: var(--fs-500);
   }
 
+  /* Weekly box card: stack info full-width, then closes-in + stepper in their own row.
+     Scoped away from .preorder-catering-card, which reuses these same class names but should keep its original layout. */
+  .preorder-product-card:not(.preorder-catering-card) .preorder-product-card-body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+  }
+
+  /* Name + price share the top row, price pinned top-right; desc wraps full-width below */
+  .preorder-product-card:not(.preorder-catering-card) .preorder-product-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15rem 0.5rem;
+  }
+
+  .preorder-product-card:not(.preorder-catering-card) .preorder-product-name {
+    flex: 1 1 auto;
+  }
+
+  .preorder-product-card:not(.preorder-catering-card) .preorder-product-price {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .preorder-product-card:not(.preorder-catering-card) .preorder-product-desc {
+    flex-basis: 100%;
+  }
+
+  .preorder-product-action {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  .preorder-weekly-available {
+    align-items: flex-start;
+  }
+
   /* Stack step nav buttons full-width on very narrow screens */
   .preorder-step-nav {
     flex-direction: column;

@@ -22,9 +22,9 @@ const latestSpecial = getLatestSpecial();
    
    YESH MASTER RYAN.
 
-// Build "Month Day–Day" label from preOrderOpenDate to (preOrderOpenDate + 2 days)
+// Build "Month Day–Day" label from preOrderCloseDate to (preOrderCloseDate + 2 days)
 const getPreOrderDate = () => {
-  const start = new Date(preOrderOpenDate + "T00:00:00");
+  const start = new Date(preOrderCloseDate + "T00:00:00");
   const end = new Date(start);
   end.setDate(end.getDate() + 2);
   const month = start.toLocaleDateString("en-US", { month: "short" });
@@ -59,7 +59,7 @@ const WeeklyBox = () => {
           <motion.div className="ws-schedule-block" {...fadeUp(0.55)}>
             <p className="ws-schedule-label">Pickup / Delivery Days</p>
             <div className="ws-schedule-pills">
-              {["Thu", "Fri", "Sat"].map((d) => (
+              {["Fri", "Sat", "Sun"].map((d) => (
                 <span key={d} className="ws-pill">
                   {d}
                 </span>

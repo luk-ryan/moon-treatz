@@ -973,6 +973,61 @@
   margin-bottom: 0.25rem;
 }
 
+.preorder-product-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.preorder-weekly-available {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.preorder-weekly-available-label {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-100, 0.9rem);
+  color: var(--clr-gold-500);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.preorder-weekly-available .countdown-segments {
+  gap: 0.6rem;
+}
+
+.preorder-weekly-available .countdown-seg {
+  width: 2.5ch;
+}
+
+.preorder-weekly-available .countdown-val {
+  font-size: var(--fs-300);
+  color: var(--clr-gold-400);
+  font-variant-numeric: tabular-nums;
+}
+
+.preorder-weekly-available .countdown-lbl {
+  font-size: 0.7rem;
+  color: var(--clr-gold-700);
+}
+
+/* Compact mobile countdown ("25 Days") — rendered instead of the segment display */
+.preorder-weekly-available .countdown-days-mobile {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-300);
+  font-weight: 700;
+  color: var(--clr-gold-400);
+}
+
+.preorder-weekly-available .countdown-colon {
+  font-size: var(--fs-300);
+  color: var(--clr-gold-600);
+}
+
 /* Product image wrapper — vignette overlay */
 .preorder-product-img-wrap {
   position: relative;

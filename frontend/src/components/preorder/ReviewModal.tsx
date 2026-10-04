@@ -119,7 +119,7 @@ const ReviewModal = ({
           <h3 className="preorder-modal-section-title">Scheduling</h3>
           <div className="preorder-modal-details">
             {form.pickupDate && (() => {
-              // parsePickupDate converts NKS slot strings (e.g. "nks-thursday-430-500pm")
+              // parsePickupDate converts NKS slot strings (e.g. "nks-friday-430-500pm")
               // into a human label + time. Falls back to raw string for standard slots.
               const parsed = parsePickupDate(form.pickupDate);
               if (parsed) {
