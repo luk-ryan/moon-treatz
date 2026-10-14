@@ -18,7 +18,7 @@
  * The order window closes at 9:00am on this date. Also used for the countdown timer.
  * Format: "YYYY-MM-DD"
  */
-export const preOrderCloseDate: string = "2026-09-11";
+export const preOrderCloseDate: string = "2026-10-19";
 
 /**
  * Manual Close Override
@@ -42,11 +42,7 @@ export const preOrderForceOpen: boolean = false;
  * Set these to next week's actual flavours without touching the gallery config.
  * Leave as an empty array [] to fall back to the latest weekly special entry.
  */
-export const nextWeekFlavours: string[] = [
-  "Earl Grey",
-  "Salted Caramel",
-  "Cookies & Cream",
-];
+export const nextWeekFlavours: string[] = ["Tiramisu", "Vanilla", "Matcha"];
 // Example: export const nextWeekFlavours: string[] = ["Pistachio", "Lemon", "Biscoff"];
 
 /**

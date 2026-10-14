@@ -241,6 +241,16 @@ export const weeklySpecials: WeeklyFlavour[] = [
       "/flavours/weekly_specials/weekly_special_21(side-view3).jpg",
     ],
   },
+  {
+    id: 22,
+    flavours: ["Earl Grey", "Salted Caramel", "Cookies & Cream"],
+    displayImage: "/flavours/weekly_specials/transparent/weekly_special_22.png",
+    images: [
+      "/flavours/weekly_specials/weekly_special_22(box-view).jpg",
+      "/flavours/weekly_specials/weekly_special_22(box-view2).jpg",
+      "/flavours/weekly_specials/weekly_special_22(side-view).jpg",
+    ],
+  },
 ];
 
 /**
