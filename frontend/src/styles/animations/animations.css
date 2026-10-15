@@ -164,6 +164,32 @@
   }
 }
 
+/* ========================
+   PRICE BADGE GLOW + SHINE
+   ======================== */
+@keyframes priceBadgeGlow {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+@keyframes priceBadgeShine {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 /* =============================================
    PULSE ANIMATION (For view selector buttons)
    ============================================= */

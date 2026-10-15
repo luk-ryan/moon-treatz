@@ -680,11 +680,92 @@ footer a {
   text-decoration: underline;
 }
 
-/* Bottom corner decorations (mirrored Art Deco L-lines) */
+/* ── Footer contact strip — location + get-in-touch columns ── */
+.footer-contact {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  text-align: left;
+}
+.footer-copyright {
+  margin-top: 1.25rem;
+  text-align: left;
+}
+.contact-eyebrow {
+  display: block;
+  font-family: var(--ff-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--clr-primary);
+  margin-bottom: 0.6rem;
+}
+.contact-col { display: flex; flex-direction: column; }
+.contact-col--location { flex: 0 0 auto; max-width: 16rem; }
+.contact-col--links { flex: 0 1 auto; }
+.contact-location-text {
+  font-size: var(--fs-200);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  margin: 0;
+}
+.contact-map-link {
+  color: var(--clr-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(201,162,39,0.4);
+  transition: color 0.2s;
+}
+.contact-map-link:hover { color: var(--clr-accent); }
+.contact-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(201,162,39,0.15);
+  flex-shrink: 0;
+}
+.contact-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.6rem;
+  border: 1px solid rgba(201,162,39,0.25);
+  border-radius: 2rem;
+  font-size: var(--fs-100);
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  letter-spacing: 0.03em;
+}
+.contact-chip:hover {
+  border-color: var(--clr-gold-500);
+  color: var(--clr-primary);
+  background: rgba(201,162,39,0.05);
+}
+.contact-icon {
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(67%) sepia(73%) saturate(425%)
+    hue-rotate(5deg) brightness(95%) contrast(90%);
+}
+.email-icon    { width: 1.1rem; height: auto; }
+.phone-icon    { width: 0.9rem; height: auto; }
+.instagram-icon { width: 1.1rem; height: auto; }
+
+/* Bottom corner decorations (mirrored Art Deco L-lines) — anchored to the
+/* Bottom corner decorations (mirrored Art Deco L-lines) — scoped to the
+   .footer-bottom wrapper (not the whole footer) so they continue to frame
+   just the copyright line, the same as before the contact block was added. */
 .corner-group-bottom-left,
 .corner-group-bottom-right {
   position: absolute;
-  top: 0.5rem;
+  top: 2.5rem;
   width: 8.75rem;
   height: 8.75rem;
   z-index: 100;

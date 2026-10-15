@@ -14,7 +14,7 @@
 import TermsSection from "./sections/TermsSection";
 import { parsePickupDate } from "../../utils/scheduleFormat";
 
-interface LineItem { label: string; qty: number; unitPrice: number; }
+interface LineItem { label: string; qty: number; unitPrice: number; extra: number; }
 interface PackageFlavourState { mode: "same" | "different"; boxes: string[][]; }
 interface CateringPackage { key: string; label: string; }
 
@@ -54,10 +54,15 @@ const ReviewModal = ({
         <h3 className="preorder-modal-section-title">Items</h3>
         <ul className="preorder-modal-list">
           {cartLineItems.map(item => (
-            <li key={item.label} className="preorder-modal-list-item">
-              <span>{item.label}</span>
-              <span>× {item.qty}</span>
-              <span>${item.qty * item.unitPrice}</span>
+            <li key={item.label} className="preorder-cart-item-row">
+              <div className="preorder-modal-list-item">
+                <span>{item.label}</span>
+                <span>× {item.qty}</span>
+                <span>${item.qty * item.unitPrice + item.extra}</span>
+              </div>
+              {item.extra > 0 && (
+                <div className="preorder-cart-item-note">+${item.extra} for specialty flavours</div>
+              )}
             </li>
           ))}
         </ul>

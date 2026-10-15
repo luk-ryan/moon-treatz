@@ -10,9 +10,11 @@ type CheckboxGroupProps = {
   selected: string[];          // currently ticked values (controlled by parent)
   max: number;                 // maximum simultaneous selections allowed
   onChange: (selected: string[]) => void; // parent receives the updated array
+  unavailable?: string[];      // options that can never be picked (e.g. temporarily out of stock)
+  surchargeLabel?: string;     // e.g. "+$3" — shown next to every available option when set
 };
 
-const CheckboxGroup = ({ options, selected, max, onChange }: CheckboxGroupProps) => {
+const CheckboxGroup = ({ options, selected, max, onChange, unavailable = [], surchargeLabel }: CheckboxGroupProps) => {
   const toggle = (opt: string) => {
     if (selected.includes(opt)) {
       // Already checked — remove it from the selection
@@ -28,16 +30,17 @@ const CheckboxGroup = ({ options, selected, max, onChange }: CheckboxGroupProps)
     <div className="preorder-checkbox-group">
       {options.map((opt) => {
         const checked = selected.includes(opt);
+        const isUnavailable = unavailable.includes(opt);
         // Only disable options the user hasn't already selected
         // Selected ones must stay enabled so the user can deselect them to pick something else
-        const disabled = !checked && selected.length >= max;
+        const disabled = isUnavailable || (!checked && selected.length >= max);
         return (
           <label
             key={opt}
             className={[
               "preorder-checkbox-label",
               checked   ? "preorder-checkbox-checked"  : "",  // gold highlight when ticked
-              disabled  ? "preorder-checkbox-disabled" : "",  // greyed out when limit hit
+              disabled  ? "preorder-checkbox-disabled" : "",  // greyed out when limit hit or unavailable
             ]
               .filter(Boolean)   // remove the empty strings
               .join(" ")}        // produce a clean space-separated class string
@@ -50,6 +53,9 @@ const CheckboxGroup = ({ options, selected, max, onChange }: CheckboxGroupProps)
               className="preorder-checkbox-input"
             />
             <span>{opt}</span>
+            {surchargeLabel && !isUnavailable && (
+              <span className="preorder-checkbox-surcharge">{surchargeLabel}</span>
+            )}
           </label>
         );
       })}

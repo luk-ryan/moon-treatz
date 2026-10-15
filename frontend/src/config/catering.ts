@@ -32,6 +32,19 @@ export const CATERING_IMAGES: Partial<Record<string, string>> = {
 };
 
 /**
+ * Specialty flavour surcharge
+ * -----------------------------
+ * Extra charge added per box, per package size, when at least one Specialty
+ * flavour is chosen for that box. Keys match CATERING_SIZES `key` values.
+ */
+export const SPECIALTY_SURCHARGE: Record<string, number> = {
+  c20: 2,
+  c30: 3,
+  c60: 5,
+  c90: 7,
+};
+
+/**
  * Available pickup locations
  * ---------------------------
  * Dropdown options for the pickup location field in the pre-order schedule step.

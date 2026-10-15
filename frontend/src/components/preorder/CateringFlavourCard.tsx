@@ -9,9 +9,12 @@ import FormField from "./primitives/FormField";
 import CheckboxGroup from "./primitives/CheckboxGroup";
 import { flavours } from "../../config/flavours";
 import { specialtyFlavours } from "../../config/specialtyFlavours";
+import { SPECIALTY_SURCHARGE } from "../../config/catering";
 
 const CLASSIC_FLAVOUR_NAMES = flavours.map(f => f.name);
 const SPECIALTY_FLAVOUR_NAMES = specialtyFlavours.map(f => f.name);
+// Specialty flavours shown on the Flavours page but not currently offered for pre-order.
+const UNAVAILABLE_SPECIALTY_FLAVOURS = ["Chocolate Peanut Butter", "Lemon"];
 
 interface PackageFlavourState {
   mode: "same" | "different";
@@ -63,6 +66,9 @@ const CateringFlavourCard = ({
 
   // isDifferent: true only when the user has opted for per-box flavours AND there is more than one box to configure.
   const isDifferent = pkgState.mode === "different" && qty > 1;
+
+  // Extra charge added per box when a Specialty flavour is included, shown next to the toggle.
+  const specialtySurcharge = SPECIALTY_SURCHARGE[pkg.key] ?? 0;
 
   // isActive: highlight the card border once any selection has been made.
   const isActive = (isDifferent
@@ -137,6 +143,8 @@ const CateringFlavourCard = ({
                 selected={pkgState.boxes[0]}
                 max={pkg.maxFlavours}
                 onChange={(selected) => onFlavourChange(0, selected)}
+                unavailable={UNAVAILABLE_SPECIALTY_FLAVOURS}
+                surchargeLabel={specialtySurcharge > 0 ? `+$${specialtySurcharge}` : undefined}
               />
             </div>
           )}
@@ -178,6 +186,8 @@ const CateringFlavourCard = ({
                     selected={pkgState.boxes[i] ?? []}
                     max={pkg.maxFlavours}
                     onChange={(selected) => onFlavourChange(i, selected)}
+                    unavailable={UNAVAILABLE_SPECIALTY_FLAVOURS}
+                    surchargeLabel={specialtySurcharge > 0 ? `+$${specialtySurcharge}` : undefined}
                   />
                 </div>
               )}

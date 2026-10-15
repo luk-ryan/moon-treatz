@@ -8,6 +8,7 @@ interface LineItem {
   label: string;
   qty: number;
   unitPrice: number;
+  extra: number;
 }
 
 interface CartSummaryPanelProps {
@@ -23,10 +24,15 @@ const CartSummaryPanel = ({ cartLineItems, cartEstimate, onEditCart }: CartSumma
     </h3>
     <ul className="preorder-cart-list">
       {cartLineItems.map(item => (
-        <li key={item.label} className="preorder-cart-item">
-          <span className="preorder-cart-item-name">{item.label}</span>
-          <span className="preorder-cart-item-qty">× {item.qty}</span>
-          <span className="preorder-cart-item-subtotal">${item.qty * item.unitPrice}</span>
+        <li key={item.label} className="preorder-cart-item-row">
+          <div className="preorder-cart-item">
+            <span className="preorder-cart-item-name">{item.label}</span>
+            <span className="preorder-cart-item-qty">× {item.qty}</span>
+            <span className="preorder-cart-item-subtotal">${item.qty * item.unitPrice + item.extra}</span>
+          </div>
+          {item.extra > 0 && (
+            <div className="preorder-cart-item-note">+${item.extra} for specialty flavours</div>
+          )}
         </li>
       ))}
     </ul>

@@ -1223,9 +1223,36 @@
 }
 
 .preorder-product-desc {
-  font-size: var(--fs-100);
+  font-size: var(--fs-200);
+  font-weight: 400;
   color: #888;
   font-style: italic;
+}
+
+.preorder-weekly-flavours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.3rem 0 0.1rem;
+}
+
+.preorder-weekly-flavour-chip {
+  font-family: var(--ff-base);
+  font-size: var(--fs-50);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--clr-gold-300);
+  background: rgba(201, 162, 39, 0.1);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  padding: 0.15rem 0.55rem;
+  border-radius: 1rem;
+}
+
+.preorder-weekly-pickup-window {
+  font-size: var(--fs-200);
+  font-weight: 600;
+  color: var(--clr-gold-300);
+  letter-spacing: 0.02em;
 }
 
 /* 2-column grid of catering size cards */
@@ -1312,6 +1339,15 @@
   color: var(--clr-primary);
   min-width: 3rem;
   text-align: right;
+}
+
+.preorder-cart-item-note {
+  margin-top: 0.15rem;
+  padding-left: 0.1rem;
+  font-style: italic;
+  font-size: var(--fs-100);
+  color: var(--clr-gold-300);
+  opacity: 0.85;
 }
 
 .preorder-cart-total {
@@ -1544,11 +1580,11 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.6rem 1rem;
+  padding: 0.75rem 1.1rem;
   margin: 1rem 0 0.75rem;
-  background: rgba(201, 162, 39, 0.05);
-  border: 1px solid var(--clr-gold-700);
-  border-radius: 0.375rem;
+  background: rgba(201, 162, 39, 0.1);
+  border: 1px solid var(--clr-gold-500);
+  border-radius: 2rem;
   color: var(--clr-primary);
   font-family: var(--ff-accent);
   font-size: var(--fs-100);
@@ -1556,16 +1592,21 @@
   letter-spacing: 0.07em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.25);
+  transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 .preorder-specialty-toggle:hover {
-  border-color: var(--clr-gold-500);
-  background: rgba(201, 162, 39, 0.12);
-  box-shadow: 0 0 0.5rem rgba(201, 162, 39, 0.2);
+  border-color: var(--clr-gold-400);
+  background: rgba(201, 162, 39, 0.2);
+  box-shadow: 0 0 0.75rem rgba(201, 162, 39, 0.35);
+  transform: translateY(-0.0625rem);
+}
+.preorder-specialty-toggle:active {
+  transform: translateY(0);
 }
 .preorder-specialty-toggle--open {
   border-color: var(--clr-primary);
-  background: rgba(201, 162, 39, 0.15);
+  background: rgba(201, 162, 39, 0.22);
 }
 .preorder-specialty-toggle-arrow {
   font-size: 0.8rem;
@@ -1576,6 +1617,15 @@
 }
 .preorder-specialty-flavours {
   margin: -0.25rem 0 1rem;
+}
+.preorder-checkbox-surcharge {
+  margin-left: auto;
+  font-family: var(--ff-accent);
+  font-size: var(--fs-100);
+  font-weight: 700;
+  color: var(--clr-primary);
+  opacity: 0.95;
+  white-space: nowrap;
 }
 
 /* ---- Per-box divider ("Different per box" mode) ---- */

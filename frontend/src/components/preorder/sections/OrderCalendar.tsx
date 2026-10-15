@@ -65,24 +65,7 @@ const MONTH_NAMES  = [
 const pad   = (n: number) => String(n).padStart(2, "0");
 const toKey = (d: Date)   => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-// Returns the upcoming Fri/Sat/Sun (strictly in the future, never today).
-import { preOrderCloseDate } from "../../../config/preOrderForm";
-
-// Returns Fri/Sat/Sun of the week containing preOrderCloseDate.
-const getPickupWeek = () => {
-  const anchor = new Date(preOrderCloseDate + "T00:00:00");
-
-  // Sunday that starts the anchor's own week.
-  const sunday = new Date(anchor);
-  sunday.setDate(anchor.getDate() - anchor.getDay());
-
-  // Friday/Sat/Sun of that same week — no rolling forward if they've already passed.
-  const fri = new Date(sunday); fri.setDate(sunday.getDate() + 5);
-  const sat = new Date(fri);    sat.setDate(fri.getDate() + 1);
-  const sun = new Date(fri);    sun.setDate(fri.getDate() + 2);
-
-  return { friday: fri, saturday: sat, sunday: sun };
-};
+import { getPickupWeekend } from "../../../config/preOrderForm";
 
 // ─── Props  ────────────────────────────────────────────────────────────────────
 type WeeklyProps = {
@@ -109,7 +92,7 @@ const OrderCalendar = (props: OrderCalendarProps) => {
   const isWeekly = props.mode === "weekly";
 
   // ── Weekly-mode: compute the three pickup dates ──────────────────────────────
-  const pickupWeek = getPickupWeek();
+  const pickupWeek = getPickupWeekend();
   const { friday, saturday, sunday } = pickupWeek;
   const todayWeekly = new Date(); todayWeekly.setHours(0, 0, 0, 0);
 

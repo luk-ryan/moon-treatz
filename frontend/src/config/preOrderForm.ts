@@ -81,6 +81,27 @@ export const isPreOrderFormAvailable = (): boolean => {
 };
 
 /**
+ * Weekly Pickup Weekend
+ * =====================
+ * Returns the Friday/Saturday/Sunday pickup & delivery dates for the week containing `preOrderCloseDate`.
+ * Shared by the pre-order calendar and the Weekly Box product card (to show the pickup window).
+ */
+export const getPickupWeekend = () => {
+  const anchor = new Date(preOrderCloseDate + "T00:00:00");
+
+  // Sunday that starts the anchor's own week.
+  const sunday = new Date(anchor);
+  sunday.setDate(anchor.getDate() - anchor.getDay());
+
+  // Friday/Sat/Sun of that same week.
+  const friday = new Date(sunday); friday.setDate(sunday.getDate() + 5);
+  const saturday = new Date(friday); saturday.setDate(friday.getDate() + 1);
+  const sundayEnd = new Date(friday); sundayEnd.setDate(friday.getDate() + 2);
+
+  return { friday, saturday, sunday: sundayEnd };
+};
+
+/**
  * Catering Blocked Dates
  * ======================
  * Dates that are NOT available for catering orders.

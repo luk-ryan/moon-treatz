@@ -18,21 +18,20 @@ export const specialtyFlavours: SpecialtyFlavour[] = [
     name: "Chocolate Peanut Butter",
   },
   {
+    src: "/flavours/decorative_coconut.jpg",
+    name: "Coconut",
+  },
+  {
     src: "/flavours/specialty_flavours/decorative_dubai_chocolate.jpg",
     name: "Dubai Chocolate",
   },
+  {
+    src: "/flavours/specialty_flavours/decorative_earl_gray.jpg",
+    name: "Earl Grey",
+  },
   { src: "/flavours/specialty_flavours/decorative_lemon.jpg", name: "Lemon" },
-  { src: "/flavours/specialty_flavours/decorative_matcha.jpg", name: "Matcha" },
   {
-    src: "/flavours/specialty_flavours/decorative_mint_chocolate.jpg",
-    name: "Mint Chocolate",
-  },
-  {
-    src: "/flavours/specialty_flavours/decorative_salted_caramel.jpg",
-    name: "Salted Caramel",
-  },
-  {
-    src: "/flavours/specialty_flavours/decorative_strawberry.jpg",
-    name: "Strawberry",
+    src: "/flavours/specialty_flavours/decorative_tiramisu.jpg",
+    name: "Tiramisu",
   },
 ];

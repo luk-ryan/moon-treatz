@@ -51,7 +51,10 @@ import CartSummaryPanel from "../../components/preorder/CartSummaryPanel";
 import CateringFlavourCard from "../../components/preorder/CateringFlavourCard";
 import ReviewModal from "../../components/preorder/ReviewModal";
 import { useCart } from "../../context/CartContext";
-import { CATERING_SIZES, CATERING_IMAGES, PICKUP_LOCATIONS } from "../../config/catering";
+import { CATERING_SIZES, CATERING_IMAGES, PICKUP_LOCATIONS, SPECIALTY_SURCHARGE } from "../../config/catering";
+import { specialtyFlavours } from "../../config/specialtyFlavours";
+
+const SPECIALTY_FLAVOUR_NAME_SET = new Set(specialtyFlavours.map(f => f.name));
 
 const latestSpecial = getLatestSpecial();
 // Use nextWeekFlavours from config if set, otherwise fall back to the latest gallery entry
@@ -233,15 +236,29 @@ const PreOrder = () => {
   /* Catering packages that are actually in the cart */
   const activeCateringPackages = CATERING_SIZES.filter(s => cart[s.key] > 0);
 
-  /* List of cart line-items used for subtotal display and email summary */
+  /* Total number of Specialty flavour picks across a package's boxes. */
+  const countSpecialtyPicks = (key: keyof CateringFlavours, qty: number) => {
+    const { mode, boxes } = cateringFlavours[key];
+    const specialtyCountIn = (box: string[]) => box.filter(f => SPECIALTY_FLAVOUR_NAME_SET.has(f)).length;
+    if (mode === "same") return specialtyCountIn(boxes[0] ?? []) * qty;
+    return Array.from({ length: qty }, (_, i) => boxes[i] ?? []).reduce((sum, box) => sum + specialtyCountIn(box), 0);
+  };
+
+  /* List of cart line-items used for subtotal display and email summary.
+     `extra` is the total Specialty flavour surcharge for that package (0 if none chosen). */
   const cartLineItems = [
-    ...(cart.weekly > 0 ? [{ label: "Weekly Special Box", qty: cart.weekly, unitPrice: 12 }] : []),
+    ...(cart.weekly > 0 ? [{ label: "Weekly Special Box", qty: cart.weekly, unitPrice: 12, extra: 0 }] : []),
     ...CATERING_SIZES
       .filter(s => cart[s.key] > 0)
-      .map(s => ({ label: s.label, qty: cart[s.key], unitPrice: s.unitPrice })),
+      .map(s => ({
+        label: s.label,
+        qty: cart[s.key],
+        unitPrice: s.unitPrice,
+        extra: countSpecialtyPicks(s.key, cart[s.key]) * (SPECIALTY_SURCHARGE[s.key] ?? 0),
+      })),
   ];
   /* Estimated dollar total — shown as a subtotal */
-  const cartEstimate = cartLineItems.reduce((sum, item) => sum + item.qty * item.unitPrice, 0);
+  const cartEstimate = cartLineItems.reduce((sum, item) => sum + item.qty * item.unitPrice + item.extra, 0);
 
   /* Form change handler
      ═══════════════════
@@ -466,7 +483,7 @@ const PreOrder = () => {
                       <li key={item.label} className="preorder-cart-item">
                         <span className="preorder-cart-item-name">{item.label}</span>
                         <span className="preorder-cart-item-qty">× {item.qty}</span>
-                        <span className="preorder-cart-item-subtotal">${item.qty * item.unitPrice}</span>
+                        <span className="preorder-cart-item-subtotal">${item.qty * item.unitPrice + item.extra}</span>
                       </li>
                     ))}
                   </ul>
@@ -840,11 +857,15 @@ const PreOrder = () => {
                     flavourLine = "\n  Flavours:\n  " + boxes.slice(0, qty).map((b, idx) => `Box ${idx + 1} - ${b.join(", ") || "—"}`).join("\n  ");
                     flavoursHtml = `<div style="color:#c9a227;font-size:0.8rem;margin-top:0.25rem;font-style:italic;">Flavours:</div>` + boxes.slice(0, qty).map((b, idx) => `<div style="color:#c9a227;font-size:0.8rem;margin-top:0.15rem;font-style:italic;padding-left:0.5rem;">Box ${idx + 1} - ${b.join(", ") || "—"}</div>`).join("");
                   }
+                  if (i.extra > 0) {
+                    flavourLine += `\n  Specialty flavour surcharge: +$${i.extra}`;
+                    flavoursHtml += `<div style="color:#c9a227;font-size:0.8rem;margin-top:0.15rem;font-style:italic;">Specialty flavour surcharge: +$${i.extra}</div>`;
+                  }
                 }
               }
               return {
-                text: `${i.label} × ${i.qty} = $${i.qty * i.unitPrice}${flavourLine}`,
-                html: `<tr style="border-bottom:1px solid #ede5d0;"><td style="padding:0.75rem 0;font-size:0.95rem;color:#1a1408;"><strong style="font-size:1rem;">${i.label} &times; ${i.qty}</strong>${flavoursHtml}</td><td style="padding:0.75rem 0;font-size:1rem;color:#c9a227;text-align:right;white-space:nowrap;font-weight:bold;">$${i.qty * i.unitPrice}</td></tr>`,
+                text: `${i.label} × ${i.qty} = $${i.qty * i.unitPrice + i.extra}${flavourLine}`,
+                html: `<tr style="border-bottom:1px solid #ede5d0;"><td style="padding:0.75rem 0;font-size:0.95rem;color:#1a1408;"><strong style="font-size:1rem;">${i.label} &times; ${i.qty}</strong>${flavoursHtml}</td><td style="padding:0.75rem 0;font-size:1rem;color:#c9a227;text-align:right;white-space:nowrap;font-weight:bold;">$${i.qty * i.unitPrice + i.extra}</td></tr>`,
               };
             });
             const deliveryFeeRow = form.pickupMethod === "delivery"

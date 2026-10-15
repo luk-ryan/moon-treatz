@@ -15,7 +15,9 @@
 /* First 3 left butterflies float in front of content */
 .butterfly-left-1,
 .butterfly-left-2,
-.butterfly-left-3 {
+.butterfly-left-3,
+.butterfly-left-4,
+.butterfly-right-1 {
   z-index: 10;
 }
 .butterfly-left-1 {

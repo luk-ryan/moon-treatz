@@ -9,7 +9,7 @@
 
 import CountdownTimer from "../CountdownTimer";
 import Stepper from "./primitives/Stepper";
-import { getTimeUntilNextRelease } from "../../config/preOrderForm";
+import { getTimeUntilNextRelease, getPickupWeekend } from "../../config/preOrderForm";
 import { motion } from "framer-motion";
 
 interface WeeklyProductCardProps {
@@ -20,10 +20,11 @@ interface WeeklyProductCardProps {
 }
 
 const WeeklyProductCard = ({ isAvailable, qty, onChange, flavours }: WeeklyProductCardProps) => {
-  // Only show specific flavours when the box is available — if it's closed,
-  // the flavours may have changed by the time it reopens, so show a generic label instead.
-  const availableDesc = flavours.length > 0 ? `7 macarons · ${flavours.join(", ")}` : "7 macarons · Weekly Special";
-  const desc = isAvailable ? availableDesc : "7 macarons · Weekly Special";
+  // Human-readable pickup & delivery window, e.g. "Fri, Oct 17 – Sun, Oct 19"
+  const { friday, sunday } = getPickupWeekend();
+  const fmtDay = (d: Date) => d.toLocaleDateString("en-CA", { weekday: "short", month: "short", day: "numeric" });
+  const pickupWindow = `${fmtDay(friday)} – ${fmtDay(sunday)}`;
+
   if (isAvailable) {
     return (
       <div className={`preorder-product-card${qty > 0 ? " preorder-card-active" : ""}`}>
@@ -47,8 +48,16 @@ const WeeklyProductCard = ({ isAvailable, qty, onChange, flavours }: WeeklyProdu
             <span className="preorder-product-name">Weekly Special Box</span>
             <span className="preorder-product-price">
               $12 <span className="preorder-product-per">/ box</span>
+              <span className="preorder-product-desc"> · 7 macarons</span>
             </span>
-            <span className="preorder-product-desc">{desc}</span>
+            {flavours.length > 0 && (
+              <div className="preorder-weekly-flavours">
+                {flavours.map(f => (
+                  <span key={f} className="preorder-weekly-flavour-chip">{f}</span>
+                ))}
+              </div>
+            )}
+            <span className="preorder-weekly-pickup-window">Pickup &amp; delivery: {pickupWindow}</span>
           </div>
           <div className="preorder-product-action">
             {/* Show a live countdown to the close cutoff while orders are still open */}
@@ -78,7 +87,7 @@ const WeeklyProductCard = ({ isAvailable, qty, onChange, flavours }: WeeklyProdu
           <span className="preorder-product-price">
             $12 <span className="preorder-product-per">/ box</span>
           </span>
-          <span className="preorder-product-desc">{desc}</span>
+          <span className="preorder-product-desc">7 macarons · Weekly Special</span>
         </div>
         {/* No automatic reopen date once closed, so just show a static label */}
         <div className="preorder-weekly-unavailable">

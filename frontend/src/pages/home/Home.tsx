@@ -8,14 +8,12 @@
  * 1. Introduction section - Business story and overview
  * 2. Weekly Special Box - Current week's macaron flavours
  * 3. Catering Menu - Bulk order options with pricing
- * 4. Contact section - Location and contact information
  */
 
 // DEPENDENCIES
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Menu from "./Menu";
-import Contact from "./Contact";
 import WeeklyBox from "./WeeklyBox";
 import OrderButton from "../../components/home/OrderButton";
 import { pageTransition } from "../../config/animations";
@@ -224,7 +222,6 @@ const Home = () => {
         <WeeklyBox />
         <Menu />
       </div>
-      <Contact />
     </motion.div>
   );
 };

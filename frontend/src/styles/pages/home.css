@@ -207,86 +207,6 @@ div > h1:first-child {
 }
 
 /* =============================================
-   CONTACT SECTION — compact two-column strip
-   ============================================= */
-.contact-section {
-  margin-top: 4rem;
-  padding: 0 1rem;
-}
-.contact-inner {
-  display: flex;
-  align-items: flex-start;
-  gap: 2.5rem;
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 2rem 2.5rem;
-  border-top: 1px solid rgba(201,162,39,0.2);
-}
-.contact-eyebrow {
-  display: block;
-  font-family: var(--ff-accent);
-  font-size: 0.65rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--clr-primary);
-  margin-bottom: 0.6rem;
-}
-.contact-col { display: flex; flex-direction: column; }
-.contact-col--location { flex: 0 0 auto; max-width: 16rem; }
-.contact-col--links { flex: 1; }
-.contact-location-text {
-  font-size: var(--fs-200);
-  color: rgba(255,255,255,0.5);
-  line-height: 1.6;
-  margin: 0;
-}
-.contact-map-link {
-  color: var(--clr-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: rgba(201,162,39,0.4);
-  transition: color 0.2s;
-}
-.contact-map-link:hover { color: var(--clr-accent); }
-.contact-divider {
-  width: 1px;
-  align-self: stretch;
-  background: rgba(201,162,39,0.15);
-  flex-shrink: 0;
-}
-.contact-links-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.contact-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.35rem 0.85rem 0.35rem 0.6rem;
-  border: 1px solid rgba(201,162,39,0.25);
-  border-radius: 2rem;
-  font-size: var(--fs-100);
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-  letter-spacing: 0.03em;
-}
-.contact-chip:hover {
-  border-color: var(--clr-gold-500);
-  color: var(--clr-primary);
-  background: rgba(201,162,39,0.05);
-}
-.contact-icon {
-  flex-shrink: 0;
-  filter: brightness(0) saturate(100%) invert(67%) sepia(73%) saturate(425%)
-    hue-rotate(5deg) brightness(95%) contrast(90%);
-}
-.email-icon    { width: 1.1rem; height: auto; }
-.phone-icon    { width: 0.9rem; height: auto; }
-.instagram-icon { width: 1.1rem; height: auto; }
-
-/* =============================================
    WEEKLY SPECIAL — REDESIGN
    ============================================= */
 .weekly-special { margin-bottom: 4rem; }
@@ -365,6 +285,19 @@ div > h1:first-child {
   display: block;
   border-radius: 0.25rem;
 }
+/* Pulsing halo behind the price star — sits on the (unclipped) wrapper so
+   it glows outward instead of being cropped to the star's own clip-path. */
+.ws-img-wrap::before {
+  content: "";
+  position: absolute;
+  top: -4.5rem;
+  right: -4.5rem;
+  width: 11.5rem;
+  height: 11.5rem;
+  background: radial-gradient(circle, rgba(255,215,0,0.5) 0%, rgba(255,160,0,0.18) 45%, rgba(255,160,0,0) 72%);
+  pointer-events: none;
+  animation: priceBadgeGlow 3s ease-in-out infinite;
+}
 .ws-price-badge {
   position: absolute;
   top: -3rem;
@@ -374,15 +307,33 @@ div > h1:first-child {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 35% 35%, var(--clr-gold-bright) 0%, var(--clr-gold-500) 60%, var(--clr-gold-dark) 100%);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 16%),
+    conic-gradient(from 200deg at 50% 50%, var(--clr-gold-bright), var(--clr-gold-200), var(--clr-gold-500), var(--clr-gold-dark), var(--clr-gold-bright));
   clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
   font-family: var(--ff-accent);
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 900;
-  color: var(--clr-black);
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  letter-spacing: 0.02em;
+  color: #4a1413;
+  text-shadow: 0 0.0625rem 0 rgba(255,247,214,0.65), 0 -0.0625rem 0.125rem rgba(0,0,0,0.4);
+  filter:
+    drop-shadow(0 0.0625rem 0 rgba(255,255,255,0.4))
+    drop-shadow(0 0.3rem 0.6rem rgba(0,0,0,0.55))
+    drop-shadow(0 0 1.1rem rgba(255,195,0,0.6));
   will-change: transform;
   animation: priceTagFloat 4s ease-in-out infinite;
+}
+/* Shimmering sweep clipped to the star's own silhouette */
+.ws-price-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 25%, rgba(255,255,255,0.65) 48%, transparent 70%);
+  background-size: 260% 260%;
+  mix-blend-mode: overlay;
+  animation: priceBadgeShine 3.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Info column */

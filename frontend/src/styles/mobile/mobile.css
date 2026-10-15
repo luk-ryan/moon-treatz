@@ -75,15 +75,45 @@
     top: -2rem;
   }
 
+  /* Push the bottom brackets to the very bottom of the (now taller) footer,
+     below all the contact text, instead of shrinking them. */
+  .corner-group-bottom-left,
+  .corner-group-bottom-right {
+    top: auto;
+    bottom: 0.5rem;
+  }
+
   .corner-group-bottom-left {
     left: 0rem;
-    margin-top: 2rem;
   }
 
   .corner-group-bottom-right {
     right: 0rem;
-    margin-top: 2rem;
   }
+
+  /* Reduce the overall footer padding on mobile — the desktop values
+     (margin-top: 3rem, padding-block: 2rem) leave too much empty space
+     once content is stacked full-width. Keep just enough bottom padding
+     to clear the full-size corner brackets (~6.6rem). */
+  footer {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    padding-bottom: 6.75rem;
+  }
+
+  /* Shrink the copyright line so it fits on one line on narrow screens,
+     and re-center it (base rule sets text-align: left for desktop). */
+  .footer-copyright {
+    font-size: var(--fs-100);
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  /* Footer contact strip — centered on mobile */
+  .footer-contact { flex-direction: column; align-items: center; gap: 1.5rem; text-align: center; }
+  .contact-divider { display: none; }
+  .contact-col--location { max-width: 100%; }
+  .contact-links-row { justify-content: center; }
 
   /* Reduce title size on mobile */
   header h1 {
@@ -316,12 +346,6 @@
   .ws-info-col {
     gap: 1.25rem;
   }
-
-  /* ── Contact ── */
-  .contact-inner { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
-  .contact-divider { width: 100%; height: 1px; align-self: auto; }
-  .contact-col--location { max-width: 100%; }
-  .contact-col--links { margin-left: -1.5rem; }
 
   /* ── Catering menu ── */
   .menu-section {
